@@ -5,6 +5,7 @@ import {
   AlertTriangle,
   BarChart3,
   Banknote,
+  BookOpen,
   Boxes,
   Building2,
   CalendarDays,
@@ -137,6 +138,15 @@ export default function Layout() {
               {label}
             </NavLink>
           ))}
+          <a
+            href="/qollanma.html"
+            target="_blank"
+            rel="noopener"
+            className="mt-2 flex items-center gap-3 rounded-lg border-t border-white/10 px-3 pt-3.5 pb-2.5 text-sm font-medium text-slate-400 transition hover:text-teal-300"
+          >
+            <BookOpen size={18} />
+            Qo'llanma
+          </a>
         </nav>
 
         <div className="border-t border-white/10 p-4">

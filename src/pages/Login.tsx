@@ -78,7 +78,15 @@ export default function Login() {
         </div>
 
         <p className="mt-4 text-center text-xs text-slate-400">
-          Parolni unutdingizmi? Klinika rahbariga murojaat qiling.
+          Parolni unutdingizmi? Klinika rahbariga murojaat qiling. ·{" "}
+          <a
+            href="/qollanma.html"
+            target="_blank"
+            rel="noopener"
+            className="font-medium text-teal-600 hover:text-teal-700"
+          >
+            Qo'llanma
+          </a>
         </p>
       </div>
     </div>
