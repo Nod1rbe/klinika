@@ -5,3 +5,4 @@ dist
 *.local
 HISOBLAR.md
 .firebase
+tsconfig.tsbuildinfo
