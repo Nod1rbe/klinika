@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
+﻿import { useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { AlertTriangle, ArrowLeft, HeartPulse } from "lucide-react";
 import { Card, CardHeader, StatusBadge, Table } from "../components/ui";
 import { fmtSum } from "../data/mock";
 import { supabase } from "../lib/supabase";
+import { t } from "../lib/i18n";
 import { useStore } from "../store";
 
 export default function PatientDetail() {
@@ -24,7 +25,7 @@ export default function PatientDetail() {
       });
   }, [id]);
   const p = patients.find((x) => x.id === id);
-  if (!p) return <p>Bemor topilmadi.</p>;
+  if (!p) return <p>{t("Bemor topilmadi.")}</p>;
 
   const visits = appointments
     .filter((a) => a.patientId === p.id)
@@ -85,10 +86,10 @@ export default function PatientDetail() {
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <Card>
-          <CardHeader title="Tashrif tarixi" subtitle="Elektron tibbiy karta (EMR)" />
+          <CardHeader title={t("Tashrif tarixi")} subtitle={t("Elektron tibbiy karta (EMR)")} />
           <div className="divide-y divide-slate-100">
             {visits.length === 0 && (
-              <p className="px-5 py-6 text-sm text-slate-400">Tashriflar yo'q</p>
+              <p className="px-5 py-6 text-sm text-slate-400">{t("Tashriflar yo'q")}</p>
             )}
             {visits.map((v) => {
               const doc = doctors.find((d) => d.id === v.doctorId);
@@ -118,18 +119,18 @@ export default function PatientDetail() {
                   </p>
                   {v.complaint && (
                     <p className="mt-2 text-sm">
-                      <span className="text-slate-400">Shikoyat:</span> {v.complaint}
+                      <span className="text-slate-400">{t("Shikoyat:")}</span> {v.complaint}
                     </p>
                   )}
                   {v.diagnosis && (
                     <p className="mt-1 text-sm">
-                      <span className="text-slate-400">Tashxis (ICD-10):</span>{" "}
+                      <span className="text-slate-400">{t("Tashxis (ICD-10):")}</span>{" "}
                       <b>{v.diagnosis}</b>
                     </p>
                   )}
                   {v.recommendation && (
                     <p className="mt-1 text-sm">
-                      <span className="text-slate-400">Tavsiya:</span>{" "}
+                      <span className="text-slate-400">{t("Tavsiya:")}</span>{" "}
                       {v.recommendation}
                     </p>
                   )}
@@ -140,12 +141,12 @@ export default function PatientDetail() {
         </Card>
 
         <Card>
-          <CardHeader title="Tahlil natijalari" subtitle="Norma chegarasi bilan" />
-          <Table head={["Tahlil", "Natija", "Norma", "Holat"]}>
+          <CardHeader title={t("Tahlil natijalari")} subtitle={t("Norma chegarasi bilan")} />
+          <Table head={[t("Tahlil"), t("Natija"), t("Norma"), t("Holat")]}>
             {labs.length === 0 && (
               <tr>
                 <td colSpan={4} className="px-5 py-6 text-sm text-slate-400">
-                  Tahlillar yo'q
+                  {t("Tahlillar yo'q")}
                 </td>
               </tr>
             )}
@@ -199,14 +200,14 @@ export default function PatientDetail() {
       {profile && ["direktor", "registratura", "hisobchi"].includes(profile.role) && (
         <Card>
           <CardHeader
-            title="Xaridlar tarixi"
-            subtitle="Klinikadan sotib olingan mahsulotlar"
+            title={t("Xaridlar tarixi")}
+            subtitle={t("Klinikadan sotib olingan mahsulotlar")}
           />
-          <Table head={["Chek", "Sana", "Mahsulotlar", "To'lov", "Summa", "Holat"]}>
+          <Table head={[t("Chek"), t("Sana"), t("Mahsulotlar"), t("To'lov"), t("Summa"), t("Holat")]}>
             {salesList.filter((s) => s.patientId === p.id).length === 0 && (
               <tr>
                 <td colSpan={6} className="px-5 py-6 text-sm text-slate-400">
-                  Xaridlar yo'q
+                  {t("Xaridlar yo'q")}
                 </td>
               </tr>
             )}

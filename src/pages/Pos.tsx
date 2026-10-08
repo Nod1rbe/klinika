@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+﻿import { useMemo, useRef, useState } from "react";
 import {
   Minus,
   Plus,
@@ -18,6 +18,7 @@ import {
   type ReceiptData,
 } from "../lib/receipt";
 import { supabase } from "../lib/supabase";
+import { t } from "../lib/i18n";
 import { useStore } from "../store";
 import type { PaymentMethod, Product } from "../types";
 
@@ -186,7 +187,7 @@ export default function Pos() {
   }
 
   if (profile && !["direktor", "registratura", "hisobchi"].includes(profile.role)) {
-    return <p className="text-sm text-slate-500">Bu sahifaga ruxsatingiz yo'q.</p>;
+    return <p className="text-sm text-slate-500">{t("Bu sahifaga ruxsatingiz yo'q.")}</p>;
   }
 
   if (done) {
@@ -194,7 +195,7 @@ export default function Pos() {
       <div className="mx-auto max-w-lg space-y-5 pt-10">
         <Card className="p-8 text-center">
           <ShoppingCart size={44} className="mx-auto text-emerald-500" />
-          <h1 className="mt-3 text-xl font-bold">Sotuv yakunlandi</h1>
+          <h1 className="mt-3 text-xl font-bold">{t("Sotuv yakunlandi")}</h1>
           <p className="mt-1 text-sm text-slate-500">Chek: {done.saleNo}</p>
           <p className="mt-2 text-3xl font-bold text-teal-600">{fmtSum(done.total)}</p>
           <div className="mt-6 flex justify-center gap-3">
@@ -202,10 +203,10 @@ export default function Pos() {
               onClick={() => printReceipt(done.receipt)}
               className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
             >
-              <Printer size={15} /> Chekni qayta chiqarish
+              <Printer size={15} /> {t("Chekni qayta chiqarish")}
             </button>
             <PrimaryButton onClick={reset}>
-              <Plus size={15} /> Yangi sotuv
+              <Plus size={15} /> {t("Yangi sotuv")}
             </PrimaryButton>
           </div>
         </Card>
@@ -216,9 +217,9 @@ export default function Pos() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Sotuv (POS)</h1>
+        <h1 className="text-2xl font-bold tracking-tight">{t("Sotuv (POS)")}</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Mahsulot nomi, SKU yoki shtrix-kod bo'yicha qidiring — skaner ham ishlaydi
+          {t("Mahsulot nomi, SKU yoki shtrix-kod bo'yicha qidiring — skaner ham ishlaydi")}
         </p>
       </div>
 
@@ -238,7 +239,7 @@ export default function Pos() {
                 // Shtrix-kod skaner Enter yuboradi — bitta aniq topilma bo'lsa savatga
                 if (e.key === "Enter" && found.length === 1) addToCart(found[0]);
               }}
-              placeholder="Mahsulot qidirish yoki shtrix-kod skanerlang..."
+              placeholder={t("Mahsulot qidirish yoki shtrix-kod skanerlang...")}
               className={`${inputCls} py-3 pl-10 text-base`}
             />
           </div>
@@ -270,22 +271,22 @@ export default function Pos() {
 
           <Card>
             <CardHeader
-              title="Savat"
-              subtitle={`${cart.length} xil mahsulot`}
+              title={t("Savat")}
+              subtitle={`${cart.length} ${t("xil mahsulot")}`}
               action={
                 cart.length > 0 ? (
                   <button
                     onClick={() => setCart([])}
                     className="inline-flex items-center gap-1.5 text-sm font-medium text-rose-500 hover:text-rose-600"
                   >
-                    <Trash2 size={14} /> Tozalash
+                    <Trash2 size={14} /> {t("Tozalash")}
                   </button>
                 ) : undefined
               }
             />
             {cart.length === 0 ? (
               <p className="px-5 py-10 text-center text-sm text-slate-400">
-                Savat bo'sh — yuqoridan mahsulot qidiring
+                {t("Savat bo'sh — yuqoridan mahsulot qidiring")}
               </p>
             ) : (
               <div className="divide-y divide-slate-50">
@@ -337,7 +338,7 @@ export default function Pos() {
         {/* To'lov paneli */}
         <div className="space-y-4 xl:sticky xl:top-20">
           <Card>
-            <CardHeader title="Mijoz (ixtiyoriy)" />
+            <CardHeader title={t("Mijoz (ixtiyoriy)")} />
             <div className="space-y-3 p-4">
               {patientId ? (
                 <div className="flex items-center justify-between rounded-lg bg-teal-50 px-3 py-2.5">
@@ -359,7 +360,7 @@ export default function Pos() {
                   <input
                     value={patientQuery}
                     onChange={(e) => setPatientQuery(e.target.value)}
-                    placeholder="Bemor qidirish (ism/telefon)..."
+                    placeholder={t("Bemor qidirish (ism/telefon)...")}
                     className={inputCls}
                   />
                   {foundPatients.length > 0 && (
@@ -385,13 +386,13 @@ export default function Pos() {
           </Card>
 
           <Card>
-            <CardHeader title="To'lov" />
+            <CardHeader title={t("To'lov")} />
             <div className="space-y-3 p-4">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-slate-500">Oraliq jami:</span>
+                <span className="text-slate-500">{t("Oraliq jami:")}</span>
                 <span className="font-medium">{fmtSum(subtotal)}</span>
               </div>
-              <Field label="Chegirma (so'm)">
+              <Field label={t("Chegirma (so'm)")}>
                 <input
                   inputMode="numeric"
                   className={inputCls}
@@ -401,18 +402,18 @@ export default function Pos() {
                 />
               </Field>
               <div className="flex items-center justify-between border-t border-slate-100 pt-3">
-                <span className="text-sm font-semibold">JAMI:</span>
+                <span className="text-sm font-semibold">{t("JAMI:")}</span>
                 <span className="text-2xl font-bold text-teal-700">{fmtSum(total)}</span>
               </div>
 
-              <Field label={split ? "1-to'lov usuli" : "To'lov usuli"}>
+              <Field label={split ? t("1-to'lov usuli") : t("To'lov usuli")}>
                 <select
                   className={inputCls}
                   value={method1}
                   onChange={(e) => setMethod1(e.target.value as PaymentMethod)}
                 >
                   {METHODS.map((m) => (
-                    <option key={m}>{m}</option>
+                    <option key={m} value={m}>{t(m)}</option>
                   ))}
                 </select>
               </Field>
@@ -423,22 +424,22 @@ export default function Pos() {
                   onChange={(e) => setSplit(e.target.checked)}
                   className="h-4 w-4 accent-teal-600"
                 />
-                Bo'lib to'lash (masalan: qisman naqd + karta)
+                {t("Bo'lib to'lash (masalan: qisman naqd + karta)")}
               </label>
               {split && (
                 <div className="grid grid-cols-2 gap-2">
-                  <Field label="2-usul">
+                  <Field label={t("2-usul")}>
                     <select
                       className={inputCls}
                       value={method2}
                       onChange={(e) => setMethod2(e.target.value as PaymentMethod)}
                     >
                       {METHODS.map((m) => (
-                        <option key={m}>{m}</option>
+                        <option key={m} value={m}>{t(m)}</option>
                       ))}
                     </select>
                   </Field>
-                  <Field label="2-usul summasi">
+                  <Field label={t("2-usul summasi")}>
                     <input
                       inputMode="numeric"
                       className={inputCls}
@@ -454,7 +455,7 @@ export default function Pos() {
 
               {error && (
                 <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">
-                  {error}
+                  {t(error)}
                 </p>
               )}
               <PrimaryButton
@@ -462,7 +463,7 @@ export default function Pos() {
                 className={`w-full justify-center py-2.5 ${busy ? "pointer-events-none opacity-60" : ""}`}
               >
                 <ShoppingCart size={16} />
-                {busy ? "Saqlanmoqda..." : "Sotish + chek chiqarish"}
+                {busy ? t("Saqlanmoqda...") : t("Sotish + chek chiqarish")}
               </PrimaryButton>
             </div>
           </Card>

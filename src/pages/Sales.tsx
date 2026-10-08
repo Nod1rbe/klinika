@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { Printer, RotateCcw } from "lucide-react";
 import {
   Card,
@@ -13,6 +13,7 @@ import { fmtSum } from "../data/mock";
 import { formatUzDate } from "../lib/date";
 import { printReceipt } from "../lib/receipt";
 import { supabase } from "../lib/supabase";
+import { t } from "../lib/i18n";
 import { useStore } from "../store";
 import type { SaleRec, SaleStatus } from "../types";
 import { SALE_STATUS_LABELS } from "../types";
@@ -94,9 +95,9 @@ export default function Sales() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Sotuvlar</h1>
+          <h1 className="text-2xl font-bold tracking-tight">{t("Sotuvlar")}</h1>
           <p className="mt-1 text-sm text-slate-500">
-            Mahsulot sotuvlari tarixi va qaytarishlar
+            {t("Mahsulot sotuvlari tarixi va qaytarishlar")}
           </p>
         </div>
         <input
@@ -110,18 +111,18 @@ export default function Sales() {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <Card className="p-5">
-          <p className="text-sm text-slate-500">Sotuvlar soni</p>
+          <p className="text-sm text-slate-500">{t("Sotuvlar soni")}</p>
           <p className="mt-1 text-2xl font-bold">{dayList.length}</p>
         </Card>
         <Card className="p-5">
-          <p className="text-sm text-slate-500">Mahsulot tushumi</p>
+          <p className="text-sm text-slate-500">{t("Mahsulot tushumi")}</p>
           <p className="mt-1 text-2xl font-bold text-teal-700">
             {fmtSum(dayTotal - dayRefunds)}
           </p>
-          <p className="mt-0.5 text-xs text-slate-400">Qaytarishlar ayirilgan</p>
+          <p className="mt-0.5 text-xs text-slate-400">{t("Qaytarishlar ayirilgan")}</p>
         </Card>
         <Card className="p-5">
-          <p className="text-sm text-slate-500">Qaytarildi</p>
+          <p className="text-sm text-slate-500">{t("Qaytarildi")}</p>
           <p
             className={`mt-1 text-2xl font-bold ${dayRefunds > 0 ? "text-rose-600" : "text-slate-300"}`}
           >
@@ -132,14 +133,14 @@ export default function Sales() {
 
       <Card>
         <CardHeader
-          title={date === today ? "Bugungi sotuvlar" : "Sotuvlar hisoboti"}
+          title={date === today ? t("Bugungi sotuvlar") : t("Sotuvlar hisoboti")}
           subtitle={formatUzDate(date)}
         />
-        <Table head={["Chek", "Vaqt", "Mijoz", "Mahsulotlar", "To'lov", "Summa", "Holat", ""]}>
+        <Table head={[t("Chek"), t("Vaqt"), t("Mijoz"), t("Mahsulotlar"), t("To'lov"), t("Summa"), t("Holat"), ""]}>
           {dayList.length === 0 && (
             <tr>
               <td colSpan={8} className="px-5 py-8 text-center text-sm text-slate-400">
-                Bu kunda sotuvlar yo'q
+                {t("Bu kunda sotuvlar yo'q")}
               </td>
             </tr>
           )}
@@ -169,7 +170,7 @@ export default function Sales() {
                 <span
                   className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${STATUS_STYLE[s.status]}`}
                 >
-                  {SALE_STATUS_LABELS[s.status]}
+                  {t(SALE_STATUS_LABELS[s.status])}
                 </span>
               </td>
               <td className="px-5 py-3 text-right whitespace-nowrap">
@@ -177,7 +178,7 @@ export default function Sales() {
                   onClick={() => reprint(s)}
                   className="inline-flex items-center gap-1 text-sm font-medium text-teal-600 hover:text-teal-700"
                 >
-                  <Printer size={13} /> Chek
+                  <Printer size={13} /> {t("Chek")}
                 </button>
                 {canRefund && s.status !== "QAYTARILGAN" && (
                   <button
@@ -189,7 +190,7 @@ export default function Sales() {
                     }}
                     className="ml-3 inline-flex items-center gap-1 text-sm font-medium text-rose-500 hover:text-rose-600"
                   >
-                    <RotateCcw size={13} /> Qaytarish
+                    <RotateCcw size={13} /> {t("Qaytarish")}
                   </button>
                 )}
               </td>
@@ -222,12 +223,12 @@ export default function Sales() {
             </div>
             {detail.discount > 0 && (
               <p className="flex justify-between">
-                <span className="text-slate-500">Chegirma:</span>
+                <span className="text-slate-500">{t("Chegirma:")}</span>
                 <span>−{fmtSum(detail.discount)}</span>
               </p>
             )}
             <p className="flex justify-between text-base font-bold">
-              <span>JAMI:</span>
+              <span>{t("JAMI:")}</span>
               <span className="text-teal-700">{fmtSum(detail.total)}</span>
             </p>
             <div className="text-xs text-slate-500">
@@ -256,8 +257,8 @@ export default function Sales() {
         >
           <div className="space-y-4">
             <p className="text-sm text-slate-500">
-              Qaytariladigan miqdorlarni kiriting — mahsulotlar omborga qaytadi,
-              summa tushumdan ayiriladi.
+              {t("Qaytariladigan miqdorlarni kiriting — mahsulotlar omborga qaytadi,")}
+              {t("summa tushumdan ayiriladi.")}
             </p>
             <div className="divide-y divide-slate-100 rounded-lg border border-slate-200">
               {refunding.items.map((it) => {
@@ -288,23 +289,23 @@ export default function Sales() {
                 );
               })}
             </div>
-            <Field label="Sabab *">
+            <Field label={t("Sabab *")}>
               <input
                 className={inputCls}
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
-                placeholder="Masalan: mijoz qaytardi / xato urildi"
+                placeholder={t("Masalan: mijoz qaytardi / xato urildi")}
               />
             </Field>
             {err && (
-              <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">{err}</p>
+              <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">{t(err)}</p>
             )}
             <PrimaryButton
               onClick={doRefund}
               className={`w-full justify-center ${busy ? "pointer-events-none opacity-60" : ""}`}
             >
               <RotateCcw size={15} />
-              {busy ? "Saqlanmoqda..." : "Qaytarishni tasdiqlash"}
+              {busy ? t("Saqlanmoqda...") : t("Qaytarishni tasdiqlash")}
             </PrimaryButton>
           </div>
         </Modal>

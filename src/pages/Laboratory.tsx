@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { FlaskConical } from "lucide-react";
 import {
   Card,
@@ -9,6 +9,7 @@ import {
   PrimaryButton,
   Table,
 } from "../components/ui";
+import { t } from "../lib/i18n";
 import { useStore } from "../store";
 
 export default function Laboratory() {
@@ -31,24 +32,24 @@ export default function Laboratory() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Laboratoriya</h1>
+        <h1 className="text-2xl font-bold tracking-tight">{t("Laboratoriya")}</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Laborant faqat unga yo'llangan tahlilni ko'radi — bemorning to'liq
-          tashxis tarixi ko'rinmaydi. Natija tayyor bo'lganda bemorga SMS
-          yuboriladi (Eskiz.uz).
+          {t("Laborant faqat unga yo'llangan tahlilni ko'radi — bemorning to'liq")}
+          {t("tashxis tarixi ko'rinmaydi. Natija tayyor bo'lganda bemorga SMS")}
+          {t("yuboriladi (Eskiz.uz).")}
         </p>
       </div>
 
       <Card>
         <CardHeader
-          title="Kutilayotgan tahlillar"
-          subtitle={`${pending.length} ta buyurtma`}
+          title={t("Kutilayotgan tahlillar")}
+          subtitle={`${pending.length} ${t("ta buyurtma")}`}
         />
-        <Table head={["Sana", "Bemor", "Tahlil", "Yo'llagan shifokor", ""]}>
+        <Table head={[t("Sana"), t("Bemor"), t("Tahlil"), t("Yo'llagan shifokor"), ""]}>
           {pending.length === 0 && (
             <tr>
               <td colSpan={5} className="px-5 py-6 text-sm text-slate-400">
-                Kutilayotgan tahlillar yo'q
+                {t("Kutilayotgan tahlillar yo'q")}
               </td>
             </tr>
           )}
@@ -73,8 +74,8 @@ export default function Laboratory() {
       </Card>
 
       <Card>
-        <CardHeader title="Tayyor natijalar" />
-        <Table head={["Sana", "Bemor", "Tahlil", "Natija", "Norma", "Baho"]}>
+        <CardHeader title={t("Tayyor natijalar")} />
+        <Table head={[t("Sana"), t("Bemor"), t("Tahlil"), t("Natija"), t("Norma"), t("Baho")]}>
           {ready.map((l) => {
             const p = patients.find((x) => x.id === l.patientId);
             const high = l.result! > l.normMax;
@@ -104,7 +105,7 @@ export default function Laboratory() {
                           : "bg-emerald-100 text-emerald-700"
                     }`}
                   >
-                    {high ? "Normadan yuqori" : low ? "Normadan past" : "Normada"}
+                    {high ? "Normadan yuqori" : low ? t("Normadan past") : t("Normada")}
                   </span>
                 </td>
               </tr>
@@ -114,7 +115,7 @@ export default function Laboratory() {
       </Card>
 
       {order && (
-        <Modal title="Natija kiritish" onClose={() => setEntering(null)}>
+        <Modal title={t("Natija kiritish")} onClose={() => setEntering(null)}>
           <form onSubmit={submit} className="space-y-4">
             <div className="rounded-lg bg-slate-50 p-4 text-sm">
               <p className="font-semibold">{order.test}</p>

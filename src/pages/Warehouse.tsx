@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+﻿import { useMemo, useState } from "react";
 import {
   AlertTriangle,
   ArrowDownUp,
@@ -20,6 +20,7 @@ import {
 } from "../components/ui";
 import { fmtSum } from "../data/mock";
 import { supabase } from "../lib/supabase";
+import { t } from "../lib/i18n";
 import { useStore } from "../store";
 import type { MovementType, Product } from "../types";
 import { MOVEMENT_LABELS } from "../types";
@@ -28,7 +29,7 @@ type Tab = "mahsulotlar" | "kirim" | "harakatlar" | "taminotchilar";
 
 const TABS: { key: Tab; label: string; icon: typeof Boxes }[] = [
   { key: "mahsulotlar", label: "Mahsulotlar", icon: Boxes },
-  { key: "kirim", label: "Kirim", icon: Truck },
+  { key: "kirim", label: "Kirimlar", icon: Truck },
   { key: "harakatlar", label: "Harakatlar", icon: ArrowDownUp },
   { key: "taminotchilar", label: "Ta'minotchilar", icon: Truck },
 ];
@@ -121,9 +122,9 @@ export default function Warehouse() {
   }, [products, query, filter, today]);
 
   if (profile && !["direktor", "omborchi", "hisobchi"].includes(profile.role)) {
-    return <p className="text-sm text-slate-500">Bu sahifaga ruxsatingiz yo'q.</p>;
+    return <p className="text-sm text-slate-500">{t("Bu sahifaga ruxsatingiz yo'q.")}</p>;
   }
-  if (!supabase) return <p className="text-sm text-slate-500">Supabase ulanmagan.</p>;
+  if (!supabase) return <p className="text-sm text-slate-500">{t("Supabase ulanmagan.")}</p>;
   const sb = supabase;
 
   async function run(op: string, fn: () => Promise<void>) {
@@ -146,9 +147,9 @@ export default function Warehouse() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Ombor</h1>
+        <h1 className="text-2xl font-bold tracking-tight">{t("Ombor")}</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Mahsulotlar, kirim, zaxira harakatlari va ta'minotchilar
+          {t("Mahsulotlar, kirim, zaxira harakatlari va ta'minotchilar")}
         </p>
       </div>
 
@@ -162,7 +163,7 @@ export default function Warehouse() {
               }}
               className="inline-flex items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-medium text-amber-800 hover:bg-amber-100"
             >
-              <AlertTriangle size={15} /> {lowCount} ta mahsulot kam qoldi
+              <AlertTriangle size={15} /> {lowCount} {t("ta mahsulot kam qoldi")}
             </button>
           )}
           {expiryCount > 0 && (
@@ -173,38 +174,38 @@ export default function Warehouse() {
               }}
               className="inline-flex items-center gap-2 rounded-xl border border-rose-200 bg-rose-50 px-4 py-2 text-sm font-medium text-rose-800 hover:bg-rose-100"
             >
-              <AlertTriangle size={15} /> {expiryCount} ta muddati tugagan/yaqin
+              <AlertTriangle size={15} /> {expiryCount} {t("ta muddati tugagan/yaqin")}
             </button>
           )}
         </div>
       )}
 
       <div className="flex flex-wrap gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm sm:inline-flex">
-        {TABS.map((t) => (
+        {TABS.map((tb) => (
           <button
-            key={t.key}
-            onClick={() => setTab(t.key)}
+            key={tb.key}
+            onClick={() => setTab(tb.key)}
             className={`inline-flex items-center gap-2 rounded-lg px-3.5 py-2 text-sm font-medium transition ${
-              tab === t.key ? "bg-teal-600 text-white shadow-sm" : "text-slate-500 hover:bg-slate-50"
+              tab === tb.key ? "bg-teal-600 text-white shadow-sm" : "text-slate-500 hover:bg-slate-50"
             }`}
           >
-            <t.icon size={15} /> {t.label}
+            <tb.icon size={15} /> {t(tb.label)}
           </button>
         ))}
       </div>
 
-      {err && <p className="rounded-lg bg-rose-50 px-4 py-2.5 text-sm text-rose-700">{err}</p>}
+      {err && <p className="rounded-lg bg-rose-50 px-4 py-2.5 text-sm text-rose-700">{t(err)}</p>}
 
       {/* ============ MAHSULOTLAR ============ */}
       {tab === "mahsulotlar" && (
         <Card>
           <CardHeader
-            title="Mahsulotlar"
-            subtitle={`${shown.length} ta ko'rsatilmoqda`}
+            title={t("Mahsulotlar")}
+            subtitle={`${shown.length} ${t("ta ko'rsatilmoqda")}`}
             action={
               canManage ? (
                 <PrimaryButton onClick={() => setProdModal({ ...emptyProd })}>
-                  <Plus size={15} /> Yangi mahsulot
+                  <Plus size={15} /> {t("Yangi mahsulot")}
                 </PrimaryButton>
               ) : undefined
             }
@@ -215,7 +216,7 @@ export default function Warehouse() {
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Nomi, SKU, shtrix-kod..."
+                placeholder={t("Nomi, SKU, shtrix-kod...")}
                 className={`${inputCls} w-64 pl-8`}
               />
             </div>
@@ -234,15 +235,15 @@ export default function Warehouse() {
                   filter === k ? "bg-teal-600 text-white" : "bg-slate-100 text-slate-500 hover:bg-slate-200"
                 }`}
               >
-                {l}
+                {t(l)}
               </button>
             ))}
           </div>
           <Table
             head={
               canSeeCost
-                ? ["Mahsulot", "Zaxira", "Tannarx", "Sotuv narxi", "Marja", ""]
-                : ["Mahsulot", "Zaxira", "Sotuv narxi", ""]
+                ? [t("Mahsulot"), t("Zaxira"), t("Tannarx"), t("Sotuv narxi"), t("Marja"), ""]
+                : [t("Mahsulot"), t("Zaxira"), t("Sotuv narxi"), ""]
             }
           >
             {shown.map((p) => {
@@ -297,7 +298,7 @@ export default function Warehouse() {
                           }
                           className="inline-flex items-center gap-1 text-sm font-medium text-teal-600 hover:text-teal-700"
                         >
-                          <Pencil size={13} /> Tahrir
+                          <Pencil size={13} /> {t("Tahrir")}
                         </button>
                         <button
                           onClick={() =>
@@ -321,8 +322,8 @@ export default function Warehouse() {
       {tab === "kirim" && (
         <Card>
           <CardHeader
-            title="Kirimlar (xaridlar)"
-            subtitle="Qabul qilinganda zaxira oshadi va tannarx yangilanadi"
+            title={t("Kirimlar (xaridlar)")}
+            subtitle={t("Qabul qilinganda zaxira oshadi va tannarx yangilanadi")}
             action={
               canManage ? (
                 <PrimaryButton
@@ -330,16 +331,16 @@ export default function Warehouse() {
                     setPurModal({ supplierId: "", note: "", lines: [{ productId: "", qty: "", cost: "" }] })
                   }
                 >
-                  <Plus size={15} /> Yangi kirim
+                  <Plus size={15} /> {t("Yangi kirim")}
                 </PrimaryButton>
               ) : undefined
             }
           />
-          <Table head={["Sana", "Ta'minotchi", "Mahsulotlar", "Summa", "Qarz", "Holat", ""]}>
+          <Table head={[t("Sana"), t("Ta'minotchi"), t("Mahsulotlar"), t("Summa"), t("Qarz"), t("Holat"), ""]}>
             {purchases.length === 0 && (
               <tr>
                 <td colSpan={7} className="px-5 py-8 text-center text-sm text-slate-400">
-                  Hali kirimlar yo'q
+                  {t("Hali kirimlar yo'q")}
                 </td>
               </tr>
             )}
@@ -388,7 +389,7 @@ export default function Warehouse() {
                       }
                       className="text-sm font-medium text-teal-600 hover:text-teal-700"
                     >
-                      Qabul qilish
+                      {t("Qabul qilish")}
                     </button>
                   )}
                   {canPay && pu.status === "QABUL_QILINDI" && pu.total - pu.paidAmount > 0 && (
@@ -402,7 +403,7 @@ export default function Warehouse() {
                       }
                       className="ml-3 text-sm font-medium text-teal-600 hover:text-teal-700"
                     >
-                      To'lash
+                      {t("To'lash")}
                     </button>
                   )}
                 </td>
@@ -415,8 +416,8 @@ export default function Warehouse() {
       {/* ============ HARAKATLAR ============ */}
       {tab === "harakatlar" && (
         <Card>
-          <CardHeader title="Zaxira harakatlari" subtitle="Oxirgi 1000 ta yozuv" />
-          <Table head={["Vaqt", "Mahsulot", "Amal", "O'zgarish", "Qoldiq", "Kim", "Izoh"]}>
+          <CardHeader title={t("Zaxira harakatlari")} subtitle={t("Oxirgi 1000 ta yozuv")} />
+          <Table head={[t("Vaqt"), t("Mahsulot"), t("Amal"), t("O'zgarish"), t("Qoldiq"), t("Kim"), t("Izoh")]}>
             {movements.map((m) => (
               <tr key={m.id}>
                 <td className="px-5 py-3 text-xs whitespace-nowrap text-slate-500">
@@ -428,7 +429,7 @@ export default function Warehouse() {
                   })}
                 </td>
                 <td className="px-5 py-3 font-medium">{prodName(m.productId)}</td>
-                <td className="px-5 py-3 text-slate-500">{MOVEMENT_LABELS[m.type]}</td>
+                <td className="px-5 py-3 text-slate-500">{t(MOVEMENT_LABELS[m.type])}</td>
                 <td
                   className={`px-5 py-3 font-semibold ${m.qtyChange > 0 ? "text-emerald-600" : "text-rose-600"}`}
                 >
@@ -452,18 +453,18 @@ export default function Warehouse() {
       {tab === "taminotchilar" && (
         <Card>
           <CardHeader
-            title="Ta'minotchilar"
+            title={t("Ta'minotchilar")}
             action={
               canManage ? (
                 <PrimaryButton
                   onClick={() => setSupModal({ name: "", contactPerson: "", phone: "", active: true })}
                 >
-                  <Plus size={15} /> Yangi ta'minotchi
+                  <Plus size={15} /> {t("Yangi ta'minotchi")}
                 </PrimaryButton>
               ) : undefined
             }
           />
-          <Table head={["Nomi", "Kontakt", "Telefon", "Holat", ""]}>
+          <Table head={[t("Nomi"), t("Kontakt"), t("Telefon"), t("Holat"), ""]}>
             {suppliers.map((s) => (
               <tr key={s.id} className={s.active ? "hover:bg-slate-50" : "text-slate-400"}>
                 <td className="px-5 py-3 font-medium">{s.name}</td>
@@ -475,7 +476,7 @@ export default function Warehouse() {
                       s.active ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-500"
                     }`}
                   >
-                    {s.active ? "Faol" : "O'chirilgan"}
+                    {s.active ? t("Faol") : t("O'chirilgan")}
                   </span>
                 </td>
                 <td className="px-5 py-3 text-right">
@@ -492,7 +493,7 @@ export default function Warehouse() {
                       }
                       className="inline-flex items-center gap-1 text-sm font-medium text-teal-600 hover:text-teal-700"
                     >
-                      <Pencil size={13} /> Tahrir
+                      <Pencil size={13} /> {t("Tahrir")}
                     </button>
                   )}
                 </td>
@@ -505,7 +506,7 @@ export default function Warehouse() {
       {/* ============ MODALLAR ============ */}
       {prodModal && (
         <Modal
-          title={prodModal.id ? "Mahsulotni tahrirlash" : "Yangi mahsulot"}
+          title={prodModal.id ? t("Mahsulotni tahrirlash") : t("Yangi mahsulot")}
           onClose={() => setProdModal(null)}
           wide
         >
@@ -543,20 +544,20 @@ export default function Warehouse() {
             }}
           >
             <div className="sm:col-span-2">
-              <Field label="Nomi *">
+              <Field label={t("Nomi *")}>
                 <input required className={inputCls} value={prodModal.name}
                   onChange={(e) => setProdModal({ ...prodModal, name: e.target.value })} />
               </Field>
             </div>
-            <Field label="SKU / ichki kod">
+            <Field label={t("SKU / ichki kod")}>
               <input className={inputCls} value={prodModal.sku}
                 onChange={(e) => setProdModal({ ...prodModal, sku: e.target.value })} />
             </Field>
-            <Field label="Shtrix-kod">
+            <Field label={t("Shtrix-kod")}>
               <input className={inputCls} value={prodModal.barcode}
                 onChange={(e) => setProdModal({ ...prodModal, barcode: e.target.value })} />
             </Field>
-            <Field label="Kategoriya">
+            <Field label={t("Kategoriya")}>
               <input list="prod-cats" className={inputCls} value={prodModal.category}
                 onChange={(e) => setProdModal({ ...prodModal, category: e.target.value })} />
               <datalist id="prod-cats">
@@ -565,7 +566,7 @@ export default function Warehouse() {
                 ))}
               </datalist>
             </Field>
-            <Field label="O'lchov birligi">
+            <Field label={t("O'lchov birligi")}>
               <select className={inputCls} value={prodModal.unit}
                 onChange={(e) => setProdModal({ ...prodModal, unit: e.target.value })}>
                 {UNITS.map((u) => (
@@ -573,19 +574,19 @@ export default function Warehouse() {
                 ))}
               </select>
             </Field>
-            <Field label="Sotuv narxi (so'm) *">
+            <Field label={t("Sotuv narxi (so'm) *")}>
               <input required inputMode="numeric" className={inputCls} value={prodModal.sellPrice}
                 onChange={(e) => setProdModal({ ...prodModal, sellPrice: e.target.value })} />
             </Field>
-            <Field label="Minimal zaxira (ogohlantirish)">
+            <Field label={t("Minimal zaxira (ogohlantirish)")}>
               <input inputMode="numeric" className={inputCls} value={prodModal.minStock}
                 onChange={(e) => setProdModal({ ...prodModal, minStock: e.target.value })} />
             </Field>
-            <Field label="Yaroqlilik muddati">
+            <Field label={t("Yaroqlilik muddati")}>
               <input type="date" className={inputCls} value={prodModal.expiryDate}
                 onChange={(e) => setProdModal({ ...prodModal, expiryDate: e.target.value })} />
             </Field>
-            <Field label="Ta'minotchi">
+            <Field label={t("Ta'minotchi")}>
               <select className={inputCls} value={prodModal.supplierId}
                 onChange={(e) => setProdModal({ ...prodModal, supplierId: e.target.value })}>
                 <option value="">—</option>
@@ -598,15 +599,15 @@ export default function Warehouse() {
               <input type="checkbox" checked={prodModal.active}
                 onChange={(e) => setProdModal({ ...prodModal, active: e.target.checked })}
                 className="h-4 w-4 accent-teal-600" />
-              Faol (POS'da sotiladi)
+              {t("Faol (POS'da sotiladi)")}
             </label>
             <p className="text-xs text-slate-400 sm:col-span-2">
-              Zaxira miqdori bu yerda o'zgartirilmaydi — «Zaxira» tugmasi (tuzatish)
-              yoki Kirim orqali kiritiladi, har o'zgarish tarixda qoladi.
+              {t("Zaxira miqdori bu yerda o'zgartirilmaydi — «Zaxira» tugmasi (tuzatish)")}
+              {t("yoki Kirim orqali kiritiladi, har o'zgarish tarixda qoladi.")}
             </p>
             <div className="sm:col-span-2">
               <PrimaryButton type="submit" className="w-full justify-center">
-                {busy ? "Saqlanmoqda..." : "Saqlash"}
+                {busy ? t("Saqlanmoqda...") : t("Saqlash")}
               </PrimaryButton>
             </div>
           </form>
@@ -637,29 +638,29 @@ export default function Warehouse() {
             <p className="text-sm text-slate-500">
               Hozirgi zaxira: <b>{adjModal.product.stock} {adjModal.product.unit}</b>
             </p>
-            <Field label="Amal turi">
+            <Field label={t("Amal turi")}>
               <select
                 className={inputCls}
                 value={adjModal.type}
                 onChange={(e) => setAdjModal({ ...adjModal, type: e.target.value as MovementType })}
               >
-                <option value="KIRIM">Kirim (boshlang'ich qoldiq / qo'shish)</option>
-                <option value="TUZATISH">Tuzatish (+/−)</option>
-                <option value="CHIQIM">Hisobdan chiqarish (buzilgan/muddati o'tgan)</option>
-                <option value="TAMINOTCHI_QAYTARISH">Ta'minotchiga qaytarish</option>
+                <option value="KIRIM">{t("Kirim (boshlang'ich qoldiq / qo'shish)")}</option>
+                <option value="TUZATISH">{t("Tuzatish (+/−)")}</option>
+                <option value="CHIQIM">{t("Hisobdan chiqarish (buzilgan/muddati o'tgan)")}</option>
+                <option value="TAMINOTCHI_QAYTARISH">{t("Ta'minotchiga qaytarish")}</option>
               </select>
             </Field>
-            <Field label="Miqdor * (Tuzatishda manfiy ham bo'ladi, masalan -2)">
+            <Field label={t("Miqdor * (Tuzatishda manfiy ham bo'ladi, masalan -2)")}>
               <input required className={inputCls} value={adjModal.qty}
                 onChange={(e) => setAdjModal({ ...adjModal, qty: e.target.value })} />
             </Field>
-            <Field label="Sabab *">
+            <Field label={t("Sabab *")}>
               <input required className={inputCls} value={adjModal.reason}
                 onChange={(e) => setAdjModal({ ...adjModal, reason: e.target.value })}
-                placeholder="Masalan: inventarizatsiya / sindi / muddati o'tdi" />
+                placeholder={t("Masalan: inventarizatsiya / sindi / muddati o'tdi")} />
             </Field>
             <PrimaryButton type="submit" className="w-full justify-center">
-              {busy ? "Saqlanmoqda..." : "Tasdiqlash"}
+              {busy ? t("Saqlanmoqda...") : t("Tasdiqlash")}
             </PrimaryButton>
           </form>
         </Modal>
@@ -667,7 +668,7 @@ export default function Warehouse() {
 
       {supModal && (
         <Modal
-          title={supModal.id ? "Ta'minotchini tahrirlash" : "Yangi ta'minotchi"}
+          title={supModal.id ? t("Ta'minotchini tahrirlash") : t("Yangi ta'minotchi")}
           onClose={() => setSupModal(null)}
         >
           <form
@@ -690,15 +691,15 @@ export default function Warehouse() {
               });
             }}
           >
-            <Field label="Nomi *">
+            <Field label={t("Nomi *")}>
               <input required className={inputCls} value={supModal.name}
                 onChange={(e) => setSupModal({ ...supModal, name: e.target.value })} />
             </Field>
-            <Field label="Kontakt shaxs">
+            <Field label={t("Kontakt shaxs")}>
               <input className={inputCls} value={supModal.contactPerson}
                 onChange={(e) => setSupModal({ ...supModal, contactPerson: e.target.value })} />
             </Field>
-            <Field label="Telefon">
+            <Field label={t("Telefon")}>
               <input className={inputCls} value={supModal.phone}
                 onChange={(e) => setSupModal({ ...supModal, phone: e.target.value })} />
             </Field>
@@ -706,17 +707,17 @@ export default function Warehouse() {
               <input type="checkbox" checked={supModal.active}
                 onChange={(e) => setSupModal({ ...supModal, active: e.target.checked })}
                 className="h-4 w-4 accent-teal-600" />
-              Faol
+              {t("Faol")}
             </label>
             <PrimaryButton type="submit" className="w-full justify-center">
-              {busy ? "Saqlanmoqda..." : "Saqlash"}
+              {busy ? t("Saqlanmoqda...") : t("Saqlash")}
             </PrimaryButton>
           </form>
         </Modal>
       )}
 
       {payModal && (
-        <Modal title="Ta'minotchiga to'lov" onClose={() => setPayModal(null)}>
+        <Modal title={t("Ta'minotchiga to'lov")} onClose={() => setPayModal(null)}>
           <form
             className="space-y-4"
             onSubmit={(e) => {
@@ -735,20 +736,20 @@ export default function Warehouse() {
             <p className="text-sm text-slate-600">
               Qolgan qarz: <b className="text-rose-600">{fmtSum(payModal.debt)}</b>
             </p>
-            <Field label="To'lov summasi (so'm) *">
+            <Field label={t("To'lov summasi (so'm) *")}>
               <input required inputMode="numeric" autoFocus className={inputCls}
                 value={payModal.amount}
                 onChange={(e) => setPayModal({ ...payModal, amount: e.target.value })} />
             </Field>
             <PrimaryButton type="submit" className="w-full justify-center">
-              {busy ? "Saqlanmoqda..." : "To'lovni qayd etish"}
+              {busy ? t("Saqlanmoqda...") : t("To'lovni qayd etish")}
             </PrimaryButton>
           </form>
         </Modal>
       )}
 
       {purModal && (
-        <Modal title="Yangi kirim" onClose={() => setPurModal(null)} wide>
+        <Modal title={t("Yangi kirim")} onClose={() => setPurModal(null)} wide>
           <form
             className="space-y-4"
             onSubmit={(e) => {
@@ -775,7 +776,7 @@ export default function Warehouse() {
             }}
           >
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Field label="Ta'minotchi">
+              <Field label={t("Ta'minotchi")}>
                 <select className={inputCls} value={purModal.supplierId}
                   onChange={(e) => setPurModal({ ...purModal, supplierId: e.target.value })}>
                   <option value="">—</option>
@@ -784,7 +785,7 @@ export default function Warehouse() {
                   ))}
                 </select>
               </Field>
-              <Field label="Izoh">
+              <Field label={t("Izoh")}>
                 <input className={inputCls} value={purModal.note}
                   onChange={(e) => setPurModal({ ...purModal, note: e.target.value })} />
               </Field>
@@ -801,18 +802,18 @@ export default function Warehouse() {
                       setPurModal({ ...purModal, lines });
                     }}
                   >
-                    <option value="">Mahsulot...</option>
+                    <option value="">{t("Mahsulot...")}</option>
                     {products.map((p) => (
                       <option key={p.id} value={p.id}>{p.name}</option>
                     ))}
                   </select>
-                  <input placeholder="Miqdor" inputMode="decimal" className={inputCls} value={l.qty}
+                  <input placeholder={t("Miqdor")} inputMode="decimal" className={inputCls} value={l.qty}
                     onChange={(e) => {
                       const lines = [...purModal.lines];
                       lines[i] = { ...l, qty: e.target.value };
                       setPurModal({ ...purModal, lines });
                     }} />
-                  <input placeholder="Kirim narxi" inputMode="numeric" className={inputCls} value={l.cost}
+                  <input placeholder={t("Kirim narxi")} inputMode="numeric" className={inputCls} value={l.cost}
                     onChange={(e) => {
                       const lines = [...purModal.lines];
                       lines[i] = { ...l, cost: e.target.value };
@@ -837,7 +838,7 @@ export default function Warehouse() {
                 }
                 className="inline-flex items-center gap-1.5 text-sm font-medium text-teal-600 hover:text-teal-700"
               >
-                <Plus size={14} /> Qator qo'shish
+                <Plus size={14} /> {t("Qator qo'shish")}
               </button>
             </div>
             <p className="text-sm font-semibold">
@@ -850,7 +851,7 @@ export default function Warehouse() {
               )}
             </p>
             <PrimaryButton type="submit" className="w-full justify-center">
-              {busy ? "Saqlanmoqda..." : "Kirimni qabul qilish"}
+              {busy ? t("Saqlanmoqda...") : t("Kirimni qabul qilish")}
             </PrimaryButton>
           </form>
         </Modal>

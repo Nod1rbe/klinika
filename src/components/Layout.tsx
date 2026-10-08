@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
   Activity,
@@ -27,6 +27,7 @@ import {
   X,
 } from "lucide-react";
 import { todayUzFull } from "../lib/date";
+import { LANGS, t } from "../lib/i18n";
 import { useStore } from "../store";
 import { ROLE_LABELS, type Role } from "../types";
 
@@ -79,6 +80,8 @@ export default function Layout() {
     userEmail,
     signOut,
     clinic,
+    lang,
+    setLang,
   } = useStore();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -107,7 +110,7 @@ export default function Layout() {
             <div className="min-w-0">
               <p className="font-bold leading-tight text-white">KlinikaHMS</p>
               <p className="truncate text-[11px] text-slate-400">
-                {profile?.role === "superadmin" ? "Platforma" : clinic.name}
+                {profile?.role === "superadmin" ? t("Platforma") : clinic.name}
               </p>
             </div>
           </div>
@@ -135,7 +138,7 @@ export default function Layout() {
               }
             >
               <Icon size={18} />
-              {label}
+              {t(label)}
             </NavLink>
           ))}
           <a
@@ -145,7 +148,7 @@ export default function Layout() {
             className="mt-2 flex items-center gap-3 rounded-lg border-t border-white/10 px-3 pt-3.5 pb-2.5 text-sm font-medium text-slate-400 transition hover:text-teal-300"
           >
             <BookOpen size={18} />
-            Qo'llanma
+            {t("Qo'llanma")}
           </a>
         </nav>
 
@@ -160,7 +163,7 @@ export default function Layout() {
               </div>
               <button
                 onClick={signOut}
-                title="Tizimdan chiqish"
+                title={t("Tizimdan chiqish")}
                 className="shrink-0 rounded-lg p-2 text-slate-400 transition hover:bg-white/5 hover:text-rose-400"
               >
                 <LogOut size={17} />
@@ -206,28 +209,40 @@ export default function Layout() {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <div className="flex rounded-lg border border-slate-200 bg-white p-0.5">
+              {LANGS.map((l) => (
+                <button
+                  key={l.code}
+                  onClick={() => setLang(l.code)}
+                  className={`rounded-md px-2 py-0.5 text-[11px] font-bold transition ${
+                    lang === l.code
+                      ? "bg-teal-600 text-white"
+                      : "text-slate-400 hover:text-slate-600"
+                  }`}
+                >
+                  {l.label}
+                </button>
+              ))}
+            </div>
             {source === "supabase" ? (
               <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                ● Onlayn
+                ● {t("Onlayn")}
               </span>
             ) : source === "loading" ? (
               <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500">
-                Yuklanmoqda...
+                {t("Yuklanmoqda...")}
               </span>
             ) : source === "error" ? (
               <span className="rounded-full bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-700">
-                Ulanish xatosi
+                {t("Ulanish xatosi")}
               </span>
             ) : (
-              <span
-                className="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700"
-                title="Supabase ulanmagan — demo rejim"
-              >
+              <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
                 Demo
               </span>
             )}
-            <span className="rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-700">
-              {ROLE_LABELS[role]}
+            <span className="hidden rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-700 sm:inline-block">
+              {t(ROLE_LABELS[role])}
             </span>
           </div>
         </header>
@@ -253,7 +268,7 @@ export default function Layout() {
             <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-[11px]">
               ✓
             </span>
-            {toast}
+            {t(toast)}
           </div>
         )}
 
@@ -261,16 +276,16 @@ export default function Layout() {
           {source === "loading" ? (
             <div className="flex min-h-[50vh] flex-col items-center justify-center gap-3 text-slate-400">
               <Loader2 size={28} className="animate-spin" />
-              <p className="text-sm">Ma'lumotlar yuklanmoqda...</p>
+              <p className="text-sm">{t("Ma'lumotlar yuklanmoqda...")}</p>
             </div>
           ) : source === "error" ? (
             <div className="mx-auto mt-16 max-w-md rounded-xl border border-rose-200 bg-white p-8 text-center shadow-sm">
               <AlertTriangle size={32} className="mx-auto text-rose-500" />
               <h2 className="mt-3 text-lg font-bold">
-                Ma'lumotlarni yuklab bo'lmadi
+                {t("Ma'lumotlarni yuklab bo'lmadi")}
               </h2>
               <p className="mt-1 text-sm text-slate-500">
-                Internet aloqasini tekshiring va qayta urining.
+                {t("Internet aloqasini tekshiring va qayta urining.")}
                 {loadError && (
                   <span className="mt-1 block font-mono text-xs text-slate-400">
                     {loadError}
@@ -281,7 +296,7 @@ export default function Layout() {
                 onClick={retryLoad}
                 className="mt-5 inline-flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
               >
-                <RefreshCw size={15} /> Qayta urinish
+                <RefreshCw size={15} /> {t("Qayta urinish")}
               </button>
             </div>
           ) : (

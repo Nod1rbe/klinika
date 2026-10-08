@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AlertTriangle, CalendarPlus } from "lucide-react";
 import {
@@ -12,6 +12,7 @@ import {
 } from "../components/ui";
 import { fmtSum } from "../data/mock";
 import { formatUzDate } from "../lib/date";
+import { t } from "../lib/i18n";
 import { useStore } from "../store";
 import { apptTotal, isRevenue } from "../types";
 
@@ -44,16 +45,16 @@ export default function Appointments() {
     if (!cancelling) return;
     setAppointmentStatus(cancelling, "BEKOR");
     setCancelling(null);
-    notify("Qabul bekor qilindi");
+    notify(t("Qabul bekor qilindi"));
   }
 
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Qabullar / Navbat</h1>
+          <h1 className="text-2xl font-bold tracking-tight">{t("Qabullar / Navbat")}</h1>
           <p className="mt-1 text-sm text-slate-500">
-            Sana tanlab oldingi kunlar hisobotini ham ko'rishingiz mumkin
+            {t("Sana tanlab oldingi kunlar hisobotini ham ko'rishingiz mumkin")}
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -65,24 +66,24 @@ export default function Appointments() {
             className={`${inputCls} w-44`}
           />
           <PrimaryButton onClick={() => navigate("/registratsiya")}>
-            <CalendarPlus size={16} /> Yangi qabul
+            <CalendarPlus size={16} /> {t("Yangi qabul")}
           </PrimaryButton>
         </div>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <Card className="p-5">
-          <p className="text-sm text-slate-500">Qabullar soni</p>
+          <p className="text-sm text-slate-500">{t("Qabullar soni")}</p>
           <p className="mt-1 text-2xl font-bold">{dayList.length}</p>
         </Card>
         <Card className="p-5">
-          <p className="text-sm text-slate-500">Kun tushumi</p>
+          <p className="text-sm text-slate-500">{t("Kun tushumi")}</p>
           <p className="mt-1 text-2xl font-bold text-teal-700">
             {fmtSum(dayRevenue)}
           </p>
         </Card>
         <Card className="p-5">
-          <p className="text-sm text-slate-500">Bekor qilingan</p>
+          <p className="text-sm text-slate-500">{t("Bekor qilingan")}</p>
           <p
             className={`mt-1 text-2xl font-bold ${dayCancelled > 0 ? "text-rose-600" : "text-slate-300"}`}
           >
@@ -93,10 +94,10 @@ export default function Appointments() {
 
       <Card>
         <CardHeader
-          title={date === today ? "Bugungi qabullar" : "Qabullar hisoboti"}
+          title={date === today ? t("Bugungi qabullar") : t("Qabullar hisoboti")}
           subtitle={formatUzDate(date)}
         />
-        <Table head={["№", "Vaqt", "Bemor", "Shifokor", "Xizmatlar", "Summa", "Holat", ""]}>
+        <Table head={[t("№"), t("Vaqt"), t("Bemor"), t("Shifokor"), t("Xizmatlar"), t("Summa"), t("Holat"), ""]}>
           {dayList.length === 0 && (
             <tr>
               <td colSpan={8} className="px-5 py-8 text-center text-sm text-slate-400">
@@ -144,7 +145,7 @@ export default function Appointments() {
                         onClick={() => setCancelling(a.id)}
                         className="text-sm font-medium text-rose-500 hover:text-rose-600"
                       >
-                        Bekor
+                        {t("Bekor")}
                       </button>
                     )}
                 </td>
@@ -155,7 +156,7 @@ export default function Appointments() {
       </Card>
 
       {cancellingAppt && (
-        <Modal title="Qabulni bekor qilish" onClose={() => setCancelling(null)}>
+        <Modal title={t("Qabulni bekor qilish")} onClose={() => setCancelling(null)}>
           <div className="space-y-4">
             <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
               <AlertTriangle size={18} className="mt-0.5 shrink-0" />
@@ -163,13 +164,13 @@ export default function Appointments() {
                 <b>
                   {patients.find((x) => x.id === cancellingAppt.patientId)?.fullName}
                 </b>
-                ning qabuli bekor qilinadi.
+                {t("ning qabuli bekor qilinadi.")}
                 {cancellingAppt.paidAt && (
                   <>
                     {" "}
                     Bu qabul uchun <b>{fmtSum(apptTotal(cancellingAppt))}</b>{" "}
-                    to'lov qilingan — u <b>qaytarilgan</b> deb belgilanadi va
-                    bugungi tushumdan chiqariladi.
+                    to'lov qilingan — u <b>{t("qaytarilgan")}</b> deb belgilanadi va
+                    {t("bugungi tushumdan chiqariladi.")}
                   </>
                 )}
               </p>
@@ -179,13 +180,13 @@ export default function Appointments() {
                 onClick={() => setCancelling(null)}
                 className="rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100"
               >
-                Yo'q
+                {t("Yo'q")}
               </button>
               <button
                 onClick={doCancel}
                 className="rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-700"
               >
-                Ha, bekor qilinsin
+                {t("Ha, bekor qilinsin")}
               </button>
             </div>
           </div>

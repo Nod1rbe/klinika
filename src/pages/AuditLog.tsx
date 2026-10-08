@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
+import { t } from "../lib/i18n";
 import { Card, CardHeader, Table } from "../components/ui";
 import { supabase } from "../lib/supabase";
 import { ROLE_LABELS, type Role } from "../types";
@@ -82,22 +83,22 @@ export default function AuditLog() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Audit jurnal</h1>
+        <h1 className="text-2xl font-bold tracking-tight">{t("Audit jurnal")}</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Kim, qachon, nimani ko'rgani va o'zgartirgani. O'zgarishlar bazada
-          avtomatik qayd etiladi, jurnal o'chirilmaydi.
+          {t("Kim, qachon, nimani ko'rgani va o'zgartirgani. O'zgarishlar bazada")}
+          {t("avtomatik qayd etiladi, jurnal o'chirilmaydi.")}
         </p>
       </div>
 
       <Card>
         <CardHeader
-          title="Oxirgi harakatlar"
-          subtitle={entries ? `${entries.length} ta yozuv (oxirgi 200 tagacha)` : "Yuklanmoqda..."}
+          title={t("Oxirgi harakatlar")}
+          subtitle={entries ? `${entries.length} ${t("ta yozuv (oxirgi 200 tagacha)")}` : "Yuklanmoqda..."}
         />
         {error && (
-          <p className="px-5 py-4 text-sm text-rose-600">Xatolik: {error}</p>
+          <p className="px-5 py-4 text-sm text-rose-600">Xatolik: {t(error)}</p>
         )}
-        <Table head={["Vaqt", "Xodim", "Amal", "Obyekt", "Tafsilot"]}>
+        <Table head={[t("Vaqt"), t("Xodim"), t("Amal"), t("Obyekt"), t("Tafsilot")]}>
           {entries?.length === 0 && !error && (
             <tr>
               <td colSpan={5} className="px-5 py-6 text-sm text-slate-400">
@@ -121,18 +122,18 @@ export default function AuditLog() {
               <td className="px-5 py-3">
                 <p className="font-medium">{e.userName ?? "—"}</p>
                 <p className="text-xs text-slate-400">
-                  {e.userRole ? (ROLE_LABELS[e.userRole as Role] ?? e.userRole) : ""}
+                  {e.userRole ? t(ROLE_LABELS[e.userRole as Role] ?? e.userRole) : ""}
                 </p>
               </td>
               <td className="px-5 py-3">
                 <span
                   className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${ACTION_STYLES[e.action]}`}
                 >
-                  {ACTION_LABELS[e.action]}
+                  {t(ACTION_LABELS[e.action])}
                 </span>
               </td>
               <td className="px-5 py-3">
-                {ENTITY_LABELS[e.entity] ?? e.entity}
+                {t(ENTITY_LABELS[e.entity] ?? e.entity)}
                 {e.entityId && (
                   <span className="block font-mono text-xs text-slate-400">
                     {e.entityId}

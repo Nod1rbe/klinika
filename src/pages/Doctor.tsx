@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { Link } from "react-router-dom";
 import { AlertTriangle, ClipboardCheck, ShieldCheck, Stethoscope } from "lucide-react";
 import {
@@ -10,6 +10,7 @@ import {
   PrimaryButton,
   StatusBadge,
 } from "../components/ui";
+import { t } from "../lib/i18n";
 import { useStore } from "../store";
 import { PAID_RANK, statusRank } from "../types";
 
@@ -69,7 +70,7 @@ export default function Doctor() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Shifokor kabineti</h1>
+          <h1 className="text-2xl font-bold tracking-tight">{t("Shifokor kabineti")}</h1>
           <p className="mt-1 text-sm text-slate-500">
             {doc?.name} · {doc?.specialty}
             {doc?.room ? ` · ${doc.room}-xona` : ""}
@@ -77,7 +78,7 @@ export default function Doctor() {
         </div>
         {lockedId ? (
           <span className="rounded-full bg-teal-50 px-3 py-1.5 text-xs font-semibold text-teal-700">
-            Sizning kabinetingiz
+            {t("Sizning kabinetingiz")}
           </span>
         ) : (
           <select
@@ -97,13 +98,13 @@ export default function Doctor() {
       <div className="flex items-start gap-3 rounded-xl border border-teal-200 bg-teal-50 p-4 text-sm text-teal-800">
         <ShieldCheck size={18} className="mt-0.5 shrink-0" />
         <p>
-          Bu ro'yxatda faqat <b>to'lovi tasdiqlangan</b> bemorlar ko'rinadi
-          (holat ≥ «To'landi»).
+          {t("Bu ro'yxatda faqat")} <b>{t("to'lovi tasdiqlangan")}</b> {t("bemorlar ko'rinadi")}
+          {t("(holat ≥ «To'landi»).")}
           {hiddenCount > 0 && (
             <>
               {" "}
               Hozir <b>{hiddenCount} ta</b> bemor to'lov bosqichida — kassada
-              to'lov qabul qilingach shu yerda paydo bo'ladi.
+              {t("to'lov qabul qilingach shu yerda paydo bo'ladi.")}
             </>
           )}
         </p>
@@ -112,7 +113,7 @@ export default function Doctor() {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         {visible.length === 0 && (
           <Card className="p-8 text-center text-sm text-slate-400 lg:col-span-2">
-            Bugun uchun to'langan qabullar yo'q
+            {t("Bugun uchun to'langan qabullar yo'q")}
           </Card>
         )}
         {visible.map((a) => {
@@ -151,12 +152,12 @@ export default function Doctor() {
                 )}
                 {a.complaint && (
                   <p className="text-sm">
-                    <span className="text-slate-400">Shikoyat:</span> {a.complaint}
+                    <span className="text-slate-400">{t("Shikoyat:")}</span> {a.complaint}
                   </p>
                 )}
                 {a.diagnosis && (
                   <p className="text-sm">
-                    <span className="text-slate-400">Tashxis:</span>{" "}
+                    <span className="text-slate-400">{t("Tashxis:")}</span>{" "}
                     <b>{a.diagnosis}</b>
                   </p>
                 )}
@@ -165,21 +166,21 @@ export default function Doctor() {
                     to={`/bemorlar/${p.id}`}
                     className="text-sm font-medium text-teal-600 hover:text-teal-700"
                   >
-                    Tibbiy kartani ochish →
+                    {t("Tibbiy kartani ochish →")}
                   </Link>
                   <div className="flex gap-2">
                     {a.status === "TOLANDI" && (
                       <PrimaryButton
                         onClick={() => setAppointmentStatus(a.id, "NAVBATDA")}
                       >
-                        Navbatga olish
+                        {t("Navbatga olish")}
                       </PrimaryButton>
                     )}
                     {a.status === "NAVBATDA" && (
                       <PrimaryButton
                         onClick={() => setAppointmentStatus(a.id, "QABULDA")}
                       >
-                        <Stethoscope size={15} /> Qabulni boshlash
+                        <Stethoscope size={15} /> {t("Qabulni boshlash")}
                       </PrimaryButton>
                     )}
                     {a.status === "QABULDA" && (
@@ -193,7 +194,7 @@ export default function Doctor() {
                           });
                         }}
                       >
-                        <ClipboardCheck size={15} /> Yakunlash
+                        <ClipboardCheck size={15} /> {t("Yakunlash")}
                       </PrimaryButton>
                     )}
                   </div>
@@ -205,25 +206,25 @@ export default function Doctor() {
       </div>
 
       {finishing && (
-        <Modal title="Qabulni yakunlash" onClose={() => setFinishing(null)} wide>
+        <Modal title={t("Qabulni yakunlash")} onClose={() => setFinishing(null)} wide>
           <form onSubmit={submitFinish} className="space-y-4">
-            <Field label="Shikoyat">
+            <Field label={t("Shikoyat")}>
               <textarea
                 className={`${inputCls} min-h-20`}
                 value={form.complaint}
                 onChange={(e) => setForm({ ...form, complaint: e.target.value })}
               />
             </Field>
-            <Field label="Tashxis (ICD-10 kod bilan) *">
+            <Field label={t("Tashxis (ICD-10 kod bilan) *")}>
               <input
                 required
-                placeholder="Masalan: I10 — Essensial gipertoniya"
+                placeholder={t("Masalan: I10 — Essensial gipertoniya")}
                 className={inputCls}
                 value={form.diagnosis}
                 onChange={(e) => setForm({ ...form, diagnosis: e.target.value })}
               />
             </Field>
-            <Field label="Tavsiya / retsept">
+            <Field label={t("Tavsiya / retsept")}>
               <textarea
                 className={`${inputCls} min-h-20`}
                 value={form.recommendation}
@@ -238,9 +239,9 @@ export default function Doctor() {
                 onClick={() => setFinishing(null)}
                 className="rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100"
               >
-                Bekor qilish
+                {t("Bekor qilish")}
               </button>
-              <PrimaryButton type="submit">Saqlash va yakunlash</PrimaryButton>
+              <PrimaryButton type="submit">{t("Saqlash va yakunlash")}</PrimaryButton>
             </div>
           </form>
         </Modal>

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+﻿import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Search, UserPlus } from "lucide-react";
 import {
@@ -10,6 +10,7 @@ import {
   PrimaryButton,
   Table,
 } from "../components/ui";
+import { t } from "../lib/i18n";
 import { useStore } from "../store";
 import type { Patient } from "../types";
 
@@ -90,19 +91,19 @@ export default function Patients() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Bemorlar</h1>
+          <h1 className="text-2xl font-bold tracking-tight">{t("Bemorlar")}</h1>
           <p className="mt-1 text-sm text-slate-500">
             Jami {patients.length} ta bemor ro'yxatda
           </p>
         </div>
         <PrimaryButton onClick={() => setOpen(true)}>
-          <UserPlus size={16} /> Yangi bemor
+          <UserPlus size={16} /> {t("Yangi bemor")}
         </PrimaryButton>
       </div>
 
       <Card>
         <CardHeader
-          title="Bemorlar ro'yxati"
+          title={t("Bemorlar ro'yxati")}
           action={
             <div className="relative">
               <Search
@@ -112,13 +113,13 @@ export default function Patients() {
               <input
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                placeholder="F.I.Sh., ID, telefon, JSHSHIR..."
+                placeholder={t("F.I.Sh., ID, telefon, JSHSHIR...")}
                 className={`${inputCls} w-72 pl-9`}
               />
             </div>
           }
         />
-        <Table head={["ID", "F.I.Sh.", "Tug'ilgan sana", "Telefon", "JSHSHIR", ""]}>
+        <Table head={[t("ID"), t("F.I.Sh."), t("Tug'ilgan sana"), t("Telefon"), t("JSHSHIR"), ""]}>
           {filtered.map((p) => (
             <tr key={p.id} className="hover:bg-slate-50">
               <td className="px-5 py-3 font-mono text-xs text-slate-500">{p.id}</td>
@@ -143,7 +144,7 @@ export default function Patients() {
 
       {open && (
         <Modal
-          title="Yangi bemorni ro'yxatga olish"
+          title={t("Yangi bemorni ro'yxatga olish")}
           onClose={() => {
             setOpen(false);
             setDuplicate(null);
@@ -153,14 +154,14 @@ export default function Patients() {
           <form onSubmit={submit} className="space-y-4">
             {duplicate && (
               <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
-                <b>Ehtimoliy dublikat topildi:</b> {duplicate.fullName} (
+                <b>{t("Ehtimoliy dublikat topildi:")}</b> {duplicate.fullName} (
                 {duplicate.id}, tel: {duplicate.phone}). Baribir yangi bemor
-                sifatida saqlash uchun yana bir marta «Saqlash» bosing.
+                {t("sifatida saqlash uchun yana bir marta «Saqlash» bosing.")}
               </div>
             )}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <Field label="F.I.Sh. *">
+                <Field label={t("F.I.Sh. *")}>
                   <input
                     required
                     className={inputCls}
@@ -169,7 +170,7 @@ export default function Patients() {
                   />
                 </Field>
               </div>
-              <Field label="Tug'ilgan sana *">
+              <Field label={t("Tug'ilgan sana *")}>
                 <input
                   required
                   type="date"
@@ -178,7 +179,7 @@ export default function Patients() {
                   onChange={(e) => setForm({ ...form, birthDate: e.target.value })}
                 />
               </Field>
-              <Field label="Jinsi">
+              <Field label={t("Jinsi")}>
                 <select
                   className={inputCls}
                   value={form.gender}
@@ -186,11 +187,11 @@ export default function Patients() {
                     setForm({ ...form, gender: e.target.value as Patient["gender"] })
                   }
                 >
-                  <option>Erkak</option>
-                  <option>Ayol</option>
+                  <option value="Erkak">{t("Erkak")}</option>
+                  <option value="Ayol">{t("Ayol")}</option>
                 </select>
               </Field>
-              <Field label="Telefon *">
+              <Field label={t("Telefon *")}>
                 <input
                   required
                   placeholder="+998 90 123 45 67"
@@ -199,38 +200,38 @@ export default function Patients() {
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
                 />
               </Field>
-              <Field label="Manzil">
+              <Field label={t("Manzil")}>
                 <input
                   className={inputCls}
                   value={form.address}
                   onChange={(e) => setForm({ ...form, address: e.target.value })}
                 />
               </Field>
-              <Field label="Pasport seriya-raqami">
+              <Field label={t("Pasport seriya-raqami")}>
                 <input
-                  placeholder="AB 1234567"
+                  placeholder={t("AB 1234567")}
                   className={inputCls}
                   value={form.passport}
                   onChange={(e) => setForm({ ...form, passport: e.target.value })}
                 />
               </Field>
-              <Field label="JSHSHIR (PINFL)">
+              <Field label={t("JSHSHIR (PINFL)")}>
                 <input
-                  placeholder="14 raqam"
+                  placeholder={t("14 raqam")}
                   className={inputCls}
                   value={form.pinfl}
                   onChange={(e) => setForm({ ...form, pinfl: e.target.value })}
                 />
               </Field>
-              <Field label="Allergiyalar (vergul bilan)">
+              <Field label={t("Allergiyalar (vergul bilan)")}>
                 <input
-                  placeholder="Penitsillin, ..."
+                  placeholder={t("Penitsillin, ...")}
                   className={inputCls}
                   value={form.allergies}
                   onChange={(e) => setForm({ ...form, allergies: e.target.value })}
                 />
               </Field>
-              <Field label="Surunkali kasalliklar (vergul bilan)">
+              <Field label={t("Surunkali kasalliklar (vergul bilan)")}>
                 <input
                   className={inputCls}
                   value={form.chronic}
@@ -240,7 +241,7 @@ export default function Patients() {
             </div>
             {saveErr && (
               <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">
-                {saveErr}
+                {t(saveErr)}
               </p>
             )}
             <div className="flex justify-end gap-3 pt-2">
@@ -252,10 +253,10 @@ export default function Patients() {
                 }}
                 className="rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100"
               >
-                Bekor qilish
+                {t("Bekor qilish")}
               </button>
               <PrimaryButton type="submit">
-                {saving ? "Saqlanmoqda..." : "Saqlash"}
+                {saving ? t("Saqlanmoqda...") : t("Saqlash")}
               </PrimaryButton>
             </div>
           </form>

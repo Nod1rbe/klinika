@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import {
   Building2,
   KeyRound,
@@ -21,6 +21,7 @@ import {
 } from "../components/ui";
 import { fmtSum } from "../data/mock";
 import { supabase } from "../lib/supabase";
+import { t } from "../lib/i18n";
 import { useStore } from "../store";
 import type { Role } from "../types";
 import { CATEGORY_ORDER, ROLE_LABELS, STAFF_ROLES } from "../types";
@@ -129,10 +130,10 @@ export default function Settings() {
   }, [tab]);
 
   if (profile && profile.role !== "direktor") {
-    return <p className="text-sm text-slate-500">Bu sahifa faqat direktor uchun.</p>;
+    return <p className="text-sm text-slate-500">{t("Bu sahifa faqat direktor uchun.")}</p>;
   }
   if (!supabase) {
-    return <p className="text-sm text-slate-500">Sozlamalar Supabase ulanganda ishlaydi.</p>;
+    return <p className="text-sm text-slate-500">{t("Sozlamalar Supabase ulanganda ishlaydi.")}</p>;
   }
   const sb = supabase;
 
@@ -160,38 +161,38 @@ export default function Settings() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Sozlamalar</h1>
+        <h1 className="text-2xl font-bold tracking-tight">{t("Sozlamalar")}</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Klinika rekvizitlari, narxnoma, shifokorlar va xodim hisoblari — hammasi shu yerdan
+          {t("Klinika rekvizitlari, narxnoma, shifokorlar va xodim hisoblari — hammasi shu yerdan")}
         </p>
       </div>
 
       <div className="flex flex-wrap gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm sm:inline-flex">
-        {TABS.map((t) => (
+        {TABS.map((tb) => (
           <button
-            key={t.key}
-            onClick={() => setTab(t.key)}
+            key={tb.key}
+            onClick={() => setTab(tb.key)}
             className={`inline-flex items-center gap-2 rounded-lg px-3.5 py-2 text-sm font-medium transition ${
-              tab === t.key
+              tab === tb.key
                 ? "bg-teal-600 text-white shadow-sm"
                 : "text-slate-500 hover:bg-slate-50"
             }`}
           >
-            <t.icon size={15} /> {t.label}
+            <tb.icon size={15} /> {t(tb.label)}
           </button>
         ))}
       </div>
 
       {err && (
-        <p className="rounded-lg bg-rose-50 px-4 py-2.5 text-sm text-rose-700">{err}</p>
+        <p className="rounded-lg bg-rose-50 px-4 py-2.5 text-sm text-rose-700">{t(err)}</p>
       )}
 
       {/* ============ KLINIKA ============ */}
       {tab === "klinika" && (
         <Card className="max-w-2xl">
           <CardHeader
-            title="Klinika rekvizitlari"
-            subtitle="Chekda va QR-kodda ko'rinadi"
+            title={t("Klinika rekvizitlari")}
+            subtitle={t("Chekda va QR-kodda ko'rinadi")}
           />
           <form
             className="space-y-4 p-5"
@@ -212,7 +213,7 @@ export default function Settings() {
               });
             }}
           >
-            <Field label="Klinika nomi *">
+            <Field label={t("Klinika nomi *")}>
               <input
                 required
                 className={inputCls}
@@ -220,30 +221,30 @@ export default function Settings() {
                 onChange={(e) => setCForm({ ...cForm, name: e.target.value })}
               />
             </Field>
-            <Field label="Manzil">
+            <Field label={t("Manzil")}>
               <input
                 className={inputCls}
                 value={cForm.address}
                 onChange={(e) => setCForm({ ...cForm, address: e.target.value })}
               />
             </Field>
-            <Field label="Telefon">
+            <Field label={t("Telefon")}>
               <input
                 className={inputCls}
                 value={cForm.phone}
                 onChange={(e) => setCForm({ ...cForm, phone: e.target.value })}
               />
             </Field>
-            <Field label="Google Maps havolasi (chekdagi QR shu manzilni ochadi)">
+            <Field label={t("Google Maps havolasi (chekdagi QR shu manzilni ochadi)")}>
               <input
                 className={inputCls}
-                placeholder="https://maps.google.com/?q=..."
+                placeholder={t("https://maps.google.com/?q=...")}
                 value={cForm.mapsUrl}
                 onChange={(e) => setCForm({ ...cForm, mapsUrl: e.target.value })}
               />
             </Field>
             <PrimaryButton type="submit">
-              {busy ? "Saqlanmoqda..." : "Saqlash"}
+              {busy ? t("Saqlanmoqda...") : t("Saqlash")}
             </PrimaryButton>
           </form>
         </Card>
@@ -253,19 +254,19 @@ export default function Settings() {
       {tab === "xizmatlar" && (
         <Card>
           <CardHeader
-            title="Narxnoma"
-            subtitle={`${services.filter((s) => s.active).length} ta faol xizmat`}
+            title={t("Narxnoma")}
+            subtitle={`${services.filter((s) => s.active).length} ${t("ta faol xizmat")}`}
             action={
               <PrimaryButton
                 onClick={() =>
                   setSvcModal({ name: "", category: categories[0] ?? "", price: "", active: true })
                 }
               >
-                <Plus size={15} /> Yangi xizmat
+                <Plus size={15} /> {t("Yangi xizmat")}
               </PrimaryButton>
             }
           />
-          <Table head={["Xizmat", "Kategoriya", "Narx", "Holat", ""]}>
+          <Table head={[t("Xizmat"), t("Kategoriya"), t("Narx"), t("Holat"), ""]}>
             {services.map((s) => (
               <tr key={s.id} className={s.active ? "hover:bg-slate-50" : "text-slate-400"}>
                 <td className="px-5 py-3 font-medium">{s.name}</td>
@@ -279,7 +280,7 @@ export default function Settings() {
                         : "bg-slate-100 text-slate-500"
                     }`}
                   >
-                    {s.active ? "Faol" : "O'chirilgan"}
+                    {s.active ? t("Faol") : t("O'chirilgan")}
                   </span>
                 </td>
                 <td className="px-5 py-3 text-right">
@@ -295,7 +296,7 @@ export default function Settings() {
                     }
                     className="inline-flex items-center gap-1.5 text-sm font-medium text-teal-600 hover:text-teal-700"
                   >
-                    <Pencil size={13} /> Tahrirlash
+                    <Pencil size={13} /> {t("Tahrirlash")}
                   </button>
                 </td>
               </tr>
@@ -308,19 +309,19 @@ export default function Settings() {
       {tab === "shifokorlar" && (
         <Card>
           <CardHeader
-            title="Shifokorlar"
-            subtitle="Qabulga yoziladigan shifokorlar ro'yxati"
+            title={t("Shifokorlar")}
+            subtitle={t("Qabulga yoziladigan shifokorlar ro'yxati")}
             action={
               <PrimaryButton
                 onClick={() =>
                   setDocModal({ name: "", specialty: "", room: "", active: true })
                 }
               >
-                <Plus size={15} /> Yangi shifokor
+                <Plus size={15} /> {t("Yangi shifokor")}
               </PrimaryButton>
             }
           />
-          <Table head={["Shifokor", "Mutaxassislik", "Xona", "Holat", ""]}>
+          <Table head={[t("Shifokor"), t("Mutaxassislik"), t("Xona"), t("Holat"), ""]}>
             {doctors.map((d) => (
               <tr key={d.id} className={d.active ? "hover:bg-slate-50" : "text-slate-400"}>
                 <td className="px-5 py-3 font-medium">{d.name}</td>
@@ -334,7 +335,7 @@ export default function Settings() {
                         : "bg-slate-100 text-slate-500"
                     }`}
                   >
-                    {d.active ? "Faol" : "O'chirilgan"}
+                    {d.active ? t("Faol") : t("O'chirilgan")}
                   </span>
                 </td>
                 <td className="px-5 py-3 text-right">
@@ -350,7 +351,7 @@ export default function Settings() {
                     }
                     className="inline-flex items-center gap-1.5 text-sm font-medium text-teal-600 hover:text-teal-700"
                   >
-                    <Pencil size={13} /> Tahrirlash
+                    <Pencil size={13} /> {t("Tahrirlash")}
                   </button>
                 </td>
               </tr>
@@ -363,8 +364,8 @@ export default function Settings() {
       {tab === "xodimlar" && (
         <Card>
           <CardHeader
-            title="Xodim hisoblari"
-            subtitle="Tizimga kirish hisoblari va ruxsatlar"
+            title={t("Xodim hisoblari")}
+            subtitle={t("Tizimga kirish hisoblari va ruxsatlar")}
             action={
               <PrimaryButton
                 onClick={() => {
@@ -378,21 +379,21 @@ export default function Settings() {
                   });
                 }}
               >
-                <UserPlus size={15} /> Yangi xodim
+                <UserPlus size={15} /> {t("Yangi xodim")}
               </PrimaryButton>
             }
           />
           {createdInfo && (
             <p className="mx-5 mt-4 rounded-lg bg-emerald-50 px-4 py-2.5 text-sm text-emerald-800">
               {createdInfo} — login va parolni xodimga yozib bering, parol qayta
-              ko'rsatilmaydi!
+              {t("ko'rsatilmaydi!")}
             </p>
           )}
-          <Table head={["Xodim", "Email", "Rol", "Holat", ""]}>
+          <Table head={[t("Xodim"), t("Email"), t("Rol"), t("Holat"), ""]}>
             {staff === null && (
               <tr>
                 <td colSpan={5} className="px-5 py-6 text-sm text-slate-400">
-                  Yuklanmoqda...
+                  {t("Yuklanmoqda...")}
                 </td>
               </tr>
             )}
@@ -407,7 +408,7 @@ export default function Settings() {
                   )}
                 </td>
                 <td className="px-5 py-3 text-slate-500">{r.email ?? "—"}</td>
-                <td className="px-5 py-3">{ROLE_LABELS[r.role] ?? r.role}</td>
+                <td className="px-5 py-3">{t(ROLE_LABELS[r.role] ?? r.role)}</td>
                 <td className="px-5 py-3">
                   <span
                     className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
@@ -424,7 +425,7 @@ export default function Settings() {
                     onClick={() => setResetModal({ row: r, password: genPassword() })}
                     className="inline-flex items-center gap-1 text-sm font-medium text-teal-600 hover:text-teal-700"
                   >
-                    <KeyRound size={13} /> Parol
+                    <KeyRound size={13} /> {t("Parol")}
                   </button>
                   {
                     <button
@@ -461,7 +462,7 @@ export default function Settings() {
       {/* ============ MODALLAR ============ */}
       {svcModal && (
         <Modal
-          title={svcModal.id ? "Xizmatni tahrirlash" : "Yangi xizmat"}
+          title={svcModal.id ? t("Xizmatni tahrirlash") : t("Yangi xizmat")}
           onClose={() => setSvcModal(null)}
         >
           <form
@@ -490,7 +491,7 @@ export default function Settings() {
               });
             }}
           >
-            <Field label="Xizmat nomi *">
+            <Field label={t("Xizmat nomi *")}>
               <input
                 required
                 className={inputCls}
@@ -498,7 +499,7 @@ export default function Settings() {
                 onChange={(e) => setSvcModal({ ...svcModal, name: e.target.value })}
               />
             </Field>
-            <Field label="Kategoriya *">
+            <Field label={t("Kategoriya *")}>
               <input
                 required
                 list="svc-cats"
@@ -512,7 +513,7 @@ export default function Settings() {
                 ))}
               </datalist>
             </Field>
-            <Field label="Narx (so'm) *">
+            <Field label={t("Narx (so'm) *")}>
               <input
                 required
                 inputMode="numeric"
@@ -528,10 +529,10 @@ export default function Settings() {
                 onChange={(e) => setSvcModal({ ...svcModal, active: e.target.checked })}
                 className="h-4 w-4 accent-teal-600"
               />
-              Faol (registratsiyada ko'rinadi)
+              {t("Faol (registratsiyada ko'rinadi)")}
             </label>
             <PrimaryButton type="submit" className="w-full justify-center">
-              {busy ? "Saqlanmoqda..." : "Saqlash"}
+              {busy ? t("Saqlanmoqda...") : t("Saqlash")}
             </PrimaryButton>
           </form>
         </Modal>
@@ -539,7 +540,7 @@ export default function Settings() {
 
       {docModal && (
         <Modal
-          title={docModal.id ? "Shifokorni tahrirlash" : "Yangi shifokor"}
+          title={docModal.id ? t("Shifokorni tahrirlash") : t("Yangi shifokor")}
           onClose={() => setDocModal(null)}
         >
           <form
@@ -567,7 +568,7 @@ export default function Settings() {
               });
             }}
           >
-            <Field label="F.I.Sh. *">
+            <Field label={t("F.I.Sh. *")}>
               <input
                 required
                 className={inputCls}
@@ -575,16 +576,16 @@ export default function Settings() {
                 onChange={(e) => setDocModal({ ...docModal, name: e.target.value })}
               />
             </Field>
-            <Field label="Mutaxassislik *">
+            <Field label={t("Mutaxassislik *")}>
               <input
                 required
-                placeholder="Masalan: Otorinolaringolog (LOR)"
+                placeholder={t("Masalan: Otorinolaringolog (LOR)")}
                 className={inputCls}
                 value={docModal.specialty}
                 onChange={(e) => setDocModal({ ...docModal, specialty: e.target.value })}
               />
             </Field>
-            <Field label="Xona">
+            <Field label={t("Xona")}>
               <input
                 className={inputCls}
                 value={docModal.room}
@@ -598,17 +599,17 @@ export default function Settings() {
                 onChange={(e) => setDocModal({ ...docModal, active: e.target.checked })}
                 className="h-4 w-4 accent-teal-600"
               />
-              Faol (qabulga yozish mumkin)
+              {t("Faol (qabulga yozish mumkin)")}
             </label>
             <PrimaryButton type="submit" className="w-full justify-center">
-              {busy ? "Saqlanmoqda..." : "Saqlash"}
+              {busy ? t("Saqlanmoqda...") : t("Saqlash")}
             </PrimaryButton>
           </form>
         </Modal>
       )}
 
       {staffModal && (
-        <Modal title="Yangi xodim hisobi" onClose={() => setStaffModal(null)}>
+        <Modal title={t("Yangi xodim hisobi")} onClose={() => setStaffModal(null)}>
           <form
             className="space-y-4"
             onSubmit={(e) => {
@@ -630,7 +631,7 @@ export default function Settings() {
               });
             }}
           >
-            <Field label="F.I.Sh. *">
+            <Field label={t("F.I.Sh. *")}>
               <input
                 required
                 className={inputCls}
@@ -638,7 +639,7 @@ export default function Settings() {
                 onChange={(e) => setStaffModal({ ...staffModal, fullName: e.target.value })}
               />
             </Field>
-            <Field label="Email (login) *">
+            <Field label={t("Email (login) *")}>
               <input
                 required
                 type="email"
@@ -647,7 +648,7 @@ export default function Settings() {
                 onChange={(e) => setStaffModal({ ...staffModal, email: e.target.value })}
               />
             </Field>
-            <Field label="Parol *">
+            <Field label={t("Parol *")}>
               <div className="flex gap-2">
                 <input
                   required
@@ -661,11 +662,11 @@ export default function Settings() {
                   onClick={() => setStaffModal({ ...staffModal, password: genPassword() })}
                   className="shrink-0 rounded-lg border border-slate-300 px-3 text-sm text-slate-600 hover:bg-slate-50"
                 >
-                  Yangi
+                  {t("Yangi")}
                 </button>
               </div>
             </Field>
-            <Field label="Rol *">
+            <Field label={t("Rol *")}>
               <select
                 className={inputCls}
                 value={staffModal.role}
@@ -673,19 +674,19 @@ export default function Settings() {
               >
                 {STAFF_ROLES.map((r) => (
                   <option key={r} value={r}>
-                    {ROLE_LABELS[r]}
+                    {t(ROLE_LABELS[r])}
                   </option>
                 ))}
               </select>
             </Field>
             {staffModal.role === "shifokor" && (
-              <Field label="Shifokor kabineti (doctors ro'yxatidan)">
+              <Field label={t("Shifokor kabineti (doctors ro'yxatidan)")}>
                 <select
                   className={inputCls}
                   value={staffModal.doctorId}
                   onChange={(e) => setStaffModal({ ...staffModal, doctorId: e.target.value })}
                 >
-                  <option value="">Bog'lanmasin</option>
+                  <option value="">{t("Bog'lanmasin")}</option>
                   {doctors
                     .filter((d) => d.active)
                     .map((d) => (
@@ -697,14 +698,14 @@ export default function Settings() {
               </Field>
             )}
             <PrimaryButton type="submit" className="w-full justify-center">
-              {busy ? "Yaratilmoqda..." : "Hisob yaratish"}
+              {busy ? t("Yaratilmoqda...") : t("Hisob yaratish")}
             </PrimaryButton>
           </form>
         </Modal>
       )}
 
       {resetModal && (
-        <Modal title="Parolni tiklash" onClose={() => setResetModal(null)}>
+        <Modal title={t("Parolni tiklash")} onClose={() => setResetModal(null)}>
           <form
             className="space-y-4"
             onSubmit={(e) => {
@@ -737,11 +738,11 @@ export default function Settings() {
                 onClick={() => setResetModal({ ...resetModal, password: genPassword() })}
                 className="shrink-0 rounded-lg border border-slate-300 px-3 text-sm text-slate-600 hover:bg-slate-50"
               >
-                Yangi
+                {t("Yangi")}
               </button>
             </div>
             <PrimaryButton type="submit" className="w-full justify-center">
-              {busy ? "Saqlanmoqda..." : "Parolni o'rnatish"}
+              {busy ? t("Saqlanmoqda...") : t("Parolni o'rnatish")}
             </PrimaryButton>
           </form>
         </Modal>

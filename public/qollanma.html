@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="uz">
 <head>
 <meta charset="utf-8">
@@ -7,20 +7,10 @@
 <title>KlinikaHMS qo'llanmasi</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
 <style>
-  /* Layout: chap yopishqoq mundarija + 720px o'qish ustuni; telefonda bitta ustun */
   :root {
-    --bg: #f6f8f8;
-    --surface: #ffffff;
-    --ink: #1c2b2d;
-    --muted: #5b6e70;
-    --line: #dde6e6;
-    --accent: #0d7c72;
-    --accent-soft: #e2f1ef;
-    --warn-bg: #fdf3e3;
-    --warn-ink: #8a5a12;
-    --danger-bg: #fdeaea;
-    --danger-ink: #a13333;
-    --kbd-bg: #eef3f3;
+    --bg: #f6f8f8; --surface: #ffffff; --ink: #1c2b2d; --muted: #5b6e70;
+    --line: #dde6e6; --accent: #0d7c72; --accent-soft: #e2f1ef;
+    --warn-bg: #fdf3e3; --warn-ink: #8a5a12; --kbd-bg: #eef3f3;
     --font-display: "Sora", "Segoe UI", system-ui, sans-serif;
     --font-body: "Manrope", "Segoe UI", system-ui, sans-serif;
     --font-mono: "JetBrains Mono", Consolas, monospace;
@@ -29,50 +19,41 @@
     :root:not([data-theme="light"]) {
       --bg: #101b1c; --surface: #162425; --ink: #e4edec; --muted: #93a7a7;
       --line: #27393a; --accent: #3cbfab; --accent-soft: #15332f;
-      --warn-bg: #332a14; --warn-ink: #e3b35f;
-      --danger-bg: #371d1d; --danger-ink: #e08f8f;
-      --kbd-bg: #1d2f30;
+      --warn-bg: #332a14; --warn-ink: #e3b35f; --kbd-bg: #1d2f30;
       color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
     --bg: #101b1c; --surface: #162425; --ink: #e4edec; --muted: #93a7a7;
     --line: #27393a; --accent: #3cbfab; --accent-soft: #15332f;
-    --warn-bg: #332a14; --warn-ink: #e3b35f;
-    --danger-bg: #371d1d; --danger-ink: #e08f8f;
-    --kbd-bg: #1d2f30;
+    --warn-bg: #332a14; --warn-ink: #e3b35f; --kbd-bg: #1d2f30;
     color-scheme: dark;
   }
-
+  * { box-sizing: border-box; }
   body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: var(--font-body);
-    font-size: 15.5px;
-    line-height: 1.65;
-    padding-inline: 16px;
-    padding-block: 0 64px;
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--font-body); font-size: 15.5px; line-height: 1.65;
+    padding-inline: 16px; padding-block: 0 64px;
   }
   .wrap { max-width: 1060px; margin: 0 auto; display: grid; grid-template-columns: 230px minmax(0,1fr); gap: 40px; }
   @media (max-width: 860px) { .wrap { grid-template-columns: minmax(0,1fr); gap: 0; } }
-
-  header.hero { max-width: 1060px; margin: 0 auto; padding-block: 44px 28px; }
-  .hero .brand {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em;
-    color: var(--accent); text-transform: uppercase;
-  }
-  .hero .brand::before { content: "+"; display: inline-grid; place-items: center;
-    width: 20px; height: 20px; border-radius: 6px; background: var(--accent); color: #fff; font-weight: 700; }
-  .hero h1 { font-family: var(--font-display); font-size: clamp(26px, 4.5vw, 38px); margin: 10px 0 8px; text-wrap: balance; }
+  header.hero { max-width: 1060px; margin: 0 auto; padding-block: 36px 24px; }
+  .topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .brand { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono);
+    font-size: 12px; letter-spacing: .08em; color: var(--accent); text-transform: uppercase; }
+  .brand::before { content: "+"; display: inline-grid; place-items: center; width: 20px; height: 20px;
+    border-radius: 6px; background: var(--accent); color: #fff; font-weight: 700; }
+  .langs { display: inline-flex; gap: 4px; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 999px; padding: 4px; }
+  .langs button { border: 0; background: transparent; color: var(--muted); font: 700 12px var(--font-body);
+    padding: 5px 13px; border-radius: 999px; cursor: pointer; }
+  .langs button.on { background: var(--accent); color: #fff; }
+  .hero h1 { font-family: var(--font-display); font-size: clamp(26px, 4.5vw, 38px); margin: 14px 0 8px; text-wrap: balance; }
   .hero p { color: var(--muted); max-width: 62ch; margin: 0; }
-  .hero .site {
-    display: inline-block; margin-top: 14px; font-family: var(--font-mono); font-size: 14px;
-    background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px;
-  }
+  .hero .site { display: inline-block; margin-top: 14px; font-family: var(--font-mono); font-size: 14px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; }
   .hero .site a { color: var(--accent); text-decoration: none; font-weight: 600; }
-
-  nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); align-self: start; }
+  nav.toc { position: sticky; top: 16px; align-self: start; }
   nav.toc .toc-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em;
     text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
   nav.toc a { display: block; color: var(--muted); text-decoration: none; font-size: 13.5px;
@@ -83,12 +64,10 @@
     nav.toc .links { display: flex; flex-wrap: wrap; gap: 6px; }
     nav.toc a { border: 1px solid var(--line); border-radius: 999px; padding: 5px 11px; background: var(--surface); }
   }
-
   main { min-width: 0; }
   section { background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
     padding: 26px 28px; margin-bottom: 22px; scroll-margin-top: 16px; }
   @media (max-width: 480px) { section { padding: 20px 16px; } }
-
   .eyebrow { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-mono);
     font-size: 11px; letter-spacing: .09em; text-transform: uppercase; font-weight: 500;
     color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 4px 11px; }
@@ -97,281 +76,644 @@
   section > p, section li { max-width: 68ch; }
   p { margin: 8px 0; }
   .who { color: var(--muted); font-size: 13.5px; margin-top: 0; }
-
   ol.steps { margin: 10px 0 0; padding: 0; list-style: none; counter-reset: s; }
   ol.steps li { counter-increment: s; position: relative; padding: 0 0 14px 40px; }
-  ol.steps li::before { content: counter(s); position: absolute; left: 0; top: 1px;
-    width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center;
-    background: var(--accent-soft); color: var(--accent); font-family: var(--font-mono);
-    font-size: 13px; font-weight: 500; }
-  ol.steps li:not(:last-child)::after { content: ""; position: absolute; left: 12.5px; top: 30px;
-    bottom: 2px; width: 1px; background: var(--line); }
-
+  ol.steps li::before { content: counter(s); position: absolute; left: 0; top: 1px; width: 26px; height: 26px;
+    border-radius: 8px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent);
+    font-family: var(--font-mono); font-size: 13px; font-weight: 500; }
+  ol.steps li:not(:last-child)::after { content: ""; position: absolute; left: 12.5px; top: 30px; bottom: 2px;
+    width: 1px; background: var(--line); }
   ul { margin: 8px 0; padding-left: 20px; }
   ul li { margin: 4px 0; }
-
-  kbd.btn { font-family: var(--font-body); font-size: .88em; font-weight: 700;
-    background: var(--kbd-bg); border: 1px solid var(--line); border-bottom-width: 2px;
-    border-radius: 7px; padding: 1px 8px; white-space: nowrap; }
+  kbd.btn { font-family: var(--font-body); font-size: .88em; font-weight: 700; background: var(--kbd-bg);
+    border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 7px; padding: 1px 8px; white-space: nowrap; }
   .path { font-family: var(--font-mono); font-size: .86em; color: var(--accent); font-weight: 500; white-space: nowrap; }
-
   .note, .warn { border-radius: 10px; padding: 11px 14px; margin: 12px 0; font-size: 14px; max-width: 68ch; }
-  .note { background: var(--accent-soft); color: var(--ink); }
-  .note b:first-child { color: var(--accent); }
+  .note { background: var(--accent-soft); }
   .warn { background: var(--warn-bg); color: var(--warn-ink); }
-  .danger { background: var(--danger-bg); color: var(--danger-ink); border-radius: 10px; padding: 11px 14px; margin: 12px 0; font-size: 14px; max-width: 68ch; }
-
   .tbl-wrap { overflow-x: auto; margin: 12px 0; }
   table { border-collapse: collapse; width: 100%; font-size: 14px; }
   th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
   th { font-family: var(--font-mono); font-size: 11px; letter-spacing: .07em; text-transform: uppercase;
     color: var(--muted); font-weight: 500; }
-  td b { font-weight: 700; }
-
-  .formula { font-family: var(--font-mono); font-size: 13.5px; background: var(--kbd-bg);
-    border-radius: 10px; padding: 12px 16px; margin: 12px 0; overflow-x: auto; }
-
+  .formula { font-family: var(--font-mono); font-size: 13.5px; background: var(--kbd-bg); border-radius: 10px;
+    padding: 12px 16px; margin: 12px 0; overflow-x: auto; }
   details { border: 1px solid var(--line); border-radius: 10px; margin: 10px 0; max-width: 68ch; }
   details summary { cursor: pointer; font-weight: 700; padding: 11px 14px; }
   details[open] summary { border-bottom: 1px solid var(--line); }
   details .a { padding: 10px 14px 13px; }
-  details .a p { margin: 6px 0; }
-
+  .lang-block { display: none; }
+  .lang-block.on { display: block; }
   footer { max-width: 1060px; margin: 8px auto 0; color: var(--muted); font-size: 13px; }
+  img { max-width: 100%; }
 </style>
 </head>
 <body>
 
 <header class="hero">
-  <span class="brand">KlinikaHMS</span>
-  <h1>Klinika boshqaruv tizimi — foydalanish qo'llanmasi</h1>
-  <p>Registratsiyadan kassagacha, ombordan hisobotgacha — har bir xodim o'z bo'limini o'qisa yetarli. Qo'llanma barcha rollar uchun kunlik ish tartibini qamrab oladi.</p>
-  <span class="site">Sayt: <a href="https://klinika-hms.web.app" rel="noopener">klinika-hms.web.app</a></span>
+  <div class="topbar">
+    <span class="brand">KlinikaHMS</span>
+    <div class="langs" id="langs">
+      <button data-l="uz">UZ</button>
+      <button data-l="ru">РУ</button>
+      <button data-l="en">EN</button>
+    </div>
+  </div>
+  <div class="lang-block" data-lang="uz">
+    <h1>Klinika boshqaruv tizimi — foydalanish qo'llanmasi</h1>
+    <p>Registratsiyadan kassagacha, ombordan hisobotgacha — har bir xodim o'z bo'limini o'qisa yetarli.</p>
+  </div>
+  <div class="lang-block" data-lang="ru">
+    <h1>Система управления клиникой — руководство пользователя</h1>
+    <p>От регистратуры до кассы, от склада до отчётов — каждому сотруднику достаточно прочитать свой раздел.</p>
+  </div>
+  <div class="lang-block" data-lang="en">
+    <h1>Clinic management system — user guide</h1>
+    <p>From reception to cashier, inventory to reports — each employee only needs their own section.</p>
+  </div>
+  <span class="site"><a href="https://klinika-hms.web.app" rel="noopener">klinika-hms.web.app</a></span>
 </header>
 
+<!-- ======================= UZ ======================= -->
+<div class="lang-block" data-lang="uz">
 <div class="wrap">
 <nav class="toc">
   <div class="toc-label">Mundarija</div>
   <div class="links">
-    <a href="#kirish">Tizimga kirish va rollar</a>
-    <a href="#kun">Kunlik ish tartibi</a>
-    <a href="#registratsiya">Registratsiya (yangi qabul)</a>
-    <a href="#kassa">Kassa va to'lovlar</a>
-    <a href="#pos">Sotuv (POS) va dorixona</a>
-    <a href="#smena">Kassa smenasi</a>
-    <a href="#shifokor">Shifokor kabineti</a>
-    <a href="#laborant">Laboratoriya</a>
-    <a href="#ombor">Ombor</a>
-    <a href="#direktor">Direktor kabineti</a>
-    <a href="#printer">Chek printeri (XPrinter)</a>
-    <a href="#faq">Tez-tez so'raladigan savollar</a>
+    <a href="#uz-kirish">Tizimga kirish va rollar</a>
+    <a href="#uz-kun">Kunlik ish tartibi</a>
+    <a href="#uz-reg">Registratsiya</a>
+    <a href="#uz-kassa">Kassa</a>
+    <a href="#uz-pos">Sotuv (POS)</a>
+    <a href="#uz-smena">Kassa smenasi</a>
+    <a href="#uz-shifokor">Shifokor</a>
+    <a href="#uz-lab">Laboratoriya</a>
+    <a href="#uz-ombor">Ombor</a>
+    <a href="#uz-direktor">Direktor</a>
+    <a href="#uz-printer">Printer</a>
+    <a href="#uz-faq">Savol-javob</a>
   </div>
 </nav>
-
 <main>
 
-<section id="kirish">
+<section id="uz-kirish">
   <span class="eyebrow">Hamma uchun</span>
   <h2>Tizimga kirish va rollar</h2>
-  <p>Brauzerda <b>klinika-hms.web.app</b> manzilini oching va o'z email + parolingiz bilan kiring. Hisoblarni klinika rahbari yaratadi va parolni shaxsan beradi. Tizim kompyuter, planshet va telefonda ishlaydi.</p>
+  <p>Brauzerda <b>klinika-hms.web.app</b> ni oching va email + parolingiz bilan kiring. Hisoblarni klinika rahbari yaratadi. Interfeys tilini (UZ/РУ/EN) yuqori o'ng burchakdagi tugmalardan almashtirasiz — tanlov eslab qolinadi.</p>
   <div class="tbl-wrap"><table>
     <tr><th>Rol</th><th>Nimalarni ko'radi va qiladi</th></tr>
     <tr><td><b>Registratura</b></td><td>Bemorlar, yangi qabul, kassa, POS sotuv, kassa smenasi</td></tr>
     <tr><td><b>Shifokor</b></td><td>Faqat o'ziga yozilgan va to'lovi tasdiqlangan bemorlar; qabulni yakunlash</td></tr>
     <tr><td><b>Hisobchi / Kassa</b></td><td>Dashboard, kassa, POS, smena, hisobotlar, qaytarishlar, ta'minotchi to'lovlari</td></tr>
-    <tr><td><b>Laborant</b></td><td>Faqat tahlil buyurtmalari va natija kiritish (tashxis tarixi ko'rinmaydi)</td></tr>
-    <tr><td><b>Omborchi</b></td><td>Faqat Ombor: mahsulotlar, kirim, zaxira amallari (bemor kartalari ko'rinmaydi)</td></tr>
-    <tr><td><b>Direktor</b></td><td>Hammasi + Sozlamalar: xodimlar, narxnoma, shifokorlar, klinika rekvizitlari</td></tr>
+    <tr><td><b>Laborant</b></td><td>Faqat tahlil buyurtmalari va natija kiritish</td></tr>
+    <tr><td><b>Omborchi</b></td><td>Faqat Ombor: mahsulotlar, kirim, zaxira amallari</td></tr>
+    <tr><td><b>Direktor</b></td><td>Hammasi + Sozlamalar: xodimlar, narxnoma, shifokorlar, rekvizitlar</td></tr>
   </table></div>
-  <div class="note"><b>Muhim:</b> parolni hech kimga bermang va boshqa xodim hisobidan ishlamang — tizim har bir amalni kim qilganini yozib boradi (audit jurnal).</div>
+  <div class="note"><b>Muhim:</b> parolni hech kimga bermang — tizim har bir amalni kim qilganini yozib boradi (audit jurnal).</div>
 </section>
 
-<section id="kun">
+<section id="uz-kun">
   <span class="eyebrow">Registratura · Hisobchi</span>
   <h2>Kunlik ish tartibi</h2>
   <ol class="steps">
-    <li><b>Ertalab:</b> kassadagi naqd pulni sanang va <span class="path">Kassa smenasi</span> sahifasida <kbd class="btn">Smena ochish</kbd> tugmasi bilan smenani oching.</li>
-    <li><b>Kun davomida:</b> bemorlarni qabulga yozing, to'lov oling, chek chiqaring. Hammasi avtomatik hisobga tushadi.</li>
-    <li><b>Kech:</b> kassadagi naqdni qayta sanang va <kbd class="btn">Smenani yopish</kbd> bosing — tizim kutilgan va haqiqiy summani solishtirib, farqni ko'rsatadi.</li>
+    <li><b>Ertalab:</b> kassadagi naqdni sanang va <span class="path">Kassa smenasi</span>da <kbd class="btn">Smena ochish</kbd>.</li>
+    <li><b>Kun davomida:</b> qabulga yozish, to'lov olish, chek chiqarish — hammasi avtomatik hisobga tushadi.</li>
+    <li><b>Kech:</b> naqdni qayta sanab <kbd class="btn">Smenani yopish</kbd> — tizim kutilgan va haqiqiy summani solishtiradi.</li>
   </ol>
-  <p>Sahifalar har 3 daqiqada o'zi yangilanib turadi — kun davomida sahifani qayta ochish shart emas.</p>
+  <p>Sahifalar har 3 daqiqada o'zi yangilanadi.</p>
 </section>
 
-<section id="registratsiya">
+<section id="uz-reg">
   <span class="eyebrow">Registratura</span>
   <h2>Registratsiya — yangi qabul</h2>
   <p class="who">Menyu: <span class="path">Yangi qabul</span></p>
   <ol class="steps">
-    <li><b>Bemorni tanlang.</b> O'ng paneldagi qidiruvga ism, ID yoki telefon yozing. Bemor yangi bo'lsa — <kbd class="btn">Yangi bemor qo'shish</kbd>: ism, telefon, tug'ilgan sana kifoya. Telefon avval ro'yxatdan o'tgan bo'lsa, tizim mavjud bemorni o'zi tanlaydi (ikki marta yozilmaydi).</li>
-    <li><b>Shifokorni tanlang.</b></li>
-    <li><b>Xizmatlarni belgilang.</b> Yuqoridagi qidiruvdan yozib toping ("qon", "EKG", "punksiya"...) yoki kategoriyani ochib belgilang. Yotoq (statsionar) tanlansa, yonida <b>necha kun</b>ligini tanlaysiz — summa kuniga hisoblanadi.</li>
-    <li><b>To'lov.</b> Usulni tanlab <kbd class="btn">To'lov + chek chiqarish</kbd> bosing — chekda navbat raqami katta chiqadi, uni bemorga bering. Bemor keyinroq to'lasa — <kbd class="btn">Faqat ro'yxatga olish</kbd>: u Kassada "to'lov kutilmoqda" bo'lib turadi.</li>
+    <li><b>Bemor:</b> qidiruvga ism/ID/telefon yozing; yangi bo'lsa — <kbd class="btn">Yangi bemor qo'shish</kbd>. Telefon avval ro'yxatda bo'lsa, tizim mavjud bemorni o'zi tanlaydi.</li>
+    <li><b>Shifokor</b>ni tanlang.</li>
+    <li><b>Xizmatlar:</b> qidiruvdan toping yoki kategoriyani ochib belgilang. Yotoq (statsionar) tanlansa, kun sonini tanlaysiz.</li>
+    <li><b>To'lov:</b> <kbd class="btn">To'lov + chek chiqarish</kbd> — chekda navbat raqami katta chiqadi. Keyin to'lasa — <kbd class="btn">Faqat ro'yxatga olish</kbd>.</li>
   </ol>
-  <div class="note"><b>Qoida:</b> to'lov tasdiqlanmaguncha bemor shifokorga ko'rinmaydi. To'lov o'tishi bilan shifokor kabinetida avtomatik paydo bo'ladi.</div>
+  <div class="note"><b>Qoida:</b> to'lov tasdiqlanmaguncha bemor shifokorga ko'rinmaydi.</div>
 </section>
 
-<section id="kassa">
+<section id="uz-kassa">
   <span class="eyebrow">Registratura · Hisobchi</span>
   <h2>Kassa va to'lovlar</h2>
   <p class="who">Menyu: <span class="path">Kassa / To'lovlar</span></p>
   <ul>
-    <li><b>To'lov qabul qilish:</b> "To'lov kutilayotganlar" ro'yxatidan bemorni toping, <kbd class="btn">To'lov qabul qilish</kbd> → usulni tanlang → tasdiqlang. Chek o'zi chiqadi, bemor shifokor navbatiga o'tadi.</li>
-    <li><b>Chekni qayta chiqarish:</b> "Bugungi to'lovlar" jadvalida <kbd class="btn">Chek</kbd>.</li>
-    <li><b>To'lovni qaytarish:</b> qatorda <kbd class="btn">Qaytarish</kbd> → ogohlantirishni o'qib tasdiqlang. Summa bugungi tushumdan chiqariladi va "Qaytarildi" bo'limida alohida ko'rinadi. Naqd bo'lsa pulni bemorga qo'lda qaytaring.</li>
+    <li><b>To'lov:</b> ro'yxatdan bemorni toping → <kbd class="btn">To'lov qabul qilish</kbd> → usul → tasdiqlang. Chek o'zi chiqadi.</li>
+    <li><b>Chekni qayta chiqarish:</b> jadvalda <kbd class="btn">Chek</kbd>.</li>
+    <li><b>Qaytarish:</b> <kbd class="btn">Qaytarish</kbd> → tasdiqlang. Summa tushumdan chiqadi, naqd bo'lsa pulni qo'lda qaytaring.</li>
   </ul>
-  <div class="warn">Qaytarilgan to'lov Z-hisobotga (kun tushumiga) qo'shilmaydi — xato urilgan to'lovni shu tugma bilan to'g'rilang, boshqacha yo'l qidirmang.</div>
+  <div class="warn">Qaytarilgan to'lov Z-hisobotga qo'shilmaydi — xato to'lovni faqat shu tugma bilan to'g'rilang.</div>
 </section>
 
-<section id="pos">
+<section id="uz-pos">
   <span class="eyebrow">Registratura · Hisobchi</span>
-  <h2>Sotuv (POS) — dori va mahsulotlar</h2>
+  <h2>Sotuv (POS)</h2>
   <p class="who">Menyu: <span class="path">Sotuv (POS)</span> va <span class="path">Sotuvlar</span></p>
   <ol class="steps">
-    <li>Qidiruvga mahsulot nomini yozing yoki <b>shtrix-kod skanerini</b> o'qiting (skaner o'zi topib savatga qo'shadi). Har mahsulot yonida omborda nechta qolgani ko'rinadi.</li>
-    <li>Savatda miqdorni <b>+/−</b> bilan o'zgartiring. Omborda yo'q narsani tizim sotdirmaydi.</li>
-    <li>Istasangiz bemorni ulang (xarid uning kartasida ko'rinadi) — majburiy emas.</li>
-    <li>Chegirma bo'lsa, so'mda kiriting.</li>
-    <li>To'lov usulini tanlang. Bemor qisman naqd, qisman karta to'lasa — <b>"Bo'lib to'lash"</b>ni belgilab ikkinchi usul va summasini kiriting.</li>
-    <li><kbd class="btn">Sotish + chek chiqarish</kbd> — chek raqami bilan chiqadi.</li>
+    <li>Mahsulot nomini yozing yoki <b>shtrix-kod skanerini</b> o'qiting.</li>
+    <li>Savatda miqdorni o'zgartiring — ombordagidan ortiq sotib bo'lmaydi.</li>
+    <li>Istasangiz bemorni ulang (xaridi kartasida ko'rinadi).</li>
+    <li>Chegirma kiriting (bo'lsa); qisman naqd + karta bo'lsa — <b>"Bo'lib to'lash"</b>.</li>
+    <li><kbd class="btn">Sotish + chek chiqarish</kbd>.</li>
   </ol>
-  <h3>Sotuvni qaytarish</h3>
-  <p><span class="path">Sotuvlar</span> sahifasida kunni tanlab, kerakli chek qatorida <kbd class="btn">Qaytarish</kbd> bosiladi: qaysi mahsulotdan nechta qaytayotganini va sababini kiritasiz. Mahsulot omborga qaytadi, summa tushumdan chiqadi. Qaytarishni faqat <b>direktor va hisobchi</b> qila oladi.</p>
+  <p><b>Qaytarish:</b> <span class="path">Sotuvlar</span>da chek qatorida <kbd class="btn">Qaytarish</kbd> — miqdor va sabab kiritiladi, mahsulot omborga qaytadi. Faqat direktor/hisobchi.</p>
 </section>
 
-<section id="smena">
+<section id="uz-smena">
   <span class="eyebrow">Registratura · Hisobchi</span>
-  <h2>Kassa smenasi — naqd pul hisobi</h2>
+  <h2>Kassa smenasi</h2>
   <p class="who">Menyu: <span class="path">Kassa smenasi</span></p>
   <ul>
-    <li><b>Ochish:</b> kassadagi boshlang'ich naqdni kiritasiz. Bir vaqtda faqat bitta smena ochiq bo'ladi.</li>
-    <li><b>Kun davomida</b> sahifa naqd tushumni (xizmatlar + POS) o'zi sanab boradi. Kassadan qo'lda pul olsangiz/qo'shsangiz — <kbd class="btn">Kirim</kbd>/<kbd class="btn">Chiqim</kbd> tugmasi bilan, sabab yozish majburiy.</li>
-    <li><b>Yopish:</b> naqdni sanab <kbd class="btn">Smenani yopish</kbd>da kiritasiz — farq darhol ko'rinadi va tarixda saqlanadi. Yopilgan smenani hech kim o'zgartira olmaydi.</li>
+    <li><b>Ochish:</b> boshlang'ich naqdni kiriting (bitta ochiq smena bo'ladi).</li>
+    <li><b>Kun davomida:</b> naqd tushum avtomatik sanaladi; qo'lda pul olish/qo'shish — <kbd class="btn">Kirim</kbd>/<kbd class="btn">Chiqim</kbd>, sabab majburiy.</li>
+    <li><b>Yopish:</b> sanalgan naqdni kiriting — farq darhol ko'rinadi, tarixda saqlanadi.</li>
   </ul>
   <div class="formula">Kutilgan naqd = boshlang'ich + naqd sotuvlar − naqd qaytarishlar + kirim − chiqim</div>
-  <div class="note"><b>Eslatma:</b> Click, Payme, Uzum va karta to'lovlari naqd kassaga qo'shilmaydi — ular alohida qatorda ko'rsatiladi.</div>
+  <div class="note"><b>Eslatma:</b> Click/Payme/Uzum/karta naqd kassaga qo'shilmaydi.</div>
 </section>
 
-<section id="shifokor">
+<section id="uz-shifokor">
   <span class="eyebrow">Shifokor</span>
   <h2>Shifokor kabineti</h2>
-  <p class="who">Menyu: <span class="path">Shifokor kabineti</span> — har shifokor faqat o'z kabinetini ko'radi</p>
   <ol class="steps">
-    <li>Ro'yxatda faqat <b>to'lovi tasdiqlangan</b> bemorlar chiqadi, navbat tartibida. Allergiya va surunkali kasalliklar kartada qizil/sariq belgida.</li>
-    <li>Bemor kelganda <kbd class="btn">Navbatga olish</kbd> → <kbd class="btn">Qabulni boshlash</kbd>.</li>
-    <li>Ko'rik tugagach <kbd class="btn">Yakunlash</kbd>: shikoyat, tashxis (ICD-10 kodi bilan, masalan <i>J32.0 — surunkali gaymorit</i>) va tavsiya yoziladi — hammasi bemorning elektron kartasida saqlanadi.</li>
-    <li>Bemorning oldingi tashriflari va tahlillarini ko'rish uchun <kbd class="btn">Tibbiy kartani ochish</kbd>.</li>
+    <li>Ro'yxatda faqat <b>to'langan</b> bemorlar. Allergiya/surunkali kasallik qizil-sariq belgida.</li>
+    <li><kbd class="btn">Navbatga olish</kbd> → <kbd class="btn">Qabulni boshlash</kbd>.</li>
+    <li><kbd class="btn">Yakunlash</kbd>: shikoyat, ICD-10 tashxis, tavsiya — elektron kartada saqlanadi.</li>
   </ol>
 </section>
 
-<section id="laborant">
+<section id="uz-lab">
   <span class="eyebrow">Laborant</span>
   <h2>Laboratoriya</h2>
-  <p class="who">Menyu: <span class="path">Laboratoriya</span></p>
-  <p>"Kutilayotgan tahlillar" ro'yxatida <kbd class="btn">Natija kiritish</kbd> bosib, qiymatni yozasiz. Natija norma chegarasidan chiqsa tizim o'zi rang bilan belgilaydi: yuqori — qizil, past — sariq. Laborantga bemorning tashxis tarixi ko'rinmaydi — faqat unga yo'llangan tahlillar.</p>
+  <p>"Kutilayotgan tahlillar"da <kbd class="btn">Natija kiritish</kbd>. Normadan chiqsa rang bilan belgilanadi (yuqori — qizil, past — sariq). Laborantga tashxis tarixi ko'rinmaydi.</p>
 </section>
 
-<section id="ombor">
+<section id="uz-ombor">
   <span class="eyebrow">Omborchi · Direktor</span>
-  <h2>Ombor — mahsulot, kirim, zaxira</h2>
-  <p class="who">Menyu: <span class="path">Ombor</span> (Mahsulotlar · Kirim · Harakatlar · Ta'minotchilar)</p>
-  <h3>Mahsulot qo'shish</h3>
-  <p><kbd class="btn">Yangi mahsulot</kbd>: nom, SKU/shtrix-kod, kategoriya, sotuv narxi, o'lchov birligi, minimal zaxira (shu miqdordan kamaysa ogohlantiradi) va yaroqlilik muddati. Zaxira miqdori bu yerda yozilmaydi — u faqat Kirim yoki Zaxira amali orqali kiradi.</p>
-  <h3>Kirim (xarid) qilish</h3>
+  <h2>Ombor</h2>
+  <h3>Mahsulot</h3>
+  <p><kbd class="btn">Yangi mahsulot</kbd>: nom, SKU/shtrix-kod, narx, birlik, minimal zaxira, muddat. Zaxira bu yerda yozilmaydi — faqat Kirim yoki Zaxira amali orqali.</p>
+  <h3>Kirim</h3>
   <ol class="steps">
-    <li>Avval <span class="path">Ta'minotchilar</span> bo'limida ta'minotchini qo'shing (bir marta).</li>
-    <li><span class="path">Kirim</span> → <kbd class="btn">Yangi kirim</kbd>: mahsulot, miqdor va <b>kirim narxi</b>ni kiriting.</li>
-    <li>Qabul qilingach zaxira oshadi va tizim <b>o'rtacha tannarx</b>ni o'zi yangilaydi — foyda hisobotlari shu asosda yuradi.</li>
+    <li>Ta'minotchini qo'shing (bir marta).</li>
+    <li><kbd class="btn">Yangi kirim</kbd>: mahsulot, miqdor, kirim narxi.</li>
+    <li>Qabul qilingach zaxira oshadi, o'rtacha tannarx yangilanadi. Qarz bo'lsa "Qarz" ustunida ko'rinadi, <kbd class="btn">To'lash</kbd> bilan yopiladi.</li>
   </ol>
-  <h3>Zaxira amali va ogohlantirishlar</h3>
+  <h3>Nazorat</h3>
   <ul>
-    <li>Buzilgan yoki muddati o'tgan mahsulot: qatorda <kbd class="btn">Zaxira</kbd> → "Hisobdan chiqarish", sabab bilan. Inventarizatsiya farqi — "Tuzatish".</li>
-    <li>Sahifa tepasida <b>kam qolgan</b> va <b>muddati yaqin/tugagan</b> mahsulotlar soni ko'rinadi — bosilsa ro'yxat ochiladi.</li>
-    <li>Har bir zaxira o'zgarishi <span class="path">Harakatlar</span>da iz qoldiradi: kim, qachon, nechta, nima sababdan.</li>
-    <li>Ta'minotchidan qarzga olingan bo'lsa, "Qarz" ustunida qoldiq turadi — <kbd class="btn">To'lash</kbd> bilan (direktor/hisobchi) qisman yoki to'liq yopiladi.</li>
+    <li>Buzilgan/muddati o'tgan: <kbd class="btn">Zaxira</kbd> → Hisobdan chiqarish (sabab bilan).</li>
+    <li>Tepadagi ogohlantirishlar: kam qolgan va muddati yaqin mahsulotlar.</li>
+    <li><span class="path">Harakatlar</span> — har o'zgarish: kim, qachon, nechta, sabab.</li>
   </ul>
 </section>
 
-<section id="direktor">
+<section id="uz-direktor">
   <span class="eyebrow">Direktor</span>
   <h2>Direktor kabineti</h2>
   <ul>
-    <li><b>Boshqaruv paneli</b> — bugungi qabullar, tushum, POS savdosi, haftalik grafik bir qarashda.</li>
-    <li><b>KPI / Hisobotlar</b> — davrni tanlang (Bugun / 7 kun / 30 kun / Hammasi): vrachlar statistikasi summalari bilan, yo'nalishlar bo'yicha tushum, mahsulot savdosi (sof tushum, tannarx, yalpi foyda), ombor qiymati, ta'minotchi qarzi.</li>
-    <li><b>Qabullar</b> va <b>Sotuvlar</b> sahifalarida sanani tanlab istalgan o'tgan kunning hisobotini ko'rasiz.</li>
-    <li><b>Audit jurnal</b> — kim qaysi bemor kartasini ochgani, nimani o'zgartirgani. Jurnal o'chirib bo'lmaydi.</li>
+    <li><b>Hisobotlar:</b> davr tanlang — vrachlar statistikasi, mahsulot foydasi (o'rtacha tannarx), ombor qiymati, qarzlar.</li>
+    <li><b>Qabullar/Sotuvlar</b>da sana tanlab o'tgan kunlarni ko'ring.</li>
+    <li><b>Audit jurnal</b> — kim nimani ko'rgani/o'zgartirgani; o'chirib bo'lmaydi.</li>
   </ul>
   <h3>Sozlamalar</h3>
   <div class="tbl-wrap"><table>
     <tr><th>Bo'lim</th><th>Nima qilinadi</th></tr>
-    <tr><td><b>Klinika</b></td><td>Nomi, manzili, telefoni, Google Maps havolasi — chek va undagi QR shu yerdan oladi</td></tr>
-    <tr><td><b>Xizmatlar</b></td><td>Narxnoma: yangi xizmat qo'shish, narxni o'zgartirish, kerak bo'lmaganini o'chirish</td></tr>
-    <tr><td><b>Shifokorlar</b></td><td>Shifokor qo'shish/tahrirlash, xona raqami, faolsizlantirish</td></tr>
-    <tr><td><b>Xodimlar</b></td><td>Hisob yaratish (email + parol, rol tanlanadi; shifokorga o'z kabineti bog'lanadi), parolni tiklash, ketgan xodimni <b>Bloklash</b></td></tr>
+    <tr><td><b>Klinika</b></td><td>Nom, manzil, telefon, Maps havolasi (chek va QR)</td></tr>
+    <tr><td><b>Xizmatlar</b></td><td>Narxnoma qo'shish/tahrirlash/o'chirish</td></tr>
+    <tr><td><b>Shifokorlar</b></td><td>Qo'shish, xona, faolsizlantirish</td></tr>
+    <tr><td><b>Xodimlar</b></td><td>Hisob yaratish, parol tiklash, bloklash</td></tr>
   </table></div>
-  <div class="warn">Yangi xodim yaratilganda parol ekranda <b>bir marta</b> ko'rsatiladi — darhol yozib oling va xodimga shaxsan bering.</div>
-  <div class="note"><b>Platforma egasi uchun:</b> superadmin hisobida "Klinikalar" sahifasi ochiladi — <kbd class="btn">Yangi klinika</kbd> bilan yangi klinika va uning direktor hisobi bir qadamda yaratiladi. Keyin direktor hamma narsani o'z Sozlamalaridan o'zi boshqaradi.</div>
+  <div class="warn">Yangi xodim paroli ekranda <b>bir marta</b> ko'rsatiladi — darhol yozib oling.</div>
 </section>
 
-<section id="printer">
+<section id="uz-printer">
   <span class="eyebrow">Bir martalik sozlash</span>
   <h2>Chek printeri (XPrinter)</h2>
   <ol class="steps">
-    <li>Printerni USB orqali ulang va XPrinter drayverini o'rnating (printer bilan kelgan disk yoki xprinter.net → Download).</li>
-    <li>Windows: <span class="path">Settings → Printers</span> da uni <b>default printer</b> qiling; qog'oz o'lchami: 58(48)×210mm.</li>
-    <li>Saytda birinchi chek chiqqanda Chrome oynasida: Destination = XPrinter, Margins = <b>None</b>, Scale = 100. Chrome buni eslab qoladi.</li>
-    <li>Dialogsiz (bir bosishda) chiqarish uchun Chrome yorlig'ini <span class="path">chrome.exe --kiosk-printing</span> parametri bilan ishga tushiring.</li>
-    <li>Brauzer so'rasa saytga <b>popup ruxsatini bering</b> — chek alohida oynachada ochiladi.</li>
+    <li>USB ulang, drayverni o'rnating (xprinter.net → Download).</li>
+    <li>Windows'da <b>default printer</b> qiling; qog'oz: 58(48)×210mm.</li>
+    <li>Birinchi chekda: Destination = XPrinter, Margins = <b>None</b>, Scale = 100.</li>
+    <li>Dialogsiz chiqarish: Chrome'ni <span class="path">chrome.exe --kiosk-printing</span> bilan oching.</li>
+    <li>Saytga <b>popup ruxsatini</b> bering.</li>
   </ol>
 </section>
 
-<section id="faq">
+<section id="uz-faq">
   <span class="eyebrow">Yordam</span>
   <h2>Tez-tez so'raladigan savollar</h2>
-
-  <details>
-    <summary>Parolimni unutdim</summary>
-    <div class="a"><p>Klinika rahbariga ayting — u <span class="path">Sozlamalar → Xodimlar → Parol</span> orqali bir soniyada yangi parol beradi.</p></div>
-  </details>
-
-  <details>
-    <summary>Chek chiqmayapti</summary>
-    <div class="a">
-      <p>1. Brauzer chek oynachasini bloklagan bo'lishi mumkin — manzil qatoridagi popup belgisini bosib "Ruxsat berish"ni tanlang.</p>
-      <p>2. Printer yoqilganmi, qog'oz bormi, Windows'da default printer XPrinter'mi — tekshiring.</p>
-      <p>3. Chek har doim qayta chiqariladi: Kassa yoki Sotuvlar sahifasidagi <b>Chek</b> tugmasi.</p>
-    </div>
-  </details>
-
-  <details>
-    <summary>To'lovni xato urib yubordim</summary>
-    <div class="a"><p>Kassada o'sha qator ro'parasidagi <b>Qaytarish</b> tugmasini bosing (POS sotuv bo'lsa — Sotuvlar sahifasida, buni direktor yoki hisobchi qiladi). Summa tushumdan chiqadi, mahsulot bo'lsa omborga qaytadi. Keyin to'g'risini qaytadan rasmiylashtiring.</p></div>
-  </details>
-
-  <details>
-    <summary>Raqamlar eskirib qolgandek ko'rinsa</summary>
-    <div class="a"><p>Sahifa har 3 daqiqada o'zi yangilanadi; shoshsangiz F5 (yangilash) bosing. Internet uzilib qolsa tizim qizil ogohlantirish chiqaradi va saqlanmagan amalni qaytarishni so'raydi — internet qaytgach qayta urining.</p></div>
-  </details>
-
-  <details>
-    <summary>Smena yopganda farq chiqdi</summary>
-    <div class="a"><p>Avval smena sahifasidagi qo'lda kirim-chiqimlar to'liq yozilganini tekshiring (har naqd olish/qo'shish sabab bilan kiritilishi kerak edi). Farq baribir qolsa — izoh maydoniga yozib yoping: farq tarixda saqlanadi va direktor ko'radi.</p></div>
-  </details>
-
-  <details>
-    <summary>Omborda mahsulot soni haqiqatga to'g'ri kelmayapti</summary>
-    <div class="a"><p>Zaxira qo'lda tahrirlangani yo'q — faqat hujjat bilan o'zgaradi. <span class="path">Ombor → Harakatlar</span>da shu mahsulot tarixini ko'ring: har o'zgarish kim va qachon qilgani bilan turadi. Haqiqiy farq bo'lsa (sanab chiqdingiz) — <b>Zaxira → Tuzatish</b> amali bilan, sabab yozib to'g'rilang.</p></div>
-  </details>
-
-  <details>
-    <summary>Shifokor bemorni ko'rmayapti</summary>
-    <div class="a"><p>Bemor to'lov qilmagan bo'lishi mumkin — shifokorga faqat to'lovi tasdiqlanganlar ko'rinadi. Kassada "To'lov kutilayotganlar"ni tekshiring.</p></div>
-  </details>
+  <details><summary>Parolimni unutdim</summary><div class="a"><p>Rahbarga ayting — <span class="path">Sozlamalar → Xodimlar → Parol</span> orqali yangisini beradi.</p></div></details>
+  <details><summary>Chek chiqmayapti</summary><div class="a"><p>Popup ruxsatini tekshiring; printer yoniq va default ekanini tekshiring. Chekni <b>Chek</b> tugmasi bilan qayta chiqarish mumkin.</p></div></details>
+  <details><summary>To'lovni xato urdim</summary><div class="a"><p><b>Qaytarish</b> tugmasi (POS bo'lsa — Sotuvlar sahifasida, direktor/hisobchi). Keyin to'g'risini rasmiylashtiring.</p></div></details>
+  <details><summary>Smena farqi chiqdi</summary><div class="a"><p>Qo'lda kirim-chiqimlar to'liq yozilganini tekshiring. Farq qolsa izoh bilan yoping — tarixda saqlanadi.</p></div></details>
+  <details><summary>Shifokor bemorni ko'rmayapti</summary><div class="a"><p>To'lov qilinmagan bo'lishi mumkin — kassada tekshiring.</p></div></details>
 </section>
 
 </main>
 </div>
+</div>
 
-<footer>KlinikaHMS · Savol tug'ilsa avval shu qo'llanmani, keyin klinika rahbarini bezovta qiling 🙂</footer>
+<!-- ======================= RU ======================= -->
+<div class="lang-block" data-lang="ru">
+<div class="wrap">
+<nav class="toc">
+  <div class="toc-label">Содержание</div>
+  <div class="links">
+    <a href="#ru-kirish">Вход и роли</a>
+    <a href="#ru-kun">Распорядок дня</a>
+    <a href="#ru-reg">Регистрация</a>
+    <a href="#ru-kassa">Касса</a>
+    <a href="#ru-pos">Продажа (POS)</a>
+    <a href="#ru-smena">Кассовая смена</a>
+    <a href="#ru-shifokor">Врач</a>
+    <a href="#ru-lab">Лаборатория</a>
+    <a href="#ru-ombor">Склад</a>
+    <a href="#ru-direktor">Руководитель</a>
+    <a href="#ru-printer">Принтер</a>
+    <a href="#ru-faq">Вопросы и ответы</a>
+  </div>
+</nav>
+<main>
 
+<section id="ru-kirish">
+  <span class="eyebrow">Для всех</span>
+  <h2>Вход в систему и роли</h2>
+  <p>Откройте <b>klinika-hms.web.app</b> и войдите со своим email и паролем. Учётные записи создаёт руководитель клиники. Язык интерфейса (UZ/РУ/EN) переключается кнопками в правом верхнем углу — выбор запоминается.</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>Роль</th><th>Что видит и делает</th></tr>
+    <tr><td><b>Регистратура</b></td><td>Пациенты, новый приём, касса, POS-продажи, кассовая смена</td></tr>
+    <tr><td><b>Врач</b></td><td>Только свои пациенты с подтверждённой оплатой; завершение приёма</td></tr>
+    <tr><td><b>Бухгалтер / Касса</b></td><td>Панель, касса, POS, смена, отчёты, возвраты, оплаты поставщикам</td></tr>
+    <tr><td><b>Лаборант</b></td><td>Только заказы анализов и ввод результатов</td></tr>
+    <tr><td><b>Кладовщик</b></td><td>Только Склад: товары, поступления, движения запасов</td></tr>
+    <tr><td><b>Руководитель</b></td><td>Всё + Настройки: сотрудники, прайс, врачи, реквизиты</td></tr>
+  </table></div>
+  <div class="note"><b>Важно:</b> не передавайте пароль никому — система фиксирует, кто выполнил каждое действие (журнал аудита).</div>
+</section>
+
+<section id="ru-kun">
+  <span class="eyebrow">Регистратура · Касса</span>
+  <h2>Распорядок дня</h2>
+  <ol class="steps">
+    <li><b>Утром:</b> пересчитайте наличные и нажмите <kbd class="btn">Открыть смену</kbd> на странице <span class="path">Кассовая смена</span>.</li>
+    <li><b>В течение дня:</b> записывайте пациентов, принимайте оплаты, печатайте чеки — всё учитывается автоматически.</li>
+    <li><b>Вечером:</b> пересчитайте наличные и нажмите <kbd class="btn">Закрыть смену</kbd> — система сверит ожидаемую и фактическую сумму.</li>
+  </ol>
+  <p>Страницы обновляются автоматически каждые 3 минуты.</p>
+</section>
+
+<section id="ru-reg">
+  <span class="eyebrow">Регистратура</span>
+  <h2>Регистрация — новый приём</h2>
+  <p class="who">Меню: <span class="path">Новый приём</span></p>
+  <ol class="steps">
+    <li><b>Пациент:</b> введите имя/ID/телефон; если новый — <kbd class="btn">Добавить нового пациента</kbd>. Если телефон уже в базе, система сама выберет существующего.</li>
+    <li>Выберите <b>врача</b>.</li>
+    <li><b>Услуги:</b> найдите поиском или отметьте в категориях. Для стационара выбирается число дней.</li>
+    <li><b>Оплата:</b> <kbd class="btn">Оплата + печать чека</kbd> — на чеке крупно печатается номер очереди. Если оплатит позже — <kbd class="btn">Только записать</kbd>.</li>
+  </ol>
+  <div class="note"><b>Правило:</b> пока оплата не подтверждена, пациент не виден врачу.</div>
+</section>
+
+<section id="ru-kassa">
+  <span class="eyebrow">Регистратура · Касса</span>
+  <h2>Касса и оплаты</h2>
+  <p class="who">Меню: <span class="path">Касса / Оплаты</span></p>
+  <ul>
+    <li><b>Оплата:</b> найдите пациента → <kbd class="btn">Принять оплату</kbd> → способ → подтвердите. Чек печатается сам.</li>
+    <li><b>Повторная печать:</b> кнопка <kbd class="btn">Чек</kbd> в таблице.</li>
+    <li><b>Возврат:</b> <kbd class="btn">Возврат</kbd> → подтвердите. Сумма исключается из выручки; наличные верните пациенту на руки.</li>
+  </ul>
+  <div class="warn">Возвращённая оплата не входит в Z-отчёт — ошибочную оплату исправляйте только этой кнопкой.</div>
+</section>
+
+<section id="ru-pos">
+  <span class="eyebrow">Регистратура · Касса</span>
+  <h2>Продажа (POS)</h2>
+  <p class="who">Меню: <span class="path">Продажа (POS)</span> и <span class="path">Продажи</span></p>
+  <ol class="steps">
+    <li>Введите название товара или отсканируйте <b>штрих-код</b>.</li>
+    <li>Меняйте количество в корзине — продать больше, чем есть на складе, нельзя.</li>
+    <li>При желании привяжите пациента (покупка попадёт в его карту).</li>
+    <li>Скидка — при необходимости; часть наличными + карта — <b>«Раздельная оплата»</b>.</li>
+    <li><kbd class="btn">Продать + печать чека</kbd>.</li>
+  </ol>
+  <p><b>Возврат:</b> на странице <span class="path">Продажи</span> в строке чека — <kbd class="btn">Возврат</kbd>: количество и причина, товар вернётся на склад. Только руководитель/бухгалтер.</p>
+</section>
+
+<section id="ru-smena">
+  <span class="eyebrow">Регистратура · Касса</span>
+  <h2>Кассовая смена</h2>
+  <p class="who">Меню: <span class="path">Кассовая смена</span></p>
+  <ul>
+    <li><b>Открытие:</b> введите начальные наличные (открытая смена может быть только одна).</li>
+    <li><b>В течение дня:</b> наличная выручка считается автоматически; ручные операции — <kbd class="btn">Приход</kbd>/<kbd class="btn">Расход</kbd>, причина обязательна.</li>
+    <li><b>Закрытие:</b> введите пересчитанные наличные — расхождение видно сразу и сохраняется в истории.</li>
+  </ul>
+  <div class="formula">Ожидаемые наличные = начальные + наличные продажи − наличные возвраты + приход − расход</div>
+  <div class="note"><b>Примечание:</b> Click/Payme/Uzum/карта в наличную кассу не входят.</div>
+</section>
+
+<section id="ru-shifokor">
+  <span class="eyebrow">Врач</span>
+  <h2>Кабинет врача</h2>
+  <ol class="steps">
+    <li>В списке только <b>оплатившие</b> пациенты. Аллергии и хронические заболевания помечены красным/жёлтым.</li>
+    <li><kbd class="btn">В очередь</kbd> → <kbd class="btn">Начать приём</kbd>.</li>
+    <li><kbd class="btn">Завершить</kbd>: жалобы, диагноз МКБ-10, рекомендации — всё сохраняется в электронной карте.</li>
+  </ol>
+</section>
+
+<section id="ru-lab">
+  <span class="eyebrow">Лаборант</span>
+  <h2>Лаборатория</h2>
+  <p>В «Ожидающих анализах» — <kbd class="btn">Ввести результат</kbd>. Выход за норму помечается цветом (выше — красный, ниже — жёлтый). История диагнозов лаборанту не видна.</p>
+</section>
+
+<section id="ru-ombor">
+  <span class="eyebrow">Кладовщик · Руководитель</span>
+  <h2>Склад</h2>
+  <h3>Товар</h3>
+  <p><kbd class="btn">Новый товар</kbd>: название, SKU/штрих-код, цена, единица, минимальный запас, срок годности. Количество здесь не вводится — только через Поступление или операцию «Запас».</p>
+  <h3>Поступление</h3>
+  <ol class="steps">
+    <li>Добавьте поставщика (один раз).</li>
+    <li><kbd class="btn">Новое поступление</kbd>: товар, количество, закупочная цена.</li>
+    <li>После приёмки запас растёт, средняя себестоимость обновляется. Долг виден в колонке «Долг», закрывается кнопкой <kbd class="btn">Оплатить</kbd>.</li>
+  </ol>
+  <h3>Контроль</h3>
+  <ul>
+    <li>Брак/просрочка: <kbd class="btn">Запас</kbd> → Списание (с причиной).</li>
+    <li>Предупреждения сверху: товары на исходе и с истекающим сроком.</li>
+    <li><span class="path">Движения</span> — каждое изменение: кто, когда, сколько, причина.</li>
+  </ul>
+</section>
+
+<section id="ru-direktor">
+  <span class="eyebrow">Руководитель</span>
+  <h2>Кабинет руководителя</h2>
+  <ul>
+    <li><b>Отчёты:</b> выберите период — статистика врачей, прибыль по товарам (средняя себестоимость), стоимость склада, долги.</li>
+    <li>На страницах <b>Приёмы/Продажи</b> выбирайте дату для отчётов за прошлые дни.</li>
+    <li><b>Журнал аудита</b> — кто что просматривал и менял; удалить нельзя.</li>
+  </ul>
+  <h3>Настройки</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>Раздел</th><th>Что делается</th></tr>
+    <tr><td><b>Клиника</b></td><td>Название, адрес, телефон, ссылка Maps (чек и QR)</td></tr>
+    <tr><td><b>Услуги</b></td><td>Прайс: добавление/изменение/отключение</td></tr>
+    <tr><td><b>Врачи</b></td><td>Добавление, кабинет, деактивация</td></tr>
+    <tr><td><b>Сотрудники</b></td><td>Создание учётных записей, сброс пароля, блокировка</td></tr>
+  </table></div>
+  <div class="warn">Пароль нового сотрудника показывается <b>один раз</b> — сразу запишите.</div>
+</section>
+
+<section id="ru-printer">
+  <span class="eyebrow">Разовая настройка</span>
+  <h2>Чековый принтер (XPrinter)</h2>
+  <ol class="steps">
+    <li>Подключите по USB, установите драйвер (xprinter.net → Download).</li>
+    <li>Сделайте его <b>принтером по умолчанию</b>; бумага: 58(48)×210 мм.</li>
+    <li>При первом чеке: Destination = XPrinter, Margins = <b>None</b>, Scale = 100.</li>
+    <li>Печать без диалога: запускайте Chrome с <span class="path">chrome.exe --kiosk-printing</span>.</li>
+    <li>Разрешите сайту <b>всплывающие окна</b>.</li>
+  </ol>
+</section>
+
+<section id="ru-faq">
+  <span class="eyebrow">Помощь</span>
+  <h2>Частые вопросы</h2>
+  <details><summary>Забыл(а) пароль</summary><div class="a"><p>Обратитесь к руководителю — он выдаст новый через <span class="path">Настройки → Сотрудники → Пароль</span>.</p></div></details>
+  <details><summary>Чек не печатается</summary><div class="a"><p>Проверьте разрешение всплывающих окон; принтер включён и назначен по умолчанию. Чек всегда можно напечатать повторно кнопкой <b>Чек</b>.</p></div></details>
+  <details><summary>Оплата пробита по ошибке</summary><div class="a"><p>Кнопка <b>Возврат</b> (для POS — на странице «Продажи», доступно руководителю/бухгалтеру). Затем оформите правильную оплату.</p></div></details>
+  <details><summary>Расхождение при закрытии смены</summary><div class="a"><p>Проверьте, все ли ручные операции записаны. Если расхождение остаётся — закройте смену с комментарием, оно сохранится в истории.</p></div></details>
+  <details><summary>Врач не видит пациента</summary><div class="a"><p>Вероятно, оплата не проведена — проверьте в кассе.</p></div></details>
+</section>
+
+</main>
+</div>
+</div>
+
+<!-- ======================= EN ======================= -->
+<div class="lang-block" data-lang="en">
+<div class="wrap">
+<nav class="toc">
+  <div class="toc-label">Contents</div>
+  <div class="links">
+    <a href="#en-kirish">Sign-in & roles</a>
+    <a href="#en-kun">Daily routine</a>
+    <a href="#en-reg">Registration</a>
+    <a href="#en-kassa">Cashier</a>
+    <a href="#en-pos">Sale (POS)</a>
+    <a href="#en-smena">Cash shift</a>
+    <a href="#en-shifokor">Doctor</a>
+    <a href="#en-lab">Laboratory</a>
+    <a href="#en-ombor">Inventory</a>
+    <a href="#en-direktor">Director</a>
+    <a href="#en-printer">Printer</a>
+    <a href="#en-faq">FAQ</a>
+  </div>
+</nav>
+<main>
+
+<section id="en-kirish">
+  <span class="eyebrow">Everyone</span>
+  <h2>Signing in and roles</h2>
+  <p>Open <b>klinika-hms.web.app</b> and sign in with your email and password. Accounts are created by the clinic director. Switch the interface language (UZ/РУ/EN) with the buttons in the top-right corner — your choice is remembered.</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>Role</th><th>What they see and do</th></tr>
+    <tr><td><b>Reception</b></td><td>Patients, new visits, cashier, POS sales, cash shift</td></tr>
+    <tr><td><b>Doctor</b></td><td>Only their own patients with confirmed payment; finishing visits</td></tr>
+    <tr><td><b>Accountant / Cashier</b></td><td>Dashboard, cashier, POS, shift, reports, refunds, supplier payments</td></tr>
+    <tr><td><b>Lab technician</b></td><td>Only lab orders and result entry</td></tr>
+    <tr><td><b>Storekeeper</b></td><td>Inventory only: products, purchases, stock operations</td></tr>
+    <tr><td><b>Director</b></td><td>Everything + Settings: staff, price list, doctors, clinic details</td></tr>
+  </table></div>
+  <div class="note"><b>Important:</b> never share your password — the system records who performed every action (audit log).</div>
+</section>
+
+<section id="en-kun">
+  <span class="eyebrow">Reception · Cashier</span>
+  <h2>Daily routine</h2>
+  <ol class="steps">
+    <li><b>Morning:</b> count the drawer cash and press <kbd class="btn">Open shift</kbd> on the <span class="path">Cash shift</span> page.</li>
+    <li><b>During the day:</b> register visits, take payments, print receipts — everything is tracked automatically.</li>
+    <li><b>Evening:</b> recount the cash and press <kbd class="btn">Close shift</kbd> — the system compares expected and counted amounts.</li>
+  </ol>
+  <p>Pages refresh themselves every 3 minutes.</p>
+</section>
+
+<section id="en-reg">
+  <span class="eyebrow">Reception</span>
+  <h2>Registration — a new visit</h2>
+  <p class="who">Menu: <span class="path">New visit</span></p>
+  <ol class="steps">
+    <li><b>Patient:</b> type a name/ID/phone; for a new one use <kbd class="btn">Add new patient</kbd>. If the phone already exists, the system picks the existing patient.</li>
+    <li>Choose the <b>doctor</b>.</li>
+    <li><b>Services:</b> use search or tick them in categories. For inpatient beds, pick the number of days.</li>
+    <li><b>Payment:</b> <kbd class="btn">Take payment + print receipt</kbd> — the queue number prints large on the receipt. Paying later? <kbd class="btn">Register only</kbd>.</li>
+  </ol>
+  <div class="note"><b>Rule:</b> until payment is confirmed the patient is not visible to the doctor.</div>
+</section>
+
+<section id="en-kassa">
+  <span class="eyebrow">Reception · Cashier</span>
+  <h2>Cashier and payments</h2>
+  <p class="who">Menu: <span class="path">Cashier / Payments</span></p>
+  <ul>
+    <li><b>Payment:</b> find the patient → <kbd class="btn">Take payment</kbd> → method → confirm. The receipt prints automatically.</li>
+    <li><b>Reprint:</b> the <kbd class="btn">Receipt</kbd> button in the table.</li>
+    <li><b>Refund:</b> <kbd class="btn">Refund</kbd> → confirm. The amount is excluded from revenue; hand cash back to the patient.</li>
+  </ul>
+  <div class="warn">Refunded payments never enter the Z-report — fix mistaken payments only with this button.</div>
+</section>
+
+<section id="en-pos">
+  <span class="eyebrow">Reception · Cashier</span>
+  <h2>Sale (POS)</h2>
+  <p class="who">Menu: <span class="path">Sale (POS)</span> and <span class="path">Sales</span></p>
+  <ol class="steps">
+    <li>Type the product name or scan a <b>barcode</b>.</li>
+    <li>Adjust quantities in the cart — you cannot sell more than is in stock.</li>
+    <li>Optionally link a patient (the purchase appears in their chart).</li>
+    <li>Enter a discount if any; part cash + card — use <b>“Split payment”</b>.</li>
+    <li><kbd class="btn">Sell + print receipt</kbd>.</li>
+  </ol>
+  <p><b>Refunds:</b> on the <span class="path">Sales</span> page press <kbd class="btn">Refund</kbd> on the receipt row — enter quantities and a reason; items return to stock. Director/accountant only.</p>
+</section>
+
+<section id="en-smena">
+  <span class="eyebrow">Reception · Cashier</span>
+  <h2>Cash shift</h2>
+  <p class="who">Menu: <span class="path">Cash shift</span></p>
+  <ul>
+    <li><b>Opening:</b> enter the opening cash (only one shift can be open).</li>
+    <li><b>During the day:</b> cash income is counted automatically; manual operations — <kbd class="btn">Cash in</kbd>/<kbd class="btn">Cash out</kbd>, a reason is required.</li>
+    <li><b>Closing:</b> enter the counted cash — the difference shows immediately and stays in the history.</li>
+  </ul>
+  <div class="formula">Expected cash = opening + cash sales − cash refunds + cash in − cash out</div>
+  <div class="note"><b>Note:</b> Click/Payme/Uzum/card payments never enter the cash drawer.</div>
+</section>
+
+<section id="en-shifokor">
+  <span class="eyebrow">Doctor</span>
+  <h2>Doctor's room</h2>
+  <ol class="steps">
+    <li>The list shows only <b>paid</b> patients. Allergies and chronic conditions are flagged red/yellow.</li>
+    <li><kbd class="btn">Add to queue</kbd> → <kbd class="btn">Start consultation</kbd>.</li>
+    <li><kbd class="btn">Finish</kbd>: complaint, ICD-10 diagnosis, recommendations — saved to the electronic record.</li>
+  </ol>
+</section>
+
+<section id="en-lab">
+  <span class="eyebrow">Lab technician</span>
+  <h2>Laboratory</h2>
+  <p>In “Pending tests”, press <kbd class="btn">Enter result</kbd>. Out-of-range values are color-flagged (high — red, low — yellow). The diagnosis history is hidden from lab staff.</p>
+</section>
+
+<section id="en-ombor">
+  <span class="eyebrow">Storekeeper · Director</span>
+  <h2>Inventory</h2>
+  <h3>Products</h3>
+  <p><kbd class="btn">New product</kbd>: name, SKU/barcode, price, unit, minimum stock, expiry date. Quantity is never typed here — only via a Purchase or a Stock operation.</p>
+  <h3>Purchases</h3>
+  <ol class="steps">
+    <li>Add the supplier (once).</li>
+    <li><kbd class="btn">New purchase</kbd>: product, quantity, unit cost.</li>
+    <li>On receipt, stock grows and average cost updates. Debt shows in the “Debt” column and is settled with <kbd class="btn">Pay</kbd>.</li>
+  </ol>
+  <h3>Control</h3>
+  <ul>
+    <li>Damaged/expired: <kbd class="btn">Stock</kbd> → Write-off (with a reason).</li>
+    <li>Alerts on top: low-stock and expiring products.</li>
+    <li><span class="path">Movements</span> — every change: who, when, how much, why.</li>
+  </ul>
+</section>
+
+<section id="en-direktor">
+  <span class="eyebrow">Director</span>
+  <h2>Director's view</h2>
+  <ul>
+    <li><b>Reports:</b> pick a period — doctor statistics, product profit (weighted-average cost), stock value, payables.</li>
+    <li>On <b>Visits/Sales</b> pick a date to view past days.</li>
+    <li><b>Audit log</b> — who viewed or changed what; cannot be deleted.</li>
+  </ul>
+  <h3>Settings</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>Section</th><th>What it does</th></tr>
+    <tr><td><b>Clinic</b></td><td>Name, address, phone, Maps link (receipt & QR)</td></tr>
+    <tr><td><b>Services</b></td><td>Price list: add/edit/deactivate</td></tr>
+    <tr><td><b>Doctors</b></td><td>Add, room, deactivate</td></tr>
+    <tr><td><b>Staff</b></td><td>Create accounts, reset passwords, block</td></tr>
+  </table></div>
+  <div class="warn">A new employee's password is shown <b>once</b> — write it down immediately.</div>
+</section>
+
+<section id="en-printer">
+  <span class="eyebrow">One-time setup</span>
+  <h2>Receipt printer (XPrinter)</h2>
+  <ol class="steps">
+    <li>Connect via USB and install the driver (xprinter.net → Download).</li>
+    <li>Make it the <b>default printer</b>; paper: 58(48)×210 mm.</li>
+    <li>On the first receipt: Destination = XPrinter, Margins = <b>None</b>, Scale = 100.</li>
+    <li>Silent printing: launch Chrome with <span class="path">chrome.exe --kiosk-printing</span>.</li>
+    <li>Allow <b>pop-ups</b> for the site.</li>
+  </ol>
+</section>
+
+<section id="en-faq">
+  <span class="eyebrow">Help</span>
+  <h2>FAQ</h2>
+  <details><summary>I forgot my password</summary><div class="a"><p>Ask the director — they issue a new one via <span class="path">Settings → Staff → Password</span>.</p></div></details>
+  <details><summary>The receipt doesn't print</summary><div class="a"><p>Check the pop-up permission; make sure the printer is on and set as default. Any receipt can be reprinted with the <b>Receipt</b> button.</p></div></details>
+  <details><summary>I rang up a payment by mistake</summary><div class="a"><p>Use <b>Refund</b> (for POS — on the Sales page; director/accountant only), then process the correct payment.</p></div></details>
+  <details><summary>The shift closed with a difference</summary><div class="a"><p>Check that all manual cash operations were recorded. If the difference remains, close with a note — it stays in the history.</p></div></details>
+  <details><summary>The doctor can't see a patient</summary><div class="a"><p>Payment is probably missing — check the cashier page.</p></div></details>
+</section>
+
+</main>
+</div>
+</div>
+
+<footer id="foot"></footer>
+
+<script>
+(function () {
+  var LS_KEY = "klinika_lang";
+  var langs = ["uz", "ru", "en"];
+  var footTexts = {
+    uz: "KlinikaHMS · Savol tug'ilsa avval shu qo'llanmani, keyin klinika rahbarini bezovta qiling 🙂",
+    ru: "KlinikaHMS · Если есть вопрос — сначала это руководство, потом руководитель клиники 🙂",
+    en: "KlinikaHMS · Questions? Try this guide first, then the clinic director 🙂"
+  };
+  function current() {
+    try {
+      var v = localStorage.getItem(LS_KEY);
+      if (langs.indexOf(v) >= 0) return v;
+    } catch (e) {}
+    return "uz";
+  }
+  function apply(l) {
+    document.documentElement.lang = l;
+    var blocks = document.querySelectorAll(".lang-block");
+    for (var i = 0; i < blocks.length; i++) {
+      blocks[i].classList.toggle("on", blocks[i].getAttribute("data-lang") === l);
+    }
+    var btns = document.querySelectorAll("#langs button");
+    for (var j = 0; j < btns.length; j++) {
+      btns[j].classList.toggle("on", btns[j].getAttribute("data-l") === l);
+    }
+    document.getElementById("foot").textContent = footTexts[l];
+    try { localStorage.setItem(LS_KEY, l); } catch (e) {}
+  }
+  document.getElementById("langs").addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (b) apply(b.getAttribute("data-l"));
+  });
+  apply(current());
+})();
+</script>
 </body>
 </html>

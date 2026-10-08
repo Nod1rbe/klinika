@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Building2, CheckCircle2, Plus } from "lucide-react";
 import {
   Card,
@@ -10,6 +10,7 @@ import {
   Table,
 } from "../components/ui";
 import { supabase } from "../lib/supabase";
+import { t } from "../lib/i18n";
 import { useStore } from "../store";
 
 function genPassword(): string {
@@ -81,10 +82,10 @@ export default function Tenants() {
   }, []);
 
   if (profile && profile.role !== "superadmin") {
-    return <p className="text-sm text-slate-500">Bu sahifa faqat platforma egasi uchun.</p>;
+    return <p className="text-sm text-slate-500">{t("Bu sahifa faqat platforma egasi uchun.")}</p>;
   }
   if (!supabase) {
-    return <p className="text-sm text-slate-500">Supabase ulanmagan.</p>;
+    return <p className="text-sm text-slate-500">{t("Supabase ulanmagan.")}</p>;
   }
   const sb = supabase;
 
@@ -111,7 +112,7 @@ export default function Tenants() {
       });
       setOpen(false);
       setForm(emptyForm);
-      notify("Yangi klinika ochildi");
+      notify(t("Yangi klinika ochildi"));
       await load();
     } catch (ex) {
       setErr(ex instanceof Error ? ex.message : String(ex));
@@ -124,10 +125,10 @@ export default function Tenants() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Klinikalar</h1>
+          <h1 className="text-2xl font-bold tracking-tight">{t("Klinikalar")}</h1>
           <p className="mt-1 text-sm text-slate-500">
-            Platformadagi barcha klinikalar. Yangi klinika ochilganda direktor
-            hisobidan hammasi o'zi boshqariladi.
+            {t("Platformadagi barcha klinikalar. Yangi klinika ochilganda direktor")}
+            {t("hisobidan hammasi o'zi boshqariladi.")}
           </p>
         </div>
         <PrimaryButton
@@ -137,12 +138,12 @@ export default function Tenants() {
             setOpen(true);
           }}
         >
-          <Plus size={16} /> Yangi klinika
+          <Plus size={16} /> {t("Yangi klinika")}
         </PrimaryButton>
       </div>
 
       {err && (
-        <p className="rounded-lg bg-rose-50 px-4 py-2.5 text-sm text-rose-700">{err}</p>
+        <p className="rounded-lg bg-rose-50 px-4 py-2.5 text-sm text-rose-700">{t(err)}</p>
       )}
 
       {created && (
@@ -155,41 +156,41 @@ export default function Tenants() {
             <b className="font-mono">{created.password}</b>
           </p>
           <p className="mt-1 text-xs text-emerald-700">
-            Bu ma'lumotlarni hoziroq klinika rahbariga yozib bering — parol qayta
-            ko'rsatilmaydi. Direktor tizimga kirib, Sozlamalar bo'limidan
-            xodimlar va narxnomani o'zi kiritadi.
+            {t("Bu ma'lumotlarni hoziroq klinika rahbariga yozib bering — parol qayta")}
+            {t("ko'rsatilmaydi. Direktor tizimga kirib, Sozlamalar bo'limidan")}
+            {t("xodimlar va narxnomani o'zi kiritadi.")}
           </p>
         </Card>
       )}
 
       <Card>
         <CardHeader
-          title="Klinikalar ro'yxati"
-          subtitle={rows ? `${rows.length} ta klinika` : "Yuklanmoqda..."}
+          title={t("Klinikalar ro'yxati")}
+          subtitle={rows ? `${rows.length} ${t("ta klinika")}` : "Yuklanmoqda..."}
         />
-        <Table head={["Klinika", "Manzil", "Telefon", "Ochilgan", "Holat"]}>
-          {(rows ?? []).map((t) => (
-            <tr key={t.id} className="hover:bg-slate-50">
+        <Table head={[t("Klinika"), t("Manzil"), t("Telefon"), t("Ochilgan"), t("Holat")]}>
+          {(rows ?? []).map((tn) => (
+            <tr key={tn.id} className="hover:bg-slate-50">
               <td className="px-5 py-3">
                 <span className="flex items-center gap-2.5 font-medium">
                   <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-50 text-teal-600">
                     <Building2 size={15} />
                   </span>
-                  {t.name}
+                  {tn.name}
                 </span>
               </td>
-              <td className="px-5 py-3 text-slate-500">{t.address || "—"}</td>
-              <td className="px-5 py-3 text-slate-500">{t.phone || "—"}</td>
-              <td className="px-5 py-3 text-slate-500">{t.createdAt}</td>
+              <td className="px-5 py-3 text-slate-500">{tn.address || "—"}</td>
+              <td className="px-5 py-3 text-slate-500">{tn.phone || "—"}</td>
+              <td className="px-5 py-3 text-slate-500">{tn.createdAt}</td>
               <td className="px-5 py-3">
                 <span
                   className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                    t.active
+                    tn.active
                       ? "bg-emerald-100 text-emerald-700"
                       : "bg-slate-100 text-slate-500"
                   }`}
                 >
-                  {t.active ? "Faol" : "To'xtatilgan"}
+                  {tn.active ? t("Faol") : t("To'xtatilgan")}
                 </span>
               </td>
             </tr>
@@ -198,13 +199,13 @@ export default function Tenants() {
       </Card>
 
       {open && (
-        <Modal title="Yangi klinika ochish" onClose={() => setOpen(false)} wide>
+        <Modal title={t("Yangi klinika ochish")} onClose={() => setOpen(false)} wide>
           <form onSubmit={submit} className="space-y-4">
             <p className="text-xs font-semibold tracking-wide text-slate-400 uppercase">
-              Klinika ma'lumotlari
+              {t("Klinika ma'lumotlari")}
             </p>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Field label="Klinika nomi *">
+              <Field label={t("Klinika nomi *")}>
                 <input
                   required
                   className={inputCls}
@@ -212,34 +213,34 @@ export default function Tenants() {
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                 />
               </Field>
-              <Field label="Telefon">
+              <Field label={t("Telefon")}>
                 <input
                   className={inputCls}
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
                 />
               </Field>
-              <Field label="Manzil">
+              <Field label={t("Manzil")}>
                 <input
                   className={inputCls}
                   value={form.address}
                   onChange={(e) => setForm({ ...form, address: e.target.value })}
                 />
               </Field>
-              <Field label="Google Maps havolasi (chek QR)">
+              <Field label={t("Google Maps havolasi (chek QR)")}>
                 <input
                   className={inputCls}
-                  placeholder="https://maps.google.com/?q=..."
+                  placeholder={t("https://maps.google.com/?q=...")}
                   value={form.mapsUrl}
                   onChange={(e) => setForm({ ...form, mapsUrl: e.target.value })}
                 />
               </Field>
             </div>
             <p className="pt-2 text-xs font-semibold tracking-wide text-slate-400 uppercase">
-              Direktor hisobi
+              {t("Direktor hisobi")}
             </p>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Field label="Direktor F.I.Sh. *">
+              <Field label={t("Direktor F.I.Sh. *")}>
                 <input
                   required
                   className={inputCls}
@@ -247,7 +248,7 @@ export default function Tenants() {
                   onChange={(e) => setForm({ ...form, directorName: e.target.value })}
                 />
               </Field>
-              <Field label="Direktor email (login) *">
+              <Field label={t("Direktor email (login) *")}>
                 <input
                   required
                   type="email"
@@ -256,7 +257,7 @@ export default function Tenants() {
                   onChange={(e) => setForm({ ...form, directorEmail: e.target.value })}
                 />
               </Field>
-              <Field label="Direktor paroli *">
+              <Field label={t("Direktor paroli *")}>
                 <div className="flex gap-2">
                   <input
                     required
@@ -272,7 +273,7 @@ export default function Tenants() {
                     onClick={() => setForm({ ...form, directorPassword: genPassword() })}
                     className="shrink-0 rounded-lg border border-slate-300 px-3 text-sm text-slate-600 hover:bg-slate-50"
                   >
-                    Yangi
+                    {t("Yangi")}
                   </button>
                 </div>
               </Field>
@@ -283,10 +284,10 @@ export default function Tenants() {
                 onClick={() => setOpen(false)}
                 className="rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100"
               >
-                Bekor qilish
+                {t("Bekor qilish")}
               </button>
               <PrimaryButton type="submit">
-                {busy ? "Ochilmoqda..." : "Klinikani ochish"}
+                {busy ? t("Ochilmoqda...") : t("Klinikani ochish")}
               </PrimaryButton>
             </div>
           </form>

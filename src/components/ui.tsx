@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { X } from "lucide-react";
+import { t } from "../lib/i18n";
 import type { AppointmentStatus } from "../types";
 import { STATUS_LABELS } from "../types";
 
@@ -55,7 +56,7 @@ export function StatusBadge({ status }: { status: AppointmentStatus }) {
       className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium whitespace-nowrap ${STATUS_STYLES[status]}`}
     >
       <span className="h-1.5 w-1.5 rounded-full bg-current opacity-60" />
-      {STATUS_LABELS[status]}
+      {t(STATUS_LABELS[status])}
     </span>
   );
 }

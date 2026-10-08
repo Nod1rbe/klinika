@@ -2,6 +2,7 @@
 // window.open sinxron chaqiriladi (popup-bloker uchun), QR tayyor bo'lgach yoziladi.
 import QRCode from "qrcode";
 import { CLINIC } from "./config";
+import { t } from "./i18n";
 
 export interface ReceiptClinic {
   name: string;
@@ -31,7 +32,7 @@ export function openReceiptWindow(): Window | null {
   const w = window.open("", "_blank", "width=420,height=700");
   if (w) {
     w.document.write(
-      '<p style="font-family:sans-serif;padding:16px;color:#555">Chek tayyorlanmoqda...</p>',
+      `<p style="font-family:sans-serif;padding:16px;color:#555">${t("Chek tayyorlanmoqda...")}</p>`,
     );
   }
   return w;
@@ -127,32 +128,32 @@ function buildHtml(r: ReceiptData, qrDataUrl: string | null): string {
   ${
     r.queueNo !== undefined
       ? `<div class="center">
-          <div class="queue-label">NAVBAT</div>
+          <div class="queue-label">${esc(t("NAVBAT"))}</div>
           <div class="queue">${r.queueNo}</div>
         </div>
         <div class="hr"></div>`
       : ""
   }
-  ${r.saleNo ? `<div class="kv"><span>Chek:</span><b>${esc(r.saleNo)}</b></div>` : ""}
-  <div class="kv"><span>Sana:</span><b>${esc(r.date)} ${esc(r.time)}</b></div>
-  ${r.patientName ? `<div class="kv"><span>${r.saleNo ? "Mijoz" : "Bemor"}:</span><b>${esc(r.patientName)}</b></div>` : ""}
-  ${r.doctorName ? `<div class="kv"><span>Shifokor:</span><b>${esc(r.doctorName)}</b></div>` : ""}
+  ${r.saleNo ? `<div class="kv"><span>${esc(t("Chek"))}:</span><b>${esc(r.saleNo)}</b></div>` : ""}
+  <div class="kv"><span>${esc(t("Sana"))}:</span><b>${esc(r.date)} ${esc(r.time)}</b></div>
+  ${r.patientName ? `<div class="kv"><span>${esc(r.saleNo ? t("Mijoz") : t("Bemor"))}:</span><b>${esc(r.patientName)}</b></div>` : ""}
+  ${r.doctorName ? `<div class="kv"><span>${esc(t("Shifokor"))}:</span><b>${esc(r.doctorName)}</b></div>` : ""}
   <div class="hr"></div>
   <table>${rows}</table>
   <div class="hr"></div>
-  <div class="total"><span>JAMI:</span><span>${money(r.total)} so'm</span></div>
-  ${r.method ? `<div class="kv"><span>To'lov usuli:</span><b>${esc(r.method)}</b></div>` : ""}
+  <div class="total"><span>${esc(t("JAMI"))}:</span><span>${money(r.total)} ${esc(t("so'm"))}</span></div>
+  ${r.method ? `<div class="kv"><span>${esc(t("To'lov usuli"))}:</span><b>${esc(r.method)}</b></div>` : ""}
   ${
     qrDataUrl
       ? `<div class="center qr">
           <img src="${qrDataUrl}" alt="QR">
-          <div class="sub">Manzilimiz — QR kodni skanerlang</div>
+          <div class="sub">${esc(t("Manzilimiz — QR kodni skanerlang"))}</div>
         </div>`
       : ""
   }
-  <div class="center footer">Sog'lik tilaymiz!</div>
+  <div class="center footer">${esc(t("Sog'lik tilaymiz!"))}</div>
   <div class="noprint">
-    <button onclick="window.print()">Qayta chop etish</button>
+    <button onclick="window.print()">${esc(t("Qayta chop etish"))}</button>
   </div>
   <script>
     window.addEventListener("load", function () {

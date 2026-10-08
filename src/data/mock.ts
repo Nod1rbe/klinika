@@ -323,5 +323,9 @@ export const employees: Employee[] = [
   },
 ];
 
-export const fmtSum = (n: number) =>
-  n.toLocaleString("ru-RU").replace(/,/g, " ") + " so'm";
+export const fmtSum = (n: number): string => {
+  const s = n.toLocaleString("ru-RU").replace(/,/g, " ");
+  const lang = getLang();
+  return s + (lang === "ru" ? " сум" : lang === "en" ? " UZS" : " so'm");
+};
+import { getLang } from "../lib/i18n";

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+﻿import { useCallback, useEffect, useState } from "react";
 import {
   ArrowDownCircle,
   ArrowUpCircle,
@@ -17,6 +17,7 @@ import {
 } from "../components/ui";
 import { fmtSum } from "../data/mock";
 import { supabase } from "../lib/supabase";
+import { t } from "../lib/i18n";
 import { useStore } from "../store";
 
 interface SessionRow {
@@ -140,9 +141,9 @@ export default function CashSession() {
   }, [load]);
 
   if (profile && !["direktor", "registratura", "hisobchi"].includes(profile.role)) {
-    return <p className="text-sm text-slate-500">Bu sahifaga ruxsatingiz yo'q.</p>;
+    return <p className="text-sm text-slate-500">{t("Bu sahifaga ruxsatingiz yo'q.")}</p>;
   }
-  if (!supabase) return <p className="text-sm text-slate-500">Supabase ulanmagan.</p>;
+  if (!supabase) return <p className="text-sm text-slate-500">{t("Supabase ulanmagan.")}</p>;
   const sb = supabase;
 
   async function run(op: string, fn: () => Promise<void>) {
@@ -166,13 +167,13 @@ export default function CashSession() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Kassa smenasi</h1>
           <p className="mt-1 text-sm text-slate-500">
-            Naqd pul hisobi: smena ochish, kirim-chiqim, kun oxirida solishtirish.
-            Karta/onlayn to'lovlar naqd kassaga kirmaydi.
+            {t("Naqd pul hisobi: smena ochish, kirim-chiqim, kun oxirida solishtirish.")}
+            {t("Karta/onlayn to'lovlar naqd kassaga kirmaydi.")}
           </p>
         </div>
         {!current ? (
           <PrimaryButton onClick={() => setOpenForm(true)}>
-            <PlayCircle size={16} /> Smena ochish
+            <PlayCircle size={16} /> {t("Smena ochish")}
           </PrimaryButton>
         ) : (
           <button
@@ -181,25 +182,25 @@ export default function CashSession() {
             }
             className="inline-flex items-center gap-2 rounded-xl bg-rose-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-700"
           >
-            <Lock size={15} /> Smenani yopish
+            <Lock size={15} /> {t("Smenani yopish")}
           </button>
         )}
       </div>
 
-      {err && <p className="rounded-lg bg-rose-50 px-4 py-2.5 text-sm text-rose-700">{err}</p>}
+      {err && <p className="rounded-lg bg-rose-50 px-4 py-2.5 text-sm text-rose-700">{t(err)}</p>}
 
       {current && summary && (
         <>
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             <Card className="p-5">
-              <p className="text-sm text-slate-500">Boshlang'ich naqd</p>
+              <p className="text-sm text-slate-500">{t("Boshlang'ich naqd")}</p>
               <p className="mt-1 text-xl font-bold">{fmtSum(summary.openingCash)}</p>
               <p className="mt-0.5 text-xs text-slate-400">
                 {current.openedByName} · {fmtDT(current.openedAt)}
               </p>
             </Card>
             <Card className="p-5">
-              <p className="text-sm text-slate-500">Naqd tushum</p>
+              <p className="text-sm text-slate-500">{t("Naqd tushum")}</p>
               <p className="mt-1 text-xl font-bold text-teal-700">
                 {fmtSum(summary.serviceCash + summary.posCash)}
               </p>
@@ -208,7 +209,7 @@ export default function CashSession() {
               </p>
             </Card>
             <Card className="p-5">
-              <p className="text-sm text-slate-500">Naqd chiqimlar</p>
+              <p className="text-sm text-slate-500">{t("Naqd chiqimlar")}</p>
               <p className="mt-1 text-xl font-bold text-rose-600">
                 −{fmtSum(
                   summary.serviceRefundCash + summary.posRefundCash + summary.cashOut,
@@ -220,7 +221,7 @@ export default function CashSession() {
               </p>
             </Card>
             <Card className="border-teal-200 bg-teal-50/40 p-5">
-              <p className="text-sm font-medium text-teal-800">Kutilayotgan naqd</p>
+              <p className="text-sm font-medium text-teal-800">{t("Kutilayotgan naqd")}</p>
               <p className="mt-1 text-2xl font-bold text-teal-700">
                 {fmtSum(summary.expectedCash)}
               </p>
@@ -232,30 +233,30 @@ export default function CashSession() {
 
           <Card>
             <CardHeader
-              title="Naqd kirim-chiqim"
-              subtitle="Qo'lda naqd olish/qo'shish — sabab majburiy"
+              title={t("Naqd kirim-chiqim")}
+              subtitle={t("Qo'lda naqd olish/qo'shish — sabab majburiy")}
               action={
                 <div className="flex gap-2">
                   <button
                     onClick={() => setMovForm({ type: "KIRIM", amount: "", reason: "" })}
                     className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-300 px-3 py-1.5 text-sm font-medium text-emerald-700 hover:bg-emerald-50"
                   >
-                    <ArrowDownCircle size={14} /> Kirim
+                    <ArrowDownCircle size={14} /> {t("Kirim")}
                   </button>
                   <button
                     onClick={() => setMovForm({ type: "CHIQIM", amount: "", reason: "" })}
                     className="inline-flex items-center gap-1.5 rounded-lg border border-rose-300 px-3 py-1.5 text-sm font-medium text-rose-600 hover:bg-rose-50"
                   >
-                    <ArrowUpCircle size={14} /> Chiqim
+                    <ArrowUpCircle size={14} /> {t("Chiqim")}
                   </button>
                 </div>
               }
             />
-            <Table head={["Vaqt", "Tur", "Summa", "Sabab", "Kim"]}>
+            <Table head={[t("Vaqt"), t("Tur"), t("Summa"), t("Sabab"), t("Kim")]}>
               {moves.length === 0 && (
                 <tr>
                   <td colSpan={5} className="px-5 py-6 text-center text-sm text-slate-400">
-                    Bu smenada qo'lda kirim-chiqim yo'q
+                    {t("Bu smenada qo'lda kirim-chiqim yo'q")}
                   </td>
                 </tr>
               )}
@@ -289,16 +290,16 @@ export default function CashSession() {
       {!current && sessions !== null && (
         <Card className="p-8 text-center">
           <Wallet size={40} className="mx-auto text-slate-300" />
-          <p className="mt-3 font-semibold">Ochiq smena yo'q</p>
+          <p className="mt-3 font-semibold">{t("Ochiq smena yo'q")}</p>
           <p className="mt-1 text-sm text-slate-500">
-            Kunni boshlashda kassadagi naqd pulni sanab, smena oching
+            {t("Kunni boshlashda kassadagi naqd pulni sanab, smena oching")}
           </p>
         </Card>
       )}
 
       <Card>
-        <CardHeader title="Smenalar tarixi" subtitle="Oxirgi 30 ta" />
-        <Table head={["Ochildi", "Yopildi", "Boshlang'ich", "Kutilgan", "Haqiqiy", "Farq", ""]}>
+        <CardHeader title={t("Smenalar tarixi")} subtitle={t("Oxirgi 30 ta")} />
+        <Table head={[t("Ochildi"), t("Yopildi"), t("Boshlang'ich"), t("Kutilgan"), t("Haqiqiy"), t("Farq"), ""]}>
           {(sessions ?? [])
             .filter((s) => s.status === "YOPIQ")
             .map((s) => (
@@ -329,7 +330,7 @@ export default function CashSession() {
                     onClick={() => setDetail(s)}
                     className="text-sm font-medium text-teal-600 hover:text-teal-700"
                   >
-                    Batafsil
+                    {t("Batafsil")}
                   </button>
                 </td>
               </tr>
@@ -339,7 +340,7 @@ export default function CashSession() {
 
       {/* ============ MODALLAR ============ */}
       {openForm && (
-        <Modal title="Smena ochish" onClose={() => setOpenForm(false)}>
+        <Modal title={t("Smena ochish")} onClose={() => setOpenForm(false)}>
           <form
             className="space-y-4"
             onSubmit={(e) => {
@@ -354,7 +355,7 @@ export default function CashSession() {
               });
             }}
           >
-            <Field label="Kassadagi boshlang'ich naqd (so'm) *">
+            <Field label={t("Kassadagi boshlang'ich naqd (so'm) *")}>
               <input
                 required
                 inputMode="numeric"
@@ -366,7 +367,7 @@ export default function CashSession() {
               />
             </Field>
             <PrimaryButton type="submit" className="w-full justify-center">
-              {busy ? "Ochilmoqda..." : "Smenani ochish"}
+              {busy ? t("Ochilmoqda...") : t("Smenani ochish")}
             </PrimaryButton>
           </form>
         </Modal>
@@ -374,7 +375,7 @@ export default function CashSession() {
 
       {movForm && (
         <Modal
-          title={movForm.type === "KIRIM" ? "Naqd kirim" : "Naqd chiqim"}
+          title={movForm.type === "KIRIM" ? t("Naqd kirim") : t("Naqd chiqim")}
           onClose={() => setMovForm(null)}
         >
           <form
@@ -393,12 +394,12 @@ export default function CashSession() {
               });
             }}
           >
-            <Field label="Summa (so'm) *">
+            <Field label={t("Summa (so'm) *")}>
               <input required inputMode="numeric" autoFocus className={inputCls}
                 value={movForm.amount}
                 onChange={(e) => setMovForm({ ...movForm, amount: e.target.value })} />
             </Field>
-            <Field label="Sabab *">
+            <Field label={t("Sabab *")}>
               <input required className={inputCls} value={movForm.reason}
                 onChange={(e) => setMovForm({ ...movForm, reason: e.target.value })}
                 placeholder={
@@ -408,14 +409,14 @@ export default function CashSession() {
                 } />
             </Field>
             <PrimaryButton type="submit" className="w-full justify-center">
-              {busy ? "Saqlanmoqda..." : "Tasdiqlash"}
+              {busy ? t("Saqlanmoqda...") : t("Tasdiqlash")}
             </PrimaryButton>
           </form>
         </Modal>
       )}
 
       {closeForm && summary && (
-        <Modal title="Smenani yopish" onClose={() => setCloseForm(null)}>
+        <Modal title={t("Smenani yopish")} onClose={() => setCloseForm(null)}>
           <form
             className="space-y-4"
             onSubmit={(e) => {
@@ -439,7 +440,7 @@ export default function CashSession() {
           >
             <div className="rounded-lg bg-slate-50 p-4 text-sm">
               <p className="flex justify-between">
-                <span className="text-slate-500">Kutilayotgan naqd:</span>
+                <span className="text-slate-500">{t("Kutilayotgan naqd:")}</span>
                 <b>{fmtSum(summary.expectedCash)}</b>
               </p>
               <p className="mt-1 text-xs text-slate-400">
@@ -449,7 +450,7 @@ export default function CashSession() {
                 {fmtSum(summary.cashIn)} − chiqim {fmtSum(summary.cashOut)}
               </p>
             </div>
-            <Field label="Haqiqiy sanab chiqilgan naqd (so'm) *">
+            <Field label={t("Haqiqiy sanab chiqilgan naqd (so'm) *")}>
               <input required inputMode="numeric" autoFocus className={inputCls}
                 value={closeForm.actual}
                 onChange={(e) => setCloseForm({ ...closeForm, actual: e.target.value })} />
@@ -466,15 +467,15 @@ export default function CashSession() {
                 {fmtSum(Math.round(Number(closeForm.actual) || 0) - summary.expectedCash)}
               </p>
             )}
-            <Field label="Izoh">
+            <Field label={t("Izoh")}>
               <input className={inputCls} value={closeForm.note}
                 onChange={(e) => setCloseForm({ ...closeForm, note: e.target.value })} />
             </Field>
             <PrimaryButton type="submit" className="w-full justify-center">
-              {busy ? "Yopilmoqda..." : "Smenani yopish"}
+              {busy ? t("Yopilmoqda...") : t("Smenani yopish")}
             </PrimaryButton>
             <p className="text-center text-xs text-slate-400">
-              Yopilgan smena o'zgartirilmaydi — hisob audit uchun saqlanadi
+              {t("Yopilgan smena o'zgartirilmaydi — hisob audit uchun saqlanadi")}
             </p>
           </form>
         </Modal>
@@ -483,13 +484,13 @@ export default function CashSession() {
       {detail && (
         <Modal title={`Smena — ${fmtDT(detail.openedAt)}`} onClose={() => setDetail(null)}>
           <div className="space-y-2 text-sm">
-            <p className="flex justify-between"><span className="text-slate-500">Ochdi:</span><b>{detail.openedByName}</b></p>
-            <p className="flex justify-between"><span className="text-slate-500">Yopdi:</span><b>{detail.closedByName} · {fmtDT(detail.closedAt)}</b></p>
-            <p className="flex justify-between"><span className="text-slate-500">Boshlang'ich naqd:</span><b>{fmtSum(detail.openingCash)}</b></p>
-            <p className="flex justify-between"><span className="text-slate-500">Kutilgan naqd:</span><b>{fmtSum(detail.expectedCash ?? 0)}</b></p>
-            <p className="flex justify-between"><span className="text-slate-500">Haqiqiy naqd:</span><b>{fmtSum(detail.actualCash ?? 0)}</b></p>
+            <p className="flex justify-between"><span className="text-slate-500">{t("Ochdi:")}</span><b>{detail.openedByName}</b></p>
+            <p className="flex justify-between"><span className="text-slate-500">{t("Yopdi:")}</span><b>{detail.closedByName} · {fmtDT(detail.closedAt)}</b></p>
+            <p className="flex justify-between"><span className="text-slate-500">{t("Boshlang'ich naqd:")}</span><b>{fmtSum(detail.openingCash)}</b></p>
+            <p className="flex justify-between"><span className="text-slate-500">{t("Kutilgan naqd:")}</span><b>{fmtSum(detail.expectedCash ?? 0)}</b></p>
+            <p className="flex justify-between"><span className="text-slate-500">{t("Haqiqiy naqd:")}</span><b>{fmtSum(detail.actualCash ?? 0)}</b></p>
             <p className="flex justify-between">
-              <span className="text-slate-500">Farq:</span>
+              <span className="text-slate-500">{t("Farq:")}</span>
               <b className={(detail.difference ?? 0) === 0 ? "text-emerald-600" : "text-rose-600"}>
                 {(detail.difference ?? 0) > 0 ? "+" : ""}{fmtSum(detail.difference ?? 0)}
               </b>

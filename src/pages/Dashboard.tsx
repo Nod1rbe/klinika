@@ -1,4 +1,4 @@
-import {
+﻿import {
   Banknote,
   CalendarCheck2,
   Stethoscope,
@@ -16,6 +16,7 @@ import {
 import { Card, CardHeader, StatCard, StatusBadge, Table } from "../components/ui";
 import { fmtSum } from "../data/mock";
 import { isoDate, shortUzDate } from "../lib/date";
+import { t } from "../lib/i18n";
 import { useStore } from "../store";
 import { apptTotal, isRevenue } from "../types";
 
@@ -51,39 +52,39 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Boshqaruv paneli</h1>
+        <h1 className="text-2xl font-bold tracking-tight">{t("Boshqaruv paneli")}</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Bugungi holat — bir qarashda
+          {t("Bugungi holat — bir qarashda")}
         </p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
           icon={<CalendarCheck2 size={20} />}
-          label="Bugungi qabullar"
+          label={t("Bugungi qabullar")}
           value={String(todayList.length)}
-          hint={`${todayList.filter((a) => a.status === "YAKUNLANDI").length} tasi yakunlangan`}
+          hint={`${todayList.filter((a) => a.status === "YAKUNLANDI").length} ${t("tasi yakunlangan")}`}
           tone="teal"
         />
         <StatCard
           icon={<Banknote size={20} />}
-          label="Bugungi tushum"
+          label={t("Bugungi tushum")}
           value={fmtSum(revenue)}
-          hint={`${paidToday.length} ta to'lov`}
+          hint={`${paidToday.length} ${t("ta to'lov")}`}
           tone="sky"
         />
         <StatCard
           icon={<UserPlus size={20} />}
-          label="Yangi bemorlar"
+          label={t("Yangi bemorlar")}
           value={String(newPatients)}
-          hint="Bugun ro'yxatga olindi"
+          hint={t("Bugun ro'yxatga olindi")}
           tone="amber"
         />
         <StatCard
           icon={<Stethoscope size={20} />}
-          label="Band shifokorlar"
+          label={t("Band shifokorlar")}
           value={`${busyDoctors} / ${doctors.filter((d) => d.active).length}`}
-          hint="Hozir qabulda"
+          hint={t("Hozir qabulda")}
           tone="violet"
         />
       </div>
@@ -92,16 +93,16 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <StatCard
             icon={<Banknote size={20} />}
-            label="Bugungi mahsulot savdosi (POS)"
+            label={t("Bugungi mahsulot savdosi (POS)")}
             value={fmtSum(prodSalesToday)}
-            hint={`${salesList.filter((s) => s.date === today).length} ta sotuv · qaytarishlar ayirilgan`}
+            hint={`${salesList.filter((s) => s.date === today).length} ${t("ta sotuv · qaytarishlar ayirilgan")}`}
             tone="teal"
           />
           <StatCard
             icon={<CalendarCheck2 size={20} />}
-            label="Kam qolgan mahsulotlar"
+            label={t("Kam qolgan mahsulotlar")}
             value={String(lowStock)}
-            hint={lowStock > 0 ? "Ombor bo'limida ko'ring" : "Hammasi yetarli"}
+            hint={lowStock > 0 ? t("Ombor bo'limida ko'ring") : t("Hammasi yetarli")}
             tone={lowStock > 0 ? "amber" : "sky"}
           />
         </div>
@@ -110,8 +111,8 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-5">
         <Card className="xl:col-span-3">
           <CardHeader
-            title="Haftalik tushum"
-            subtitle="Oxirgi 7 kun, so'mda"
+            title={t("Haftalik tushum")}
+            subtitle={t("Oxirgi 7 kun, so'mda")}
           />
           <div className="p-5">
             <ResponsiveContainer width="100%" height={260}>
@@ -132,8 +133,8 @@ export default function Dashboard() {
         </Card>
 
         <Card className="xl:col-span-2">
-          <CardHeader title="Bugungi navbat" subtitle="Barcha holatlar" />
-          <Table head={["№", "Vaqt", "Bemor", "Holat"]}>
+          <CardHeader title={t("Bugungi navbat")} subtitle={t("Barcha holatlar")} />
+          <Table head={["№", t("Vaqt"), t("Bemor"), t("Holat")]}>
             {todayList
               .slice()
               .sort((a, b) => (a.queueNo ?? 999) - (b.queueNo ?? 999))

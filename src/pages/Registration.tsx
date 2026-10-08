@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+﻿import { useMemo, useState } from "react";
 import {
   Banknote,
   CheckCircle2,
@@ -16,6 +16,7 @@ import {
   renderReceiptInto,
   type ReceiptData,
 } from "../lib/receipt";
+import { t } from "../lib/i18n";
 import { useStore } from "../store";
 import type { Appointment, Patient, PaymentMethod } from "../types";
 import { apptTotal, CATEGORY_ORDER } from "../types";
@@ -257,7 +258,7 @@ export default function Registration() {
         <Card className="p-8 text-center">
           <CheckCircle2 size={44} className="mx-auto text-emerald-500" />
           <h1 className="mt-3 text-xl font-bold">
-            {paid ? "To'lov qabul qilindi" : "Ro'yxatga olindi"}
+            {paid ? t("To'lov qabul qilindi") : t("Ro'yxatga olindi")}
           </h1>
           <p className="mt-1 text-sm text-slate-500">
             {p?.fullName} · navbat raqami:
@@ -272,10 +273,10 @@ export default function Registration() {
               onClick={() => printReceipt(receiptData(done))}
               className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
             >
-              <Printer size={15} /> Chekni qayta chiqarish
+              <Printer size={15} /> {t("Chekni qayta chiqarish")}
             </button>
             <PrimaryButton onClick={reset}>
-              <UserPlus size={15} /> Yangi qabul
+              <UserPlus size={15} /> {t("Yangi qabul")}
             </PrimaryButton>
           </div>
         </Card>
@@ -287,10 +288,10 @@ export default function Registration() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Registratsiya — yangi qabul</h1>
+        <h1 className="text-2xl font-bold tracking-tight">{t("Registratsiya — yangi qabul")}</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Bemor va shifokorni tanlang, kelgan xizmatlarini belgilang — chek
-          termal printerga chiqadi
+          {t("Bemor va shifokorni tanlang, kelgan xizmatlarini belgilang — chek")}
+          {t("termal printerga chiqadi")}
         </p>
       </div>
 
@@ -306,7 +307,7 @@ export default function Registration() {
             <input
               value={serviceQuery}
               onChange={(e) => setServiceQuery(e.target.value)}
-              placeholder="Xizmat qidirish... (masalan: qon, EKG, punksiya)"
+              placeholder={t("Xizmat qidirish... (masalan: qon, EKG, punksiya)")}
               className={`${inputCls} py-2.5 pl-10`}
             />
             {serviceQuery && (
@@ -330,7 +331,7 @@ export default function Registration() {
               return (
                 <Card>
                   <CardHeader
-                    title="Qidiruv natijalari"
+                    title={t("Qidiruv natijalari")}
                     subtitle={`${found.length} ta xizmat topildi`}
                   />
                   <div className="grid grid-cols-1 gap-x-6 p-3 sm:grid-cols-2">
@@ -338,7 +339,7 @@ export default function Registration() {
                   </div>
                   {found.length === 0 && (
                     <p className="px-5 pb-5 text-sm text-slate-400">
-                      Hech narsa topilmadi — boshqacha yozib ko'ring
+                      {t("Hech narsa topilmadi — boshqacha yozib ko'ring")}
                     </p>
                   )}
                 </Card>
@@ -365,11 +366,11 @@ export default function Registration() {
                     <span className="flex items-center gap-2.5">
                       <span className="font-semibold text-slate-800">{cat}</span>
                       <span className="text-xs text-slate-400">
-                        {list.length} ta
+                        {list.length} {t("ta")}
                       </span>
                       {chosen > 0 && (
                         <span className="rounded-full bg-teal-100 px-2.5 py-0.5 text-xs font-semibold text-teal-700">
-                          {chosen} tanlandi
+                          {chosen} {t("tanlandi")}
                         </span>
                       )}
                     </span>
@@ -392,7 +393,7 @@ export default function Registration() {
         {/* Yakuniy panel (katta ekranda o'ng, telefonda tepada) */}
         <div className="order-1 space-y-4 xl:sticky xl:top-20 xl:order-2">
           <Card>
-            <CardHeader title="1. Bemor" />
+            <CardHeader title={t("1. Bemor")} />
             <div className="space-y-3 p-4">
               {notice && (
                 <p className="rounded-lg bg-sky-50 px-3 py-2 text-xs text-sky-700">
@@ -426,7 +427,7 @@ export default function Registration() {
                     <input
                       value={patientQuery}
                       onChange={(e) => setPatientQuery(e.target.value)}
-                      placeholder="F.I.Sh., ID yoki telefon..."
+                      placeholder={t("F.I.Sh., ID yoki telefon...")}
                       className={`${inputCls} pl-9`}
                     />
                   </div>
@@ -454,11 +455,11 @@ export default function Registration() {
                       onClick={() => setShowQuickAdd(true)}
                       className="inline-flex items-center gap-1.5 text-sm font-medium text-teal-600 hover:text-teal-700"
                     >
-                      <UserPlus size={15} /> Yangi bemor qo'shish
+                      <UserPlus size={15} /> {t("Yangi bemor qo'shish")}
                     </button>
                   ) : (
                     <form onSubmit={quickAdd} className="space-y-2.5 rounded-lg bg-slate-50 p-3">
-                      <Field label="F.I.Sh. *">
+                      <Field label={t("F.I.Sh. *")}>
                         <input
                           required
                           className={inputCls}
@@ -466,17 +467,17 @@ export default function Registration() {
                           onChange={(e) => setQuick({ ...quick, fullName: e.target.value })}
                         />
                       </Field>
-                      <Field label="Telefon *">
+                      <Field label={t("Telefon *")}>
                         <input
                           required
                           className={inputCls}
-                          placeholder="+998 ..."
+                          placeholder={t("+998 ...")}
                           value={quick.phone}
                           onChange={(e) => setQuick({ ...quick, phone: e.target.value })}
                         />
                       </Field>
                       <div className="grid grid-cols-2 gap-2">
-                        <Field label="Tug'ilgan sana *">
+                        <Field label={t("Tug'ilgan sana *")}>
                           <input
                             required
                             type="date"
@@ -485,7 +486,7 @@ export default function Registration() {
                             onChange={(e) => setQuick({ ...quick, birthDate: e.target.value })}
                           />
                         </Field>
-                        <Field label="Jinsi">
+                        <Field label={t("Jinsi")}>
                           <select
                             className={inputCls}
                             value={quick.gender}
@@ -493,8 +494,8 @@ export default function Registration() {
                               setQuick({ ...quick, gender: e.target.value as Patient["gender"] })
                             }
                           >
-                            <option>Erkak</option>
-                            <option>Ayol</option>
+                            <option value="Erkak">{t("Erkak")}</option>
+                            <option value="Ayol">{t("Ayol")}</option>
                           </select>
                         </Field>
                       </div>
@@ -507,7 +508,7 @@ export default function Registration() {
                           onClick={() => setShowQuickAdd(false)}
                           className="rounded-lg px-3 text-sm text-slate-500 hover:bg-slate-100"
                         >
-                          Bekor
+                          {t("Bekor")}
                         </button>
                       </div>
                     </form>
@@ -518,14 +519,14 @@ export default function Registration() {
           </Card>
 
           <Card>
-            <CardHeader title="2. Shifokor" />
+            <CardHeader title={t("2. Shifokor")} />
             <div className="p-4">
               <select
                 className={inputCls}
                 value={doctorId}
                 onChange={(e) => setDoctorId(e.target.value)}
               >
-                <option value="">Tanlang...</option>
+                <option value="">{t("Tanlang...")}</option>
                 {doctors
                   .filter((d) => d.active)
                   .map((d) => (
@@ -539,8 +540,8 @@ export default function Registration() {
 
           <Card>
             <CardHeader
-              title="3. To'lov"
-              subtitle={`${selected.size} ta xizmat tanlandi`}
+              title={t("3. To'lov")}
+              subtitle={`${selected.size} ${t("ta xizmat tanlandi")}`}
             />
             <div className="space-y-3 p-4">
               {[...selected].map((id) => {
@@ -568,23 +569,23 @@ export default function Registration() {
                 );
               })}
               <div className="flex items-center justify-between border-t border-slate-100 pt-3">
-                <span className="text-sm font-semibold">JAMI:</span>
+                <span className="text-sm font-semibold">{t("JAMI:")}</span>
                 <span className="text-xl font-bold text-teal-700">{fmtSum(total)}</span>
               </div>
-              <Field label="To'lov usuli">
+              <Field label={t("To'lov usuli")}>
                 <select
                   className={inputCls}
                   value={method}
                   onChange={(e) => setMethod(e.target.value as PaymentMethod)}
                 >
                   {METHODS.map((m) => (
-                    <option key={m}>{m}</option>
+                    <option key={m} value={m}>{t(m)}</option>
                   ))}
                 </select>
               </Field>
               {error && (
                 <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">
-                  {error}
+                  {t(error)}
                 </p>
               )}
               <PrimaryButton
@@ -592,14 +593,14 @@ export default function Registration() {
                 className={`w-full justify-center py-2.5 ${busy ? "pointer-events-none opacity-60" : ""}`}
               >
                 <Banknote size={16} />
-                {busy ? "Saqlanmoqda..." : "To'lov + chek chiqarish"}
+                {busy ? t("Saqlanmoqda...") : t("To'lov + chek chiqarish")}
               </PrimaryButton>
               <button
                 onClick={() => submit(false)}
                 disabled={busy}
                 className="w-full rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 disabled:opacity-60"
               >
-                Faqat ro'yxatga olish (to'lov kassada)
+                {t("Faqat ro'yxatga olish (to'lov kassada)")}
               </button>
             </div>
           </Card>

@@ -34,6 +34,7 @@ import {
   TENANT_ID,
 } from "./lib/db";
 import { tashkentToday } from "./lib/date";
+import { getLang, setCurrentLang, type Lang } from "./lib/i18n";
 import { supabase } from "./lib/supabase";
 import type {
   Appointment,
@@ -77,6 +78,8 @@ interface Store {
   role: Role;
   setRole: (r: Role) => void; // faqat mock rejimda ishlatiladi
   today: string; // Toshkent bo'yicha bugungi sana — muntazam yangilanadi
+  lang: Lang;
+  setLang: (l: Lang) => void;
   clinic: ClinicInfo;
   source: DataSource;
   loadError: string | null;
@@ -160,6 +163,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [retryTick, setRetryTick] = useState(0);
   const [today, setToday] = useState<string>(tashkentToday());
+  const [lang, setLangState] = useState<Lang>(getLang());
   const loadedRef = useRef(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [tenantRows, setTenantRows] = useState<any[]>([]);
@@ -411,6 +415,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       role: profile?.role ?? manualRole,
       setRole: setManualRole,
       today,
+      lang,
+      setLang(l: Lang) {
+        setCurrentLang(l);
+        setLangState(l);
+      },
       clinic: (() => {
         const row =
           tenantRows.find((t) => t.id === profile?.tenantId) ?? tenantRows[0];
@@ -614,6 +623,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       session,
       authState,
       today,
+      lang,
       source,
       loadError,
       dbError,

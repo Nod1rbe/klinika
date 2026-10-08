@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+﻿import { useMemo, useState } from "react";
 import {
   Cell,
   Legend,
@@ -10,6 +10,7 @@ import {
 import { Card, CardHeader, Table } from "../components/ui";
 import { fmtSum } from "../data/mock";
 import { isoDate } from "../lib/date";
+import { t } from "../lib/i18n";
 import { useStore } from "../store";
 import { apptTotal, isRevenue } from "../types";
 
@@ -74,7 +75,7 @@ export default function Reports() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">KPI / Hisobotlar</h1>
+          <h1 className="text-2xl font-bold tracking-tight">{t("KPI / Hisobotlar")}</h1>
           <p className="mt-1 text-sm text-slate-500">
             Davr tushumi: <b className="text-teal-700">{fmtSum(totalRevenue)}</b> ·{" "}
             {paid.length} ta to'langan qabul
@@ -100,10 +101,10 @@ export default function Reports() {
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-5">
         <Card className="xl:col-span-3">
           <CardHeader
-            title="Vrachlar statistikasi"
-            subtitle="Bemorlar soni va tushum summasi bilan"
+            title={t("Vrachlar statistikasi")}
+            subtitle={t("Bemorlar soni va tushum summasi bilan")}
           />
-          <Table head={["Shifokor", "Bemorlar", "Yakunlangan", "Tushum", "O'rtacha chek"]}>
+          <Table head={[t("Shifokor"), t("Bemorlar"), t("Yakunlangan"), t("Tushum"), t("O'rtacha chek")]}>
             {byDoctor.map((d) => (
               <tr key={d.id} className="hover:bg-slate-50">
                 <td className="px-5 py-3">
@@ -121,7 +122,7 @@ export default function Reports() {
               </tr>
             ))}
             <tr className="border-t-2 border-slate-200 bg-slate-50/60 font-semibold">
-              <td className="px-5 py-3">JAMI</td>
+              <td className="px-5 py-3">{t("JAMI")}</td>
               <td className="px-5 py-3">{paid.length}</td>
               <td className="px-5 py-3">
                 {appointments.filter((a) => a.status === "YAKUNLANDI" && inPeriod(a.date)).length}
@@ -133,11 +134,11 @@ export default function Reports() {
         </Card>
 
         <Card className="xl:col-span-2">
-          <CardHeader title="Yo'nalishlar bo'yicha tushum" />
+          <CardHeader title={t("Yo'nalishlar bo'yicha tushum")} />
           <div className="p-5">
             {deptData.length === 0 ? (
               <p className="py-10 text-center text-sm text-slate-400">
-                Bu davrda to'lovlar yo'q
+                {t("Bu davrda to'lovlar yo'q")}
               </p>
             ) : (
               <ResponsiveContainer width="100%" height={280}>
@@ -213,34 +214,34 @@ export default function Reports() {
         return (
           <Card>
             <CardHeader
-              title="Mahsulot savdosi (POS)"
-              subtitle="Yalpi foyda o'rtacha tannarx usulida — sotuv paytidagi tannarx bo'yicha"
+              title={t("Mahsulot savdosi (POS)")}
+              subtitle={t("Yalpi foyda o'rtacha tannarx usulida — sotuv paytidagi tannarx bo'yicha")}
             />
             <div className="grid grid-cols-2 gap-4 border-b border-slate-100 px-5 py-4 text-sm lg:grid-cols-6">
               <div>
-                <p className="text-slate-500">Sof tushum</p>
+                <p className="text-slate-500">{t("Sof tushum")}</p>
                 <p className="mt-0.5 text-lg font-bold text-teal-700">{fmtSum(revenue)}</p>
               </div>
               <div>
-                <p className="text-slate-500">Tannarx (COGS)</p>
+                <p className="text-slate-500">{t("Tannarx (COGS)")}</p>
                 <p className="mt-0.5 text-lg font-bold">{fmtSum(cogs)}</p>
               </div>
               <div>
-                <p className="text-slate-500">Yalpi foyda</p>
+                <p className="text-slate-500">{t("Yalpi foyda")}</p>
                 <p className="mt-0.5 text-lg font-bold text-emerald-700">
                   {fmtSum(revenue - cogs)}
                 </p>
               </div>
               <div>
-                <p className="text-slate-500">Chegirmalar</p>
+                <p className="text-slate-500">{t("Chegirmalar")}</p>
                 <p className="mt-0.5 text-lg font-bold">{fmtSum(discounts)}</p>
               </div>
               <div>
-                <p className="text-slate-500">Ombor qiymati (hozir)</p>
+                <p className="text-slate-500">{t("Ombor qiymati (hozir)")}</p>
                 <p className="mt-0.5 text-lg font-bold">{fmtSum(stockValue)}</p>
               </div>
               <div>
-                <p className="text-slate-500">Ta'minotchi qarzi</p>
+                <p className="text-slate-500">{t("Ta'minotchi qarzi")}</p>
                 <p className={`mt-0.5 text-lg font-bold ${payable > 0 ? "text-rose-600" : ""}`}>
                   {fmtSum(payable)}
                 </p>
@@ -254,11 +255,11 @@ export default function Reports() {
                   .join(" · ")}
               </p>
             )}
-            <Table head={["Mahsulot", "Sotildi", "Tushum", "Yalpi foyda"]}>
+            <Table head={[t("Mahsulot"), t("Sotildi"), t("Tushum"), t("Yalpi foyda")]}>
               {prodRows.length === 0 && (
                 <tr>
                   <td colSpan={4} className="px-5 py-6 text-sm text-slate-400">
-                    Bu davrda mahsulot sotuvlari yo'q
+                    {t("Bu davrda mahsulot sotuvlari yo'q")}
                   </td>
                 </tr>
               )}

@@ -1,7 +1,8 @@
-import { AlertCircle } from "lucide-react";
+﻿import { AlertCircle } from "lucide-react";
 import { Card, CardHeader, Table } from "../components/ui";
 import { fmtSum } from "../data/mock";
 import { formatUzDate } from "../lib/date";
+import { t } from "../lib/i18n";
 import { useStore } from "../store";
 import { apptTotal, isRevenue } from "../types";
 
@@ -34,7 +35,7 @@ export default function HR() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">HR / Xodimlar</h1>
+        <h1 className="text-2xl font-bold tracking-tight">{t("HR / Xodimlar")}</h1>
         <p className="mt-1 text-sm text-slate-500">
           Davomat, litsenziya nazorati va ish haqi (oklad + KPI bonus)
         </p>
@@ -44,7 +45,7 @@ export default function HR() {
         <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
           <AlertCircle size={18} className="mt-0.5 shrink-0" />
           <div>
-            <b>Litsenziya muddati tugayapti:</b>
+            <b>{t("Litsenziya muddati tugayapti:")}</b>
             <ul className="mt-1 list-inside list-disc">
               {expiring.map((e) => (
                 <li key={e.id}>
@@ -58,8 +59,8 @@ export default function HR() {
       )}
 
       <Card>
-        <CardHeader title="Bugungi davomat" subtitle={formatUzDate(today)} />
-        <Table head={["Xodim", "Lavozim", "Kelgan", "Ketgan", "Holat"]}>
+        <CardHeader title={t("Bugungi davomat")} subtitle={formatUzDate(today)} />
+        <Table head={[t("Xodim"), t("Lavozim"), t("Kelgan"), t("Ketgan"), t("Holat")]}>
           {employees.map((e) => (
             <tr key={e.id}>
               <td className="px-5 py-3 font-medium">{e.name}</td>
@@ -84,10 +85,10 @@ export default function HR() {
 
       <Card>
         <CardHeader
-          title="Ish haqi hisob-kitobi"
-          subtitle="Oklad + jalb qilingan tushumdan KPI foizi"
+          title={t("Ish haqi hisob-kitobi")}
+          subtitle={t("Oklad + jalb qilingan tushumdan KPI foizi")}
         />
-        <Table head={["Xodim", "Oklad", "KPI %", "Jalb qilingan tushum", "Bonus", "Jami"]}>
+        <Table head={[t("Xodim"), t("Oklad"), t("KPI %"), t("Jalb qilingan tushum"), t("Bonus"), t("Jami")]}>
           {employees.map((e) => {
             const docId = docIdByName.get(e.name);
             const rev = docId ? (revenueByDoctor.get(docId) ?? 0) : 0;
