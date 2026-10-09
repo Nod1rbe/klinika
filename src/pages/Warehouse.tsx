@@ -3,6 +3,7 @@ import {
   AlertTriangle,
   ArrowDownUp,
   Boxes,
+  FileSpreadsheet,
   Pencil,
   Plus,
   Search,
@@ -18,6 +19,7 @@ import {
   PrimaryButton,
   Table,
 } from "../components/ui";
+import ImportPurchase from "../components/ImportPurchase";
 import { fmtSum } from "../data/mock";
 import { supabase } from "../lib/supabase";
 import { t } from "../lib/i18n";
@@ -101,6 +103,7 @@ export default function Warehouse() {
     debt: number;
     amount: string;
   }>(null);
+  const [importOpen, setImportOpen] = useState(false);
 
   const canManage = profile && ["direktor", "omborchi"].includes(profile.role);
   const canSeeCost = profile && ["direktor", "omborchi", "hisobchi"].includes(profile.role);
@@ -204,9 +207,17 @@ export default function Warehouse() {
             subtitle={`${shown.length} ${t("ta ko'rsatilmoqda")}`}
             action={
               canManage ? (
-                <PrimaryButton onClick={() => setProdModal({ ...emptyProd })}>
-                  <Plus size={15} /> {t("Yangi mahsulot")}
-                </PrimaryButton>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => setImportOpen(true)}
+                    className="inline-flex items-center gap-2 rounded-xl border border-teal-300 px-4 py-2 text-sm font-semibold text-teal-700 transition hover:bg-teal-50"
+                  >
+                    <FileSpreadsheet size={15} /> {t("Excel'dan yuklash")}
+                  </button>
+                  <PrimaryButton onClick={() => setProdModal({ ...emptyProd })}>
+                    <Plus size={15} /> {t("Yangi mahsulot")}
+                  </PrimaryButton>
+                </div>
               ) : undefined
             }
           />
@@ -326,13 +337,21 @@ export default function Warehouse() {
             subtitle={t("Qabul qilinganda zaxira oshadi va tannarx yangilanadi")}
             action={
               canManage ? (
-                <PrimaryButton
-                  onClick={() =>
-                    setPurModal({ supplierId: "", note: "", lines: [{ productId: "", qty: "", cost: "" }] })
-                  }
-                >
-                  <Plus size={15} /> {t("Yangi kirim")}
-                </PrimaryButton>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => setImportOpen(true)}
+                    className="inline-flex items-center gap-2 rounded-xl border border-teal-300 px-4 py-2 text-sm font-semibold text-teal-700 transition hover:bg-teal-50"
+                  >
+                    <FileSpreadsheet size={15} /> {t("Excel'dan yuklash")}
+                  </button>
+                  <PrimaryButton
+                    onClick={() =>
+                      setPurModal({ supplierId: "", note: "", lines: [{ productId: "", qty: "", cost: "" }] })
+                    }
+                  >
+                    <Plus size={15} /> {t("Yangi kirim")}
+                  </PrimaryButton>
+                </div>
               ) : undefined
             }
           />
@@ -504,6 +523,8 @@ export default function Warehouse() {
       )}
 
       {/* ============ MODALLAR ============ */}
+      {importOpen && <ImportPurchase onClose={() => setImportOpen(false)} />}
+
       {prodModal && (
         <Modal
           title={prodModal.id ? t("Mahsulotni tahrirlash") : t("Yangi mahsulot")}

@@ -53,7 +53,7 @@ export default function Sales() {
       items: s.items.map((it) => ({
         name: it.name,
         price: it.unitPrice,
-        qty: it.qty > 1 ? it.qty : undefined,
+        qty: it.qty !== 1 ? it.qty : undefined,
       })),
       total: s.total,
       method: s.payments.map((p) => `${p.method} ${fmtSum(p.amount)}`).join(" + "),

@@ -79,7 +79,10 @@ export default function Pos() {
       .slice(0, 5);
   }, [patientQuery, patients]);
 
-  const subtotal = cart.reduce((s, l) => s + l.qty * l.product.sellPrice, 0);
+  // Qator summasi serverdagi kabi yaxlitlanadi (kasr miqdorlarda ham to'lov
+  // yig'indisi server jamisi bilan aynan mos kelishi uchun)
+  const lineSum = (l: CartLine) => Math.round(l.qty * l.product.sellPrice);
+  const subtotal = cart.reduce((s, l) => s + lineSum(l), 0);
   const disc = Math.max(0, Math.round(Number(discount) || 0));
   const total = Math.max(0, subtotal - disc);
   const amt2 = Math.max(0, Math.round(Number(amount2) || 0));
@@ -90,19 +93,20 @@ export default function Pos() {
     setCart((prev) => {
       const ex = prev.find((l) => l.product.id === p.id);
       if (ex) {
-        if (ex.qty + 1 > p.stock) {
-          setError(`${p.name}: omborda ${p.stock} ${p.unit} qoldi`);
+        if (ex.qty >= p.stock) {
+          setError(`${p.name}: ${t("omborda")} ${p.stock} ${p.unit} ${t("qoldi")}`);
           return prev;
         }
         return prev.map((l) =>
-          l.product.id === p.id ? { ...l, qty: l.qty + 1 } : l,
+          l.product.id === p.id ? { ...l, qty: Math.min(l.qty + 1, p.stock) } : l,
         );
       }
-      if (p.stock < 1) {
-        setError(`${p.name}: omborda qolmagan`);
+      if (p.stock <= 0) {
+        setError(`${p.name}: ${t("omborda qolmagan")}`);
         return prev;
       }
-      return [...prev, { product: p, qty: 1 }];
+      // Qisman upakovka qolgan bo'lsa (masalan 0.8) — borini savatga qo'yamiz
+      return [...prev, { product: p, qty: Math.min(1, p.stock) }];
     });
     setQuery("");
   }
@@ -112,7 +116,7 @@ export default function Pos() {
       prev
         .map((l) => {
           if (l.product.id !== id) return l;
-          const q = Math.min(Math.max(qty, 0), l.product.stock);
+          const q = Math.round(Math.min(Math.max(qty, 0), l.product.stock) * 1000) / 1000;
           return { ...l, qty: q };
         })
         .filter((l) => l.qty > 0),
@@ -154,7 +158,7 @@ export default function Pos() {
         items: cart.map((l) => ({
           name: l.product.name,
           price: l.product.sellPrice,
-          qty: l.qty > 1 ? l.qty : undefined,
+          qty: l.qty !== 1 ? l.qty : undefined,
         })),
         total: data.total,
         method: payments.map((p) => `${p.method} ${fmtSum(p.amount)}`).join(" + "),
@@ -305,12 +309,22 @@ export default function Pos() {
                       >
                         <Minus size={13} />
                       </button>
+                      {/* Kasr miqdor ham kiritiladi (0.5 upakovka). Qiymat maydondan
+                          chiqqanda qabul qilinadi — yozish jarayonida qator o'chib ketmasin */}
                       <input
-                        value={l.qty}
-                        onChange={(e) =>
-                          setQty(l.product.id, Math.round(Number(e.target.value) || 0))
-                        }
-                        className="w-12 rounded-lg border border-slate-200 py-1 text-center text-sm"
+                        key={`${l.product.id}-${l.qty}`}
+                        id={`qty-${l.product.id}`}
+                        defaultValue={l.qty}
+                        inputMode="decimal"
+                        onBlur={(e) => {
+                          const n = Number(e.target.value.replace(",", "."));
+                          if (!Number.isFinite(n) || n < 0) e.target.value = String(l.qty);
+                          else setQty(l.product.id, n);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") (e.target as HTMLInputElement).blur();
+                        }}
+                        className="w-14 rounded-lg border border-slate-200 py-1 text-center text-sm"
                       />
                       <button
                         onClick={() => setQty(l.product.id, l.qty + 1)}
@@ -320,7 +334,7 @@ export default function Pos() {
                       </button>
                     </div>
                     <span className="w-24 shrink-0 text-right text-sm font-semibold">
-                      {fmtSum(l.qty * l.product.sellPrice)}
+                      {fmtSum(lineSum(l))}
                     </span>
                     <button
                       onClick={() => setQty(l.product.id, 0)}

@@ -101,11 +101,13 @@ export function Modal({
   onClose,
   children,
   wide,
+  xl,
 }: {
   title: string;
   onClose: () => void;
   children: ReactNode;
   wide?: boolean;
+  xl?: boolean;
 }) {
   return (
     <div
@@ -113,7 +115,7 @@ export function Modal({
       onClick={onClose}
     >
       <div
-        className={`max-h-[90vh] w-full ${wide ? "max-w-2xl" : "max-w-lg"} overflow-y-auto rounded-2xl bg-white shadow-2xl`}
+        className={`max-h-[90vh] w-full ${xl ? "max-w-5xl" : wide ? "max-w-2xl" : "max-w-lg"} overflow-y-auto rounded-2xl bg-white shadow-2xl`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">

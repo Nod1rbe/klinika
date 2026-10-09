@@ -1,4 +1,4 @@
-// Termal chek (XPrinter 58mm) — brauzer print oqimi orqali.
+﻿// Termal chek (XPrinter 58mm) — brauzer print oqimi orqali.
 // window.open sinxron chaqiriladi (popup-bloker uchun), QR tayyor bo'lgach yoziladi.
 import QRCode from "qrcode";
 import { CLINIC } from "./config";
@@ -70,11 +70,11 @@ function buildHtml(r: ReceiptData, qrDataUrl: string | null): string {
   const rows = r.items
     .map((it) => {
       const qty = it.qty ?? 1;
-      const label = qty > 1 ? `${it.name} x${qty}` : it.name;
+      const label = qty !== 1 ? `${it.name} x${qty}` : it.name;
       return `
       <tr>
         <td class="nm">${esc(label)}</td>
-        <td class="pr">${money(it.price * qty)}</td>
+        <td class="pr">${money(Math.round(it.price * qty))}</td>
       </tr>`;
     })
     .join("");
