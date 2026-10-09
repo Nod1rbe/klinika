@@ -1,17 +1,15 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
   Activity,
   AlertTriangle,
   BarChart3,
-  Banknote,
   BookOpen,
   Boxes,
   Building2,
   CalendarDays,
   ClipboardPlus,
   Cog,
-  ShoppingCart,
   Wallet,
   FlaskConical,
   HeartPulse,
@@ -41,10 +39,7 @@ const NAV: {
   { to: "/registratsiya", label: "Yangi qabul", icon: ClipboardPlus, roles: ["direktor", "registratura"] },
   { to: "/bemorlar", label: "Bemorlar", icon: Users, roles: ["direktor", "registratura"] },
   { to: "/qabullar", label: "Qabullar / Navbat", icon: CalendarDays, roles: ["direktor", "registratura"] },
-  { to: "/kassa", label: "Kassa / To'lovlar", icon: Banknote, roles: ["direktor", "registratura", "hisobchi"] },
-  { to: "/pos", label: "Sotuv (POS)", icon: ShoppingCart, roles: ["direktor", "registratura", "hisobchi"] },
-  { to: "/sotuvlar", label: "Sotuvlar", icon: Banknote, roles: ["direktor", "registratura", "hisobchi"] },
-  { to: "/smena", label: "Kassa smenasi", icon: Wallet, roles: ["direktor", "registratura", "hisobchi"] },
+  { to: "/kassa", label: "Kassa", icon: Wallet, roles: ["direktor", "registratura", "hisobchi"] },
   { to: "/ombor", label: "Ombor", icon: Boxes, roles: ["direktor", "omborchi", "hisobchi"] },
   { to: "/shifokor", label: "Shifokor kabineti", icon: Stethoscope, roles: ["direktor", "shifokor"] },
   { to: "/laboratoriya", label: "Laboratoriya", icon: FlaskConical, roles: ["direktor", "laborant", "shifokor"] },

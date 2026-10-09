@@ -663,7 +663,26 @@ export const RU: Record<string, string> = {
   "qoldi": "осталось",
   "Nomi": "Название",
   "To'lov": "Оплата",
-  "Mahsulot...": "Товар...",};
+  "Mahsulot...": "Товар...",  // ===== Kassa (yagona sahifa) =====
+  "bemor": "пац.",
+  "Click, Payme, Uzum, karta": "Click, Payme, Uzum, карта",
+  "dan": "с",
+  "Hamma to'lagan": "Все оплатили",
+  "Karta / onlayn": "Карта / онлайн",
+  "Kassa": "Касса",
+  "Kassada bo'lishi kerak": "В кассе должно быть",
+  "Kunni boshlashda kassadagi naqdni sanab smena oching — shunda kun oxirida kassa avtomatik solishtiriladi.": "В начале дня пересчитайте наличные и откройте смену — тогда в конце дня касса сверится автоматически.",
+  "sanani tanlang": "выберите дату",
+  "Smena ochilmagan.": "Смена не открыта.",
+  "Smena ochiq": "Смена открыта",
+  "Sotuv saqlandi": "Продажа сохранена",
+  "To'lov kutmoqda": "Ожидают оплаты",
+  "To'lov qabul qilish, dori sotish va kassa smenasi — hammasi shu yerda": "Приём оплат, продажа лекарств и кассовая смена — всё здесь",
+  "zaxira omborga qaytdi": "товар вернулся на склад",
+  "Xizmat to'lovlari": "Оплата услуг",
+  "Mahsulot sotish": "Продажа товаров",
+  "Sotuvlar tarixi": "История продаж",
+  "Smena": "Смена",};
 
 export const EN: Record<string, string> = {
   // ===== General / navigation =====
@@ -1327,4 +1346,23 @@ export const EN: Record<string, string> = {
   "qoldi": "left",
   "Nomi": "Name",
   "To'lov": "Payment",
-  "Mahsulot...": "Product...",};
+  "Mahsulot...": "Product...",  // ===== Cashier hub =====
+  "bemor": "patients",
+  "Click, Payme, Uzum, karta": "Click, Payme, Uzum, card",
+  "dan": "since",
+  "Hamma to'lagan": "Everyone has paid",
+  "Karta / onlayn": "Card / online",
+  "Kassa": "Cashier",
+  "Kassada bo'lishi kerak": "Should be in the drawer",
+  "Kunni boshlashda kassadagi naqdni sanab smena oching — shunda kun oxirida kassa avtomatik solishtiriladi.": "Count the drawer and open a shift at the start of the day — the drawer is then reconciled automatically at closing.",
+  "sanani tanlang": "pick a date",
+  "Smena ochilmagan.": "No shift is open.",
+  "Smena ochiq": "Shift open",
+  "Sotuv saqlandi": "Sale saved",
+  "To'lov kutmoqda": "Awaiting payment",
+  "To'lov qabul qilish, dori sotish va kassa smenasi — hammasi shu yerda": "Take payments, sell medicines and run the cash shift — all in one place",
+  "zaxira omborga qaytdi": "items returned to stock",
+  "Xizmat to'lovlari": "Service payments",
+  "Mahsulot sotish": "Sell products",
+  "Sotuvlar tarixi": "Sales history",
+  "Smena": "Shift",};

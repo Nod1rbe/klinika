@@ -13,6 +13,7 @@ import { fmtSum } from "../data/mock";
 import { formatUzDate } from "../lib/date";
 import { printReceipt } from "../lib/receipt";
 import { supabase } from "../lib/supabase";
+import { notifyCashChanged } from "../lib/cashSession";
 import { t } from "../lib/i18n";
 import { useStore } from "../store";
 import type { SaleRec, SaleStatus } from "../types";
@@ -24,7 +25,7 @@ const STATUS_STYLE: Record<SaleStatus, string> = {
   QAYTARILGAN: "bg-rose-100 text-rose-700",
 };
 
-export default function Sales() {
+export default function Sales({ embedded = false }: { embedded?: boolean }) {
   const { salesList, patients, refundsList, clinic, retryLoad, notify, today, profile } =
     useStore();
   const [date, setDate] = useState(today);
@@ -79,11 +80,12 @@ export default function Sales() {
         p_reason: reason.trim(),
       });
       if (error) throw new Error(error.message);
-      notify(`Qaytarildi: ${fmtSum(data?.amount ?? 0)} — zaxira omborga qaytdi`);
+      notify(`${t("Qaytarildi")}: ${fmtSum(data?.amount ?? 0)} — ${t("zaxira omborga qaytdi")}`);
       setRefunding(null);
       setRefundQtys(new Map());
       setReason("");
       retryLoad();
+      notifyCashChanged();
     } catch (e) {
       setErr(e instanceof Error ? e.message : String(e));
     } finally {
@@ -94,12 +96,18 @@ export default function Sales() {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">{t("Sotuvlar")}</h1>
-          <p className="mt-1 text-sm text-slate-500">
-            {t("Mahsulot sotuvlari tarixi va qaytarishlar")}
+        {embedded ? (
+          <p className="text-sm text-slate-500">
+            {t("Mahsulot sotuvlari tarixi va qaytarishlar")} · {t("sanani tanlang")}
           </p>
-        </div>
+        ) : (
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">{t("Sotuvlar")}</h1>
+            <p className="mt-1 text-sm text-slate-500">
+              {t("Mahsulot sotuvlari tarixi va qaytarishlar")}
+            </p>
+          </div>
+        )}
         <input
           type="date"
           value={date}

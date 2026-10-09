@@ -2,6 +2,7 @@ import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import Appointments from "./pages/Appointments";
 import AuditLog from "./pages/AuditLog";
+import CashHub from "./pages/CashHub";
 import CashSession from "./pages/CashSession";
 import Cashier from "./pages/Cashier";
 import Dashboard from "./pages/Dashboard";
@@ -58,7 +59,12 @@ function Gate() {
         <Route path="/bemorlar" element={<Patients />} />
         <Route path="/bemorlar/:id" element={<PatientDetail />} />
         <Route path="/qabullar" element={<Appointments />} />
-        <Route path="/kassa" element={<Cashier />} />
+        <Route path="/kassa" element={<CashHub />}>
+          <Route index element={<Cashier embedded />} />
+          <Route path="pos" element={<Pos embedded />} />
+          <Route path="sotuvlar" element={<Sales embedded />} />
+          <Route path="smena" element={<CashSession embedded />} />
+        </Route>
         <Route path="/shifokor" element={<Doctor />} />
         <Route path="/laboratoriya" element={<Laboratory />} />
         <Route path="/xodimlar" element={<HR />} />
@@ -66,9 +72,10 @@ function Gate() {
         <Route path="/audit" element={<AuditLog />} />
         <Route path="/sozlamalar" element={<Settings />} />
         <Route path="/klinikalar" element={<Tenants />} />
-        <Route path="/pos" element={<Pos />} />
-        <Route path="/sotuvlar" element={<Sales />} />
-        <Route path="/smena" element={<CashSession />} />
+        {/* Eski manzillar (xatcho'plar) yangi Kassa tablariga yo'naltiriladi */}
+        <Route path="/pos" element={<Navigate to="/kassa/pos" replace />} />
+        <Route path="/sotuvlar" element={<Navigate to="/kassa/sotuvlar" replace />} />
+        <Route path="/smena" element={<Navigate to="/kassa/smena" replace />} />
         <Route path="/ombor" element={<Warehouse />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>

@@ -24,6 +24,7 @@ import {
   renderReceiptInto,
   type ReceiptData,
 } from "../lib/receipt";
+import { notifyCashChanged } from "../lib/cashSession";
 import { t } from "../lib/i18n";
 import { useStore } from "../store";
 import type { Appointment, PaymentMethod } from "../types";
@@ -31,7 +32,7 @@ import { apptTotal, isRefunded, isRevenue } from "../types";
 
 const METHODS: PaymentMethod[] = ["Naqd", "Click", "Payme", "Uzum", "Karta (POS)"];
 
-export default function Cashier() {
+export default function Cashier({ embedded = false }: { embedded?: boolean }) {
   const {
     appointments,
     patients,
@@ -99,6 +100,7 @@ export default function Cashier() {
       setPaying(null);
       setMethod("Naqd");
       notify(t("To'lov qabul qilindi — chek chiqarildi"));
+      notifyCashChanged();
     } catch (e) {
       w?.close();
       setPayError(
@@ -114,6 +116,8 @@ export default function Cashier() {
     setAppointmentStatus(refunding, "BEKOR");
     setRefunding(null);
     notify(t("To'lov qaytarildi — bugungi tushumdan chiqarildi"));
+    // Bekor qilish bazaga fonda yoziladi — smena hisobi biroz keyin yangilansin
+    setTimeout(notifyCashChanged, 1500);
   }
 
   const payingAppt = appointments.find((a) => a.id === paying);
@@ -121,6 +125,7 @@ export default function Cashier() {
 
   return (
     <div className="space-y-6">
+      {!embedded && (
       <div>
         <h1 className="text-2xl font-bold tracking-tight">{t("Kassa / To'lovlar")}</h1>
         <p className="mt-1 text-sm text-slate-500">
@@ -128,7 +133,9 @@ export default function Cashier() {
           {t("kabinetida ko'rinadi.")}
         </p>
       </div>
+      )}
 
+      {!embedded && (
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Card className="p-5">
           <p className="text-sm text-slate-500">{t("Bugungi sof tushum")}</p>
@@ -153,10 +160,11 @@ export default function Cashier() {
             {fmtSum(refundedSum)}
           </p>
           <p className="mt-0.5 text-xs text-slate-400">
-            {refunded.length} ta bekor qilingan to'lov
+            {refunded.length} {t("ta bekor qilingan to'lov")}
           </p>
         </Card>
       </div>
+      )}
 
       <Card>
         <CardHeader

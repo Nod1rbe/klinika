@@ -1,4 +1,5 @@
 ﻿import { useCallback, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   ArrowDownCircle,
   ArrowUpCircle,
@@ -16,6 +17,7 @@ import {
   Table,
 } from "../components/ui";
 import { fmtSum } from "../data/mock";
+import { notifyCashChanged } from "../lib/cashSession";
 import { supabase } from "../lib/supabase";
 import { t } from "../lib/i18n";
 import { useStore } from "../store";
@@ -66,8 +68,10 @@ const fmtDT = (iso?: string) =>
       })
     : "—";
 
-export default function CashSession() {
+export default function CashSession({ embedded = false }: { embedded?: boolean }) {
   const { profile, notify } = useStore();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [sessions, setSessions] = useState<SessionRow[] | null>(null);
   const [summary, setSummary] = useState<Summary | null>(null);
   const [moves, setMoves] = useState<MovementRow[]>([]);
@@ -140,6 +144,17 @@ export default function CashSession() {
     return () => clearInterval(id);
   }, [load]);
 
+  // Kassa sahifasining tepa panelidan "Smena ochish/yopish" bosilganda
+  // tegishli oyna shu yerda darhol ochiladi
+  const shiftAction = (location.state as { shiftAction?: "open" | "close" } | null)?.shiftAction;
+  useEffect(() => {
+    if (!shiftAction || sessions === null) return;
+    if (shiftAction === "open" && !current) setOpenForm(true);
+    if (shiftAction === "close" && current) setCloseForm({ actual: "", note: "" });
+    navigate(location.pathname, { replace: true, state: null });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shiftAction, sessions]);
+
   if (profile && !["direktor", "registratura", "hisobchi"].includes(profile.role)) {
     return <p className="text-sm text-slate-500">{t("Bu sahifaga ruxsatingiz yo'q.")}</p>;
   }
@@ -154,6 +169,7 @@ export default function CashSession() {
       await fn();
       notify(op);
       await load();
+      notifyCashChanged();
     } catch (e) {
       setErr(e instanceof Error ? e.message : String(e));
     } finally {
@@ -164,13 +180,20 @@ export default function CashSession() {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Kassa smenasi</h1>
-          <p className="mt-1 text-sm text-slate-500">
-            {t("Naqd pul hisobi: smena ochish, kirim-chiqim, kun oxirida solishtirish.")}
+        {embedded ? (
+          <p className="max-w-2xl text-sm text-slate-500">
+            {t("Naqd pul hisobi: smena ochish, kirim-chiqim, kun oxirida solishtirish.")}{" "}
             {t("Karta/onlayn to'lovlar naqd kassaga kirmaydi.")}
           </p>
-        </div>
+        ) : (
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">{t("Kassa smenasi")}</h1>
+            <p className="mt-1 text-sm text-slate-500">
+              {t("Naqd pul hisobi: smena ochish, kirim-chiqim, kun oxirida solishtirish.")}{" "}
+              {t("Karta/onlayn to'lovlar naqd kassaga kirmaydi.")}
+            </p>
+          </div>
+        )}
         {!current ? (
           <PrimaryButton onClick={() => setOpenForm(true)}>
             <PlayCircle size={16} /> {t("Smena ochish")}

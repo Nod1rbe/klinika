@@ -18,6 +18,7 @@ import {
   type ReceiptData,
 } from "../lib/receipt";
 import { supabase } from "../lib/supabase";
+import { notifyCashChanged } from "../lib/cashSession";
 import { t } from "../lib/i18n";
 import { useStore } from "../store";
 import type { PaymentMethod, Product } from "../types";
@@ -35,7 +36,7 @@ interface DoneSale {
   receipt: ReceiptData;
 }
 
-export default function Pos() {
+export default function Pos({ embedded = false }: { embedded?: boolean }) {
   const { products, patients, clinic, retryLoad, notify, profile } = useStore();
   const [query, setQuery] = useState("");
   const [cart, setCart] = useState<CartLine[]>([]);
@@ -168,8 +169,9 @@ export default function Pos() {
       };
       if (w) renderReceiptInto(w, receipt);
       setDone({ saleNo: data.saleNo, total: data.total, receipt });
-      notify(`Sotuv ${data.saleNo} saqlandi`);
+      notify(`${t("Sotuv saqlandi")}: ${data.saleNo}`);
       retryLoad();
+      notifyCashChanged();
     } catch (e) {
       w?.close();
       setError(e instanceof Error ? e.message : String(e));
@@ -200,7 +202,7 @@ export default function Pos() {
         <Card className="p-8 text-center">
           <ShoppingCart size={44} className="mx-auto text-emerald-500" />
           <h1 className="mt-3 text-xl font-bold">{t("Sotuv yakunlandi")}</h1>
-          <p className="mt-1 text-sm text-slate-500">Chek: {done.saleNo}</p>
+          <p className="mt-1 text-sm text-slate-500">{t("Chek")}: {done.saleNo}</p>
           <p className="mt-2 text-3xl font-bold text-teal-600">{fmtSum(done.total)}</p>
           <div className="mt-6 flex justify-center gap-3">
             <button
@@ -220,12 +222,14 @@ export default function Pos() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">{t("Sotuv (POS)")}</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          {t("Mahsulot nomi, SKU yoki shtrix-kod bo'yicha qidiring — skaner ham ishlaydi")}
-        </p>
-      </div>
+      {!embedded && (
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">{t("Sotuv (POS)")}</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            {t("Mahsulot nomi, SKU yoki shtrix-kod bo'yicha qidiring — skaner ham ishlaydi")}
+          </p>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 items-start gap-6 xl:grid-cols-3">
         {/* Qidiruv + savat */}
