@@ -17,6 +17,8 @@ import {
   type ReceiptData,
 } from "../lib/receipt";
 import { t } from "../lib/i18n";
+import OpenShiftInline from "../components/OpenShiftInline";
+import { useOpenShift } from "../lib/cashSession";
 import { useStore } from "../store";
 import type { Appointment, Patient, PaymentMethod } from "../types";
 import { apptTotal, CATEGORY_ORDER } from "../types";
@@ -49,6 +51,9 @@ export default function Registration() {
     () => new Set(CATEGORY_ORDER.slice(0, 2)),
   );
   const [method, setMethod] = useState<PaymentMethod>("Naqd");
+  const { shift, loaded: shiftLoaded } = useOpenShift();
+  // Darhol naqd to'lov uchun ochiq smena shart; "Faqat ro'yxatga olish" har doim ishlaydi
+  const cashBlocked = method === "Naqd" && shiftLoaded && !shift;
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState<Appointment | null>(null);
@@ -208,7 +213,7 @@ export default function Registration() {
   }
 
   async function submit(payNow: boolean) {
-    if (busy) return;
+    if (busy || (payNow && cashBlocked)) return;
     setError(null);
     if (!patientId) return setError("Bemorni tanlang yoki yangi qo'shing");
     if (!doctorId) return setError("Shifokorni tanlang");
@@ -583,6 +588,7 @@ export default function Registration() {
                   ))}
                 </select>
               </Field>
+              {cashBlocked && <OpenShiftInline />}
               {error && (
                 <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">
                   {t(error)}
@@ -590,7 +596,7 @@ export default function Registration() {
               )}
               <PrimaryButton
                 onClick={() => submit(true)}
-                className={`w-full justify-center py-2.5 ${busy ? "pointer-events-none opacity-60" : ""}`}
+                className={`w-full justify-center py-2.5 ${busy || cashBlocked ? "pointer-events-none opacity-60" : ""}`}
               >
                 <Banknote size={16} />
                 {busy ? t("Saqlanmoqda...") : t("To'lov + chek chiqarish")}

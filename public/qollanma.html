@@ -143,9 +143,11 @@
     <a href="#uz-kirish">Tizimga kirish va rollar</a>
     <a href="#uz-kun">Kunlik ish tartibi</a>
     <a href="#uz-reg">Registratsiya</a>
-    <a href="#uz-kassa">Kassa</a>
-    <a href="#uz-pos">Sotuv (POS)</a>
-    <a href="#uz-smena">Kassa smenasi</a>
+    <a href="#uz-kassa">Kassa — umumiy ko'rinish</a>
+    <a href="#uz-kassa-tolov">Kassa: xizmat to'lovi</a>
+    <a href="#uz-kassa-pos">Kassa: dori sotish</a>
+    <a href="#uz-kassa-tarix">Kassa: sotuvlar tarixi</a>
+    <a href="#uz-kassa-smena">Kassa: smena</a>
     <a href="#uz-shifokor">Shifokor</a>
     <a href="#uz-lab">Laboratoriya</a>
     <a href="#uz-ombor">Ombor</a>
@@ -176,9 +178,9 @@
   <span class="eyebrow">Registratura · Hisobchi</span>
   <h2>Kunlik ish tartibi</h2>
   <ol class="steps">
-    <li><b>Ertalab:</b> kassadagi naqdni sanang va <span class="path">Kassa → Smena</span>da <kbd class="btn">Smena ochish</kbd>.</li>
-    <li><b>Kun davomida:</b> qabulga yozish, to'lov olish, chek chiqarish — hammasi avtomatik hisobga tushadi.</li>
-    <li><b>Kech:</b> naqdni qayta sanab <kbd class="btn">Smenani yopish</kbd> — tizim kutilgan va haqiqiy summani solishtiradi.</li>
+    <li><b>Ertalab — smena ochish.</b> Kassadagi naqd pulni sanang. <span class="path">Kassa</span> sahifasining tepasidagi sariq panelda <kbd class="btn">Smena ochish</kbd> ni bosib, sanagan summani kiriting. <b>Smena ochilmaguncha naqd to'lov qabul qilinmaydi.</b></li>
+    <li><b>Kun davomida:</b> bemorlarni qabulga yozing, to'lov oling, dori soting. Har bir naqd to'lov smena hisobiga o'zi tushadi.</li>
+    <li><b>Kech — smena yopish.</b> Naqdni qayta sanang, tepadagi yashil paneldagi <kbd class="btn">Smenani yopish</kbd> ni bosib summani kiriting. Tizim kutilgan va haqiqiy summani solishtirib, farqni ko'rsatadi.</li>
   </ol>
   <p>Sahifalar har 3 daqiqada o'zi yangilanadi.</p>
 </section>
@@ -191,48 +193,77 @@
     <li><b>Bemor:</b> qidiruvga ism/ID/telefon yozing; yangi bo'lsa — <kbd class="btn">Yangi bemor qo'shish</kbd>. Telefon avval ro'yxatda bo'lsa, tizim mavjud bemorni o'zi tanlaydi.</li>
     <li><b>Shifokor</b>ni tanlang.</li>
     <li><b>Xizmatlar:</b> qidiruvdan toping yoki kategoriyani ochib belgilang. Yotoq (statsionar) tanlansa, kun sonini tanlaysiz.</li>
-    <li><b>To'lov:</b> <kbd class="btn">To'lov + chek chiqarish</kbd> — chekda navbat raqami katta chiqadi. Keyin to'lasa — <kbd class="btn">Faqat ro'yxatga olish</kbd>.</li>
+    <li><b>To'lov:</b> <kbd class="btn">To'lov + chek chiqarish</kbd> — chekda navbat raqami katta chiqadi. Bemor keyin kassada to'lasa — <kbd class="btn">Faqat ro'yxatga olish</kbd>.</li>
   </ol>
-  <div class="note"><b>Qoida:</b> to'lov tasdiqlanmaguncha bemor shifokorga ko'rinmaydi.</div>
+  <div class="note"><b>Qoida:</b> to'lov tasdiqlanmaguncha bemor shifokorga ko'rinmaydi. Naqd to'lov uchun smena ochiq bo'lishi kerak — ochilmagan bo'lsa, shu yerning o'zida sariq blok chiqadi va smenani o'sha joydan ochasiz.</div>
 </section>
 
 <section id="uz-kassa">
-  <span class="eyebrow">Registratura · Hisobchi</span>
-  <h2>Kassa va to'lovlar</h2>
-  <p class="who">Menyu: <span class="path">Kassa → Xizmat to'lovlari</span></p>
-  <ul>
-    <li><b>To'lov:</b> ro'yxatdan bemorni toping → <kbd class="btn">To'lov qabul qilish</kbd> → usul → tasdiqlang. Chek o'zi chiqadi.</li>
-    <li><b>Chekni qayta chiqarish:</b> jadvalda <kbd class="btn">Chek</kbd>.</li>
-    <li><b>Qaytarish:</b> <kbd class="btn">Qaytarish</kbd> → tasdiqlang. Summa tushumdan chiqadi, naqd bo'lsa pulni qo'lda qaytaring.</li>
-  </ul>
-  <div class="warn">Qaytarilgan to'lov Z-hisobotga qo'shilmaydi — xato to'lovni faqat shu tugma bilan to'g'rilang.</div>
+  <span class="eyebrow">Registratura · Hisobchi · Direktor</span>
+  <h2>Kassa — umumiy ko'rinish</h2>
+  <p class="who">Menyu: <span class="path">Kassa</span> — pul bilan bog'liq hamma ish shu bitta sahifada</p>
+  <p>Sahifa yuqoridan pastga uch qismdan iborat:</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>Qism</th><th>Nimani ko'rsatadi</th></tr>
+    <tr><td><b>Smena paneli</b></td><td><b>Sariq</b> — smena ochilmagan, yonida <kbd class="btn">Smena ochish</kbd>. <b>Yashil</b> — smena ochiq: kim, soat nechadan ochgani va <b>kassada hozir qancha naqd bo'lishi kerakligi</b>; yonida <kbd class="btn">Smenani yopish</kbd>.</td></tr>
+    <tr><td><b>Bugungi jami</b></td><td>4 ta karta: <b>Bugungi tushum</b> (xizmat + mahsulot), <b>Naqd</b>, <b>Karta / onlayn</b>, <b>To'lov kutmoqda</b> (nechta bemor to'lamagan; bosilsa ro'yxatga o'tadi). Qaytarishlar avtomatik ayiriladi.</td></tr>
+    <tr><td><b>Tablar</b></td><td><span class="path">Xizmat to'lovlari</span> · <span class="path">Mahsulot sotish</span> · <span class="path">Sotuvlar tarixi</span> · <span class="path">Smena</span>. Kutayotgan bemorlar soni birinchi tab ustida sariq belgi bilan ko'rinadi.</td></tr>
+  </table></div>
+  <div class="warn"><b>Muhim qoida:</b> smena ochilmagan bo'lsa <b>naqd</b> to'lov (xizmat ham, dori ham) qabul qilinmaydi — tugma o'chiq turadi va sariq blok chiqadi. Click, Payme, Uzum va karta to'lovlari smenasiz ham ishlaydi.</div>
 </section>
 
-<section id="uz-pos">
-  <span class="eyebrow">Registratura · Hisobchi</span>
-  <h2>Sotuv (POS)</h2>
-  <p class="who">Menyu: <span class="path">Kassa → Mahsulot sotish</span> va <span class="path">Kassa → Sotuvlar tarixi</span></p>
+<section id="uz-kassa-tolov">
+  <span class="eyebrow">Kassa → Xizmat to'lovlari</span>
+  <h2>Xizmat uchun to'lov olish</h2>
   <ol class="steps">
-    <li>Mahsulot nomini yozing yoki <b>shtrix-kod skanerini</b> o'qiting.</li>
-    <li>Savatda miqdorni o'zgartiring — ombordagidan ortiq sotib bo'lmaydi.</li>
-    <li>Istasangiz bemorni ulang (xaridi kartasida ko'rinadi).</li>
-    <li>Chegirma kiriting (bo'lsa); qisman naqd + karta bo'lsa — <b>"Bo'lib to'lash"</b>.</li>
-    <li><kbd class="btn">Sotish + chek chiqarish</kbd>.</li>
+    <li>"To'lov kutilayotganlar" jadvalida bemorni toping (navbat raqami, ismi, xizmatlari va summasi ko'rinadi).</li>
+    <li><kbd class="btn">To'lov qabul qilish</kbd> → to'lov usulini tanlang.</li>
+    <li><b>Naqd</b> tanlansa va smena ochilmagan bo'lsa — oynaning o'zida kassadagi naqdni yozib <kbd class="btn">Smena ochish</kbd> ni bosing, keyin to'lovni davom ettiring.</li>
+    <li><kbd class="btn">To'lovni tasdiqlash + chek</kbd> — chek chiqadi, bemor shifokor navbatiga o'tadi.</li>
   </ol>
-  <p><b>Qaytarish:</b> <span class="path">Kassa → Sotuvlar tarixi</span>da chek qatorida <kbd class="btn">Qaytarish</kbd> — miqdor va sabab kiritiladi, mahsulot omborga qaytadi. Faqat direktor/hisobchi.</p>
+  <ul>
+    <li><b>Chekni qayta chiqarish:</b> "Bugungi to'lovlar" jadvalida <kbd class="btn">Chek</kbd>.</li>
+    <li><b>Xato to'lovni qaytarish:</b> o'sha qatorda <kbd class="btn">Qaytarish</kbd> → tasdiqlang. Summa tushumdan chiqadi va "Qaytarilgan to'lovlar" jadvalida alohida ko'rinadi. Naqd bo'lsa pulni bemorga qo'lda qaytaring.</li>
+  </ul>
 </section>
 
-<section id="uz-smena">
-  <span class="eyebrow">Registratura · Hisobchi</span>
-  <h2>Kassa smenasi</h2>
-  <p class="who">Menyu: <span class="path">Kassa → Smena</span></p>
+<section id="uz-kassa-pos">
+  <span class="eyebrow">Kassa → Mahsulot sotish</span>
+  <h2>Dori va mahsulot sotish</h2>
+  <ol class="steps">
+    <li>Qidiruvga dori nomini yozing yoki <b>shtrix-kod skanerini</b> o'qiting — skaner topgan mahsulot savatga o'zi tushadi. Har mahsulot yonida omborda qancha qolgani ko'rinadi.</li>
+    <li>Savatda miqdorni <b>+ / −</b> yoki raqam yozib o'zgartiring. <b>Kasr miqdor</b> ham bo'ladi: masalan <b>0.5</b> upakovka — yozib Enter bosing. Omborda borigan ortiq sotib bo'lmaydi.</li>
+    <li><b>Mijoz</b> (ixtiyoriy): bemorni tanlasangiz xarid uning kartasida ko'rinadi.</li>
+    <li><b>Chegirma</b> bo'lsa so'mda yozing.</li>
+    <li><b>To'lov usuli:</b> bitta usul yoki <b>"Bo'lib to'lash"</b> — masalan bir qismi naqd, qolgani karta. Ikkinchi usul summasini yozasiz, birinchisi o'zi hisoblanadi.</li>
+    <li><kbd class="btn">Sotish + chek chiqarish</kbd> — chek raqam bilan chiqadi, zaxira darhol kamayadi.</li>
+  </ol>
+  <div class="note"><b>Eslatma:</b> to'lovda naqd ishtirok etsa (bo'lib to'lashda ham) ochiq smena kerak. Faqat karta/onlayn bo'lsa smenasiz ham sotiladi.</div>
+</section>
+
+<section id="uz-kassa-tarix">
+  <span class="eyebrow">Kassa → Sotuvlar tarixi</span>
+  <h2>Sotuvlar tarixi va qaytarish</h2>
   <ul>
-    <li><b>Ochish:</b> boshlang'ich naqdni kiriting (bitta ochiq smena bo'ladi).</li>
-    <li><b>Kun davomida:</b> naqd tushum avtomatik sanaladi; qo'lda pul olish/qo'shish — <kbd class="btn">Kirim</kbd>/<kbd class="btn">Chiqim</kbd>, sabab majburiy.</li>
-    <li><b>Yopish:</b> sanalgan naqdni kiriting — farq darhol ko'rinadi, tarixda saqlanadi.</li>
+    <li>Sanani tanlang — o'sha kunning barcha cheklari, sotuvlar soni, mahsulot tushumi va qaytarilgan summa chiqadi.</li>
+    <li>Chek raqamini bosing — ichidagi mahsulotlar, chegirma va to'lov taqsimoti ko'rinadi. <kbd class="btn">Chek</kbd> — qayta chop etish.</li>
+    <li><b>Qaytarish</b> (faqat direktor va hisobchi): <kbd class="btn">Qaytarish</kbd> → har mahsulotdan nechta qaytayotganini va sababini yozing. Mahsulot omborga qaytadi, summa tushumdan ayiriladi (chegirma hisobga olinadi). Qisman qaytarish ham mumkin.</li>
   </ul>
-  <div class="formula">Kutilgan naqd = boshlang'ich + naqd sotuvlar − naqd qaytarishlar + kirim − chiqim</div>
-  <div class="note"><b>Eslatma:</b> Click/Payme/Uzum/karta naqd kassaga qo'shilmaydi.</div>
+</section>
+
+<section id="uz-kassa-smena">
+  <span class="eyebrow">Kassa → Smena</span>
+  <h2>Kassa smenasi — naqd pul hisobi</h2>
+  <ol class="steps">
+    <li><b>Ochish:</b> boshlang'ich naqdni kiriting. Bir vaqtda faqat bitta smena ochiq bo'ladi.</li>
+    <li><b>Kun davomida:</b> naqd tushum avtomatik sanaladi. Kassadan qo'lda pul olsangiz (xo'jalik xaridi, inkassatsiya) — <kbd class="btn">Chiqim</kbd>; pul qo'shsangiz (mayda pul) — <kbd class="btn">Kirim</kbd>. Sabab yozish majburiy.</li>
+    <li><b>Yopish:</b> naqdni sanab kiriting — farq darhol ko'rinadi (yashil — aniq, qizil — farq bor). Izoh yozib yopasiz.</li>
+  </ol>
+  <div class="formula">Kassada bo'lishi kerak = boshlang'ich + naqd tushum − naqd qaytarishlar + kirim − chiqim</div>
+  <ul>
+    <li>Yopilgan smenani hech kim o'zgartira olmaydi — hisob tarixda saqlanadi, direktor "Smenalar tarixi"da ko'radi.</li>
+    <li>Karta va onlayn to'lovlar naqd kassaga qo'shilmaydi — alohida ko'rsatiladi.</li>
+  </ul>
 </section>
 
 <section id="uz-shifokor">
@@ -254,19 +285,24 @@
 <section id="uz-ombor">
   <span class="eyebrow">Omborchi · Direktor</span>
   <h2>Ombor</h2>
-  <h3>Mahsulot</h3>
-  <p><kbd class="btn">Yangi mahsulot</kbd>: nom, SKU/shtrix-kod, narx, birlik, minimal zaxira, muddat. Zaxira bu yerda yozilmaydi — faqat Kirim yoki Zaxira amali orqali.</p>
-  <h3>Kirim</h3>
+  <h3>Mahsulot kartochkasi</h3>
+  <p>Mahsulotlar ro'yxatida <b>qatorning o'zini bosing</b> — mahsulot kartochkasi ochiladi. Tepasida zaxira, sotuv narxi, tannarx va yaroqlilik muddati, pastida 3 ta tab:</p>
+  <ul>
+    <li><b>Zaxira</b> — 4 ta amal: <b>Kirim</b> (tovar keldi / boshlang'ich qoldiq), <b>Hisobdan chiqarish</b> (buzilgan, muddati o'tgan, yo'qolgan), <b>Ta'minotchiga qaytarish</b>, <b>Inventarizatsiya</b>. Miqdorni yozasiz, tayyor sababni bosasiz — "Natija" oynasida <b>12 → 10</b> kabi o'zgarish oldindan ko'rinadi.</li>
+    <li><b>Ma'lumotlar</b> — nom, narx, minimal zaxira, kategoriya, birlik, muddat, ta'minotchi, SKU, shtrix-kod.</li>
+    <li><b>Tarix</b> — shu mahsulotning barcha harakatlari: kim, qachon, nechta, nima sababdan.</li>
+  </ul>
+  <div class="note"><b>Inventarizatsiya:</b> farqni hisoblash shart emas — tokchada <b>sanagan sonni</b> yozasiz, tizim ayirmani o'zi chiqaradi va zaxirani to'g'rilaydi.</div>
+  <h3>Kirim — Excel'dan yoki qo'lda</h3>
   <ol class="steps">
-    <li>Ta'minotchini qo'shing (bir marta).</li>
-    <li><kbd class="btn">Yangi kirim</kbd>: mahsulot, miqdor, kirim narxi.</li>
-    <li>Qabul qilingach zaxira oshadi, o'rtacha tannarx yangilanadi. Qarz bo'lsa "Qarz" ustunida ko'rinadi, <kbd class="btn">To'lash</kbd> bilan yopiladi.</li>
+    <li><b>Excel'dan:</b> <kbd class="btn">Excel'dan yuklash</kbd> → ta'minotchi yoki apteka dasturidan kelgan "Поступление" faylini tashlang. Ustunlar o'zi taniladi, mahsulotlar o'zi yaratiladi yoki zaxirasi oshadi. Bitta hujjatni ikki marta yuklab bo'lmaydi.</li>
+    <li><b>Qo'lda:</b> <span class="path">Kirimlar</span> → <kbd class="btn">Yangi kirim</kbd>: mahsulot, miqdor, kirim narxi.</li>
+    <li>Kirimdan keyin o'rtacha tannarx yangilanadi. Qarzga olingan bo'lsa "Qarz" ustunida turadi — <kbd class="btn">To'lash</kbd> bilan yopiladi.</li>
   </ol>
   <h3>Nazorat</h3>
   <ul>
-    <li>Buzilgan/muddati o'tgan: <kbd class="btn">Zaxira</kbd> → Hisobdan chiqarish (sabab bilan).</li>
-    <li>Tepadagi ogohlantirishlar: kam qolgan va muddati yaqin mahsulotlar.</li>
-    <li><span class="path">Harakatlar</span> — har o'zgarish: kim, qachon, nechta, sabab.</li>
+    <li>Sahifa tepasida <b>kam qolgan</b> va <b>muddati yaqin/tugagan</b> mahsulotlar soni chiqadi — bosilsa ro'yxat filtrlanadi.</li>
+    <li><span class="path">Harakatlar</span> — butun ombor bo'yicha oxirgi o'zgarishlar.</li>
   </ul>
 </section>
 
@@ -309,6 +345,9 @@
   <details><summary>To'lovni xato urdim</summary><div class="a"><p><b>Qaytarish</b> tugmasi (POS bo'lsa — Sotuvlar sahifasida, direktor/hisobchi). Keyin to'g'risini rasmiylashtiring.</p></div></details>
   <details><summary>Smena farqi chiqdi</summary><div class="a"><p>Qo'lda kirim-chiqimlar to'liq yozilganini tekshiring. Farq qolsa izoh bilan yoping — tarixda saqlanadi.</p></div></details>
   <details><summary>Shifokor bemorni ko'rmayapti</summary><div class="a"><p>To'lov qilinmagan bo'lishi mumkin — kassada tekshiring.</p></div></details>
+  <details><summary>Naqd to'lov tugmasi bosilmayapti</summary><div class="a"><p>Kassa smenasi ochilmagan. Sariq blokda kassadagi naqdni yozib <b>Smena ochish</b> ni bosing — tugma darhol ishlaydi. Yoki to'lov usulini karta/Click/Payme qiling.</p></div></details>
+  <details><summary>Kassada bo'lishi kerak summa noto'g'ri ko'rinyapti</summary><div class="a"><p>Smena ochilishidan oldin olingan naqd to'lovlar hisobga kirmaydi. Kassadan qo'lda olingan yoki qo'shilgan pul <b>Smena → Kirim/Chiqim</b> orqali yozilganini tekshiring.</p></div></details>
+  <details><summary>Ombordagi soni tokchadagiga to'g'ri kelmayapti</summary><div class="a"><p>Mahsulot qatorini bosing → <b>Zaxira → Inventarizatsiya</b> → sanagan sonni yozing. Ayirma o'zi hisoblanadi va tarixda qoladi.</p></div></details>
 </section>
 
 </main>
@@ -324,9 +363,11 @@
     <a href="#ru-kirish">Вход и роли</a>
     <a href="#ru-kun">Распорядок дня</a>
     <a href="#ru-reg">Регистрация</a>
-    <a href="#ru-kassa">Касса</a>
-    <a href="#ru-pos">Продажа (POS)</a>
-    <a href="#ru-smena">Кассовая смена</a>
+    <a href="#ru-kassa">Касса — общий вид</a>
+    <a href="#ru-kassa-tolov">Касса: оплата услуг</a>
+    <a href="#ru-kassa-pos">Касса: продажа лекарств</a>
+    <a href="#ru-kassa-tarix">Касса: история продаж</a>
+    <a href="#ru-kassa-smena">Касса: смена</a>
     <a href="#ru-shifokor">Врач</a>
     <a href="#ru-lab">Лаборатория</a>
     <a href="#ru-ombor">Склад</a>
@@ -357,9 +398,9 @@
   <span class="eyebrow">Регистратура · Касса</span>
   <h2>Распорядок дня</h2>
   <ol class="steps">
-    <li><b>Утром:</b> пересчитайте наличные и нажмите <kbd class="btn">Открыть смену</kbd> на странице <span class="path">Касса → Смена</span>.</li>
-    <li><b>В течение дня:</b> записывайте пациентов, принимайте оплаты, печатайте чеки — всё учитывается автоматически.</li>
-    <li><b>Вечером:</b> пересчитайте наличные и нажмите <kbd class="btn">Закрыть смену</kbd> — система сверит ожидаемую и фактическую сумму.</li>
+    <li><b>Утром — открыть смену.</b> Пересчитайте наличные. В жёлтой панели вверху страницы <span class="path">Касса</span> нажмите <kbd class="btn">Открыть смену</kbd> и введите сумму. <b>Пока смена не открыта, наличные не принимаются.</b></li>
+    <li><b>В течение дня:</b> записывайте пациентов, принимайте оплаты, продавайте лекарства. Каждая наличная оплата сама попадает в расчёт смены.</li>
+    <li><b>Вечером — закрыть смену.</b> Пересчитайте наличные, нажмите <kbd class="btn">Закрыть смену</kbd> в зелёной панели и введите сумму. Система сверит ожидаемую и фактическую сумму и покажет расхождение.</li>
   </ol>
   <p>Страницы обновляются автоматически каждые 3 минуты.</p>
 </section>
@@ -369,51 +410,80 @@
   <h2>Регистрация — новый приём</h2>
   <p class="who">Меню: <span class="path">Новый приём</span></p>
   <ol class="steps">
-    <li><b>Пациент:</b> введите имя/ID/телефон; если новый — <kbd class="btn">Добавить нового пациента</kbd>. Если телефон уже в базе, система сама выберет существующего.</li>
+    <li><b>Пациент:</b> введите имя/ID/телефон; если новый — <kbd class="btn">Добавить нового пациента</kbd>. Если телефон уже есть в базе, система выберет существующего пациента.</li>
     <li>Выберите <b>врача</b>.</li>
     <li><b>Услуги:</b> найдите поиском или отметьте в категориях. Для стационара выбирается число дней.</li>
-    <li><b>Оплата:</b> <kbd class="btn">Оплата + печать чека</kbd> — на чеке крупно печатается номер очереди. Если оплатит позже — <kbd class="btn">Только записать</kbd>.</li>
+    <li><b>Оплата:</b> <kbd class="btn">Оплата + печать чека</kbd> — на чеке крупно печатается номер очереди. Если пациент оплатит в кассе позже — <kbd class="btn">Только записать</kbd>.</li>
   </ol>
-  <div class="note"><b>Правило:</b> пока оплата не подтверждена, пациент не виден врачу.</div>
+  <div class="note"><b>Правило:</b> пока оплата не подтверждена, пациент не виден врачу. Для наличной оплаты нужна открытая смена — если её нет, прямо здесь появится жёлтый блок, и смену можно открыть на месте.</div>
 </section>
 
 <section id="ru-kassa">
-  <span class="eyebrow">Регистратура · Касса</span>
-  <h2>Касса и оплаты</h2>
-  <p class="who">Меню: <span class="path">Касса → Оплата услуг</span></p>
-  <ul>
-    <li><b>Оплата:</b> найдите пациента → <kbd class="btn">Принять оплату</kbd> → способ → подтвердите. Чек печатается сам.</li>
-    <li><b>Повторная печать:</b> кнопка <kbd class="btn">Чек</kbd> в таблице.</li>
-    <li><b>Возврат:</b> <kbd class="btn">Возврат</kbd> → подтвердите. Сумма исключается из выручки; наличные верните пациенту на руки.</li>
-  </ul>
-  <div class="warn">Возвращённая оплата не входит в Z-отчёт — ошибочную оплату исправляйте только этой кнопкой.</div>
+  <span class="eyebrow">Регистратура · Бухгалтер · Руководитель</span>
+  <h2>Касса — общий вид</h2>
+  <p class="who">Меню: <span class="path">Касса</span> — вся работа с деньгами на одной странице</p>
+  <p>Страница состоит из трёх частей сверху вниз:</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>Часть</th><th>Что показывает</th></tr>
+    <tr><td><b>Панель смены</b></td><td><b>Жёлтая</b> — смена не открыта, рядом <kbd class="btn">Открыть смену</kbd>. <b>Зелёная</b> — смена открыта: кто и с какого времени, и <b>сколько наличных должно быть в кассе сейчас</b>; рядом <kbd class="btn">Закрыть смену</kbd>.</td></tr>
+    <tr><td><b>Итоги дня</b></td><td>4 карточки: <b>Выручка за сегодня</b> (услуги + товары), <b>Наличные</b>, <b>Карта / онлайн</b>, <b>Ожидают оплаты</b> (сколько пациентов не оплатили; по клику — к списку). Возвраты вычитаются автоматически.</td></tr>
+    <tr><td><b>Вкладки</b></td><td><span class="path">Оплата услуг</span> · <span class="path">Продажа товаров</span> · <span class="path">История продаж</span> · <span class="path">Смена</span>. Число ожидающих пациентов видно на первой вкладке жёлтым значком.</td></tr>
+  </table></div>
+  <div class="warn"><b>Важное правило:</b> если смена не открыта, <b>наличные</b> (и за услуги, и за лекарства) не принимаются — кнопка неактивна и появляется жёлтый блок. Click, Payme, Uzum и карта работают и без смены.</div>
 </section>
 
-<section id="ru-pos">
-  <span class="eyebrow">Регистратура · Касса</span>
-  <h2>Продажа (POS)</h2>
-  <p class="who">Меню: <span class="path">Касса → Продажа товаров</span> и <span class="path">Касса → История продаж</span></p>
+<section id="ru-kassa-tolov">
+  <span class="eyebrow">Касса → Оплата услуг</span>
+  <h2>Приём оплаты за услуги</h2>
   <ol class="steps">
-    <li>Введите название товара или отсканируйте <b>штрих-код</b>.</li>
-    <li>Меняйте количество в корзине — продать больше, чем есть на складе, нельзя.</li>
-    <li>При желании привяжите пациента (покупка попадёт в его карту).</li>
-    <li>Скидка — при необходимости; часть наличными + карта — <b>«Раздельная оплата»</b>.</li>
-    <li><kbd class="btn">Продать + печать чека</kbd>.</li>
+    <li>Найдите пациента в таблице «Ожидают оплаты» (видны номер очереди, имя, услуги и сумма).</li>
+    <li><kbd class="btn">Принять оплату</kbd> → выберите способ оплаты.</li>
+    <li>Если выбраны <b>наличные</b>, а смена не открыта — прямо в окне введите наличные в кассе и нажмите <kbd class="btn">Открыть смену</kbd>, затем продолжайте.</li>
+    <li><kbd class="btn">Подтвердить оплату + чек</kbd> — печатается чек, пациент переходит в очередь к врачу.</li>
   </ol>
-  <p><b>Возврат:</b> на странице <span class="path">Касса → История продаж</span> в строке чека — <kbd class="btn">Возврат</kbd>: количество и причина, товар вернётся на склад. Только руководитель/бухгалтер.</p>
+  <ul>
+    <li><b>Повторная печать:</b> кнопка <kbd class="btn">Чек</kbd> в таблице «Оплаты за сегодня».</li>
+    <li><b>Возврат ошибочной оплаты:</b> <kbd class="btn">Возврат</kbd> в строке → подтвердите. Сумма исключается из выручки и показывается в таблице «Возвращённые оплаты». Наличные верните пациенту на руки.</li>
+  </ul>
 </section>
 
-<section id="ru-smena">
-  <span class="eyebrow">Регистратура · Касса</span>
-  <h2>Кассовая смена</h2>
-  <p class="who">Меню: <span class="path">Касса → Смена</span></p>
+<section id="ru-kassa-pos">
+  <span class="eyebrow">Касса → Продажа товаров</span>
+  <h2>Продажа лекарств и товаров</h2>
+  <ol class="steps">
+    <li>Введите название или отсканируйте <b>штрих-код</b> — найденный товар сам попадёт в корзину. Рядом с товаром виден остаток на складе.</li>
+    <li>Меняйте количество кнопками <b>+ / −</b> или вводом числа. Можно <b>дробное количество</b>: например <b>0.5</b> упаковки — введите и нажмите Enter. Больше, чем на складе, продать нельзя.</li>
+    <li><b>Клиент</b> (необязательно): если выбрать пациента, покупка появится в его карте.</li>
+    <li><b>Скидку</b> вводите в сумах.</li>
+    <li><b>Способ оплаты:</b> один способ или <b>«Раздельная оплата»</b> — например часть наличными, остальное картой. Вводите сумму второго способа, первый считается сам.</li>
+    <li><kbd class="btn">Продать + печать чека</kbd> — чек печатается с номером, запас сразу уменьшается.</li>
+  </ol>
+  <div class="note"><b>Примечание:</b> если в оплате участвуют наличные (в том числе при раздельной оплате), нужна открытая смена. Только карта/онлайн — можно и без смены.</div>
+</section>
+
+<section id="ru-kassa-tarix">
+  <span class="eyebrow">Касса → История продаж</span>
+  <h2>История продаж и возвраты</h2>
   <ul>
-    <li><b>Открытие:</b> введите начальные наличные (открытая смена может быть только одна).</li>
-    <li><b>В течение дня:</b> наличная выручка считается автоматически; ручные операции — <kbd class="btn">Приход</kbd>/<kbd class="btn">Расход</kbd>, причина обязательна.</li>
-    <li><b>Закрытие:</b> введите пересчитанные наличные — расхождение видно сразу и сохраняется в истории.</li>
+    <li>Выберите дату — появятся все чеки дня, число продаж, выручка по товарам и сумма возвратов.</li>
+    <li>Нажмите номер чека — видны товары, скидка и разбивка оплаты. <kbd class="btn">Чек</kbd> — повторная печать.</li>
+    <li><b>Возврат</b> (только руководитель и бухгалтер): <kbd class="btn">Возврат</kbd> → укажите, сколько возвращается по каждому товару, и причину. Товар вернётся на склад, сумма вычтется из выручки (с учётом скидки). Возможен частичный возврат.</li>
   </ul>
-  <div class="formula">Ожидаемые наличные = начальные + наличные продажи − наличные возвраты + приход − расход</div>
-  <div class="note"><b>Примечание:</b> Click/Payme/Uzum/карта в наличную кассу не входят.</div>
+</section>
+
+<section id="ru-kassa-smena">
+  <span class="eyebrow">Касса → Смена</span>
+  <h2>Кассовая смена — учёт наличных</h2>
+  <ol class="steps">
+    <li><b>Открытие:</b> введите начальные наличные. Открытой может быть только одна смена.</li>
+    <li><b>В течение дня:</b> наличная выручка считается автоматически. Если берёте деньги из кассы (хозрасходы, инкассация) — <kbd class="btn">Расход</kbd>; если добавляете (размен) — <kbd class="btn">Приход</kbd>. Причина обязательна.</li>
+    <li><b>Закрытие:</b> введите пересчитанную сумму — расхождение видно сразу (зелёный — сходится, красный — расхождение). Закрываете с комментарием.</li>
+  </ol>
+  <div class="formula">В кассе должно быть = начальные + наличная выручка − наличные возвраты + приход − расход</div>
+  <ul>
+    <li>Закрытую смену изменить нельзя — расчёт хранится в истории, руководитель видит его в «Истории смен».</li>
+    <li>Карта и онлайн-оплаты в наличную кассу не входят — показываются отдельно.</li>
+  </ul>
 </section>
 
 <section id="ru-shifokor">
@@ -435,19 +505,24 @@
 <section id="ru-ombor">
   <span class="eyebrow">Кладовщик · Руководитель</span>
   <h2>Склад</h2>
-  <h3>Товар</h3>
-  <p><kbd class="btn">Новый товар</kbd>: название, SKU/штрих-код, цена, единица, минимальный запас, срок годности. Количество здесь не вводится — только через Поступление или операцию «Запас».</p>
-  <h3>Поступление</h3>
+  <h3>Карточка товара</h3>
+  <p>В списке товаров <b>нажмите на саму строку</b> — откроется карточка товара. Вверху запас, цена продажи, себестоимость и срок годности, ниже 3 вкладки:</p>
+  <ul>
+    <li><b>Запас</b> — 4 операции: <b>Приход</b> (поступление / начальный остаток), <b>Списание</b> (брак, просрочка, утеря), <b>Возврат поставщику</b>, <b>Инвентаризация</b>. Вводите количество, выбираете готовую причину — в окне «Результат» заранее видно изменение вида <b>12 → 10</b>.</li>
+    <li><b>Данные</b> — название, цена, минимальный запас, категория, единица, срок, поставщик, SKU, штрих-код.</li>
+    <li><b>История</b> — все движения этого товара: кто, когда, сколько и почему.</li>
+  </ul>
+  <div class="note"><b>Инвентаризация:</b> считать разницу не нужно — вводите <b>количество, которое насчитали</b> на полке, система сама вычислит разницу и поправит запас.</div>
+  <h3>Поступление — из Excel или вручную</h3>
   <ol class="steps">
-    <li>Добавьте поставщика (один раз).</li>
-    <li><kbd class="btn">Новое поступление</kbd>: товар, количество, закупочная цена.</li>
-    <li>После приёмки запас растёт, средняя себестоимость обновляется. Долг виден в колонке «Долг», закрывается кнопкой <kbd class="btn">Оплатить</kbd>.</li>
+    <li><b>Из Excel:</b> <kbd class="btn">Загрузить из Excel</kbd> → перетащите файл «Поступление» от поставщика или из аптечной программы. Колонки распознаются сами, товары создаются или пополняются. Один документ нельзя загрузить дважды.</li>
+    <li><b>Вручную:</b> <span class="path">Поступления</span> → <kbd class="btn">Новое поступление</kbd>: товар, количество, закупочная цена.</li>
+    <li>После поступления обновляется средняя себестоимость. Если товар взят в долг — он в колонке «Долг», закрывается кнопкой <kbd class="btn">Оплатить</kbd>.</li>
   </ol>
   <h3>Контроль</h3>
   <ul>
-    <li>Брак/просрочка: <kbd class="btn">Запас</kbd> → Списание (с причиной).</li>
-    <li>Предупреждения сверху: товары на исходе и с истекающим сроком.</li>
-    <li><span class="path">Движения</span> — каждое изменение: кто, когда, сколько, причина.</li>
+    <li>Вверху страницы — число товаров <b>на исходе</b> и с <b>истекающим/истёкшим сроком</b>; по клику список фильтруется.</li>
+    <li><span class="path">Движения</span> — последние изменения по всему складу.</li>
   </ul>
 </section>
 
@@ -490,6 +565,9 @@
   <details><summary>Оплата пробита по ошибке</summary><div class="a"><p>Кнопка <b>Возврат</b> (для POS — на странице «Продажи», доступно руководителю/бухгалтеру). Затем оформите правильную оплату.</p></div></details>
   <details><summary>Расхождение при закрытии смены</summary><div class="a"><p>Проверьте, все ли ручные операции записаны. Если расхождение остаётся — закройте смену с комментарием, оно сохранится в истории.</p></div></details>
   <details><summary>Врач не видит пациента</summary><div class="a"><p>Вероятно, оплата не проведена — проверьте в кассе.</p></div></details>
+  <details><summary>Кнопка оплаты наличными не нажимается</summary><div class="a"><p>Кассовая смена не открыта. В жёлтом блоке введите наличные в кассе и нажмите <b>Открыть смену</b> — кнопка сразу заработает. Либо выберите карту/Click/Payme.</p></div></details>
+  <details><summary>Сумма «в кассе должно быть» кажется неверной</summary><div class="a"><p>Наличные, принятые до открытия смены, в расчёт не входят. Проверьте, что деньги, взятые из кассы или добавленные вручную, записаны через <b>Смена → Приход/Расход</b>.</p></div></details>
+  <details><summary>Остаток на складе не совпадает с полкой</summary><div class="a"><p>Нажмите строку товара → <b>Запас → Инвентаризация</b> → введите насчитанное количество. Разница посчитается сама и останется в истории.</p></div></details>
 </section>
 
 </main>
@@ -505,9 +583,11 @@
     <a href="#en-kirish">Sign-in & roles</a>
     <a href="#en-kun">Daily routine</a>
     <a href="#en-reg">Registration</a>
-    <a href="#en-kassa">Cashier</a>
-    <a href="#en-pos">Sale (POS)</a>
-    <a href="#en-smena">Cash shift</a>
+    <a href="#en-kassa">Cashier — overview</a>
+    <a href="#en-kassa-tolov">Cashier: service payments</a>
+    <a href="#en-kassa-pos">Cashier: selling medicines</a>
+    <a href="#en-kassa-tarix">Cashier: sales history</a>
+    <a href="#en-kassa-smena">Cashier: shift</a>
     <a href="#en-shifokor">Doctor</a>
     <a href="#en-lab">Laboratory</a>
     <a href="#en-ombor">Inventory</a>
@@ -538,9 +618,9 @@
   <span class="eyebrow">Reception · Cashier</span>
   <h2>Daily routine</h2>
   <ol class="steps">
-    <li><b>Morning:</b> count the drawer cash and press <kbd class="btn">Open shift</kbd> on the <span class="path">Cashier → Shift</span> page.</li>
-    <li><b>During the day:</b> register visits, take payments, print receipts — everything is tracked automatically.</li>
-    <li><b>Evening:</b> recount the cash and press <kbd class="btn">Close shift</kbd> — the system compares expected and counted amounts.</li>
+    <li><b>Morning — open the shift.</b> Count the drawer cash. In the yellow bar at the top of the <span class="path">Cashier</span> page press <kbd class="btn">Open shift</kbd> and enter the amount. <b>Cash cannot be accepted until a shift is open.</b></li>
+    <li><b>During the day:</b> register visits, take payments, sell medicines. Every cash payment is counted into the shift automatically.</li>
+    <li><b>Evening — close the shift.</b> Recount the cash, press <kbd class="btn">Close shift</kbd> in the green bar and enter the amount. The system compares expected and counted cash and shows the difference.</li>
   </ol>
   <p>Pages refresh themselves every 3 minutes.</p>
 </section>
@@ -553,48 +633,77 @@
     <li><b>Patient:</b> type a name/ID/phone; for a new one use <kbd class="btn">Add new patient</kbd>. If the phone already exists, the system picks the existing patient.</li>
     <li>Choose the <b>doctor</b>.</li>
     <li><b>Services:</b> use search or tick them in categories. For inpatient beds, pick the number of days.</li>
-    <li><b>Payment:</b> <kbd class="btn">Take payment + print receipt</kbd> — the queue number prints large on the receipt. Paying later? <kbd class="btn">Register only</kbd>.</li>
+    <li><b>Payment:</b> <kbd class="btn">Take payment + print receipt</kbd> — the queue number prints large. If the patient pays at the cashier later: <kbd class="btn">Register only</kbd>.</li>
   </ol>
-  <div class="note"><b>Rule:</b> until payment is confirmed the patient is not visible to the doctor.</div>
+  <div class="note"><b>Rule:</b> until payment is confirmed the patient is not visible to the doctor. Cash payments need an open shift — if there is none, a yellow block appears right here and you can open the shift on the spot.</div>
 </section>
 
 <section id="en-kassa">
-  <span class="eyebrow">Reception · Cashier</span>
-  <h2>Cashier and payments</h2>
-  <p class="who">Menu: <span class="path">Cashier → Service payments</span></p>
-  <ul>
-    <li><b>Payment:</b> find the patient → <kbd class="btn">Take payment</kbd> → method → confirm. The receipt prints automatically.</li>
-    <li><b>Reprint:</b> the <kbd class="btn">Receipt</kbd> button in the table.</li>
-    <li><b>Refund:</b> <kbd class="btn">Refund</kbd> → confirm. The amount is excluded from revenue; hand cash back to the patient.</li>
-  </ul>
-  <div class="warn">Refunded payments never enter the Z-report — fix mistaken payments only with this button.</div>
+  <span class="eyebrow">Reception · Accountant · Director</span>
+  <h2>Cashier — overview</h2>
+  <p class="who">Menu: <span class="path">Cashier</span> — all money-related work on one page</p>
+  <p>The page has three parts, top to bottom:</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>Part</th><th>What it shows</th></tr>
+    <tr><td><b>Shift bar</b></td><td><b>Yellow</b> — no shift open, with <kbd class="btn">Open shift</kbd>. <b>Green</b> — shift open: who opened it and when, and <b>how much cash should be in the drawer right now</b>; with <kbd class="btn">Close shift</kbd>.</td></tr>
+    <tr><td><b>Today's totals</b></td><td>4 cards: <b>Today's revenue</b> (services + products), <b>Cash</b>, <b>Card / online</b>, <b>Awaiting payment</b> (how many patients haven't paid; click to open the list). Refunds are deducted automatically.</td></tr>
+    <tr><td><b>Tabs</b></td><td><span class="path">Service payments</span> · <span class="path">Sell products</span> · <span class="path">Sales history</span> · <span class="path">Shift</span>. The number of waiting patients shows as a yellow badge on the first tab.</td></tr>
+  </table></div>
+  <div class="warn"><b>Key rule:</b> with no open shift, <b>cash</b> (for services and medicines alike) is not accepted — the button is disabled and a yellow block appears. Click, Payme, Uzum and card payments work without a shift.</div>
 </section>
 
-<section id="en-pos">
-  <span class="eyebrow">Reception · Cashier</span>
-  <h2>Sale (POS)</h2>
-  <p class="who">Menu: <span class="path">Cashier → Sell products</span> and <span class="path">Cashier → Sales history</span></p>
+<section id="en-kassa-tolov">
+  <span class="eyebrow">Cashier → Service payments</span>
+  <h2>Taking payment for services</h2>
   <ol class="steps">
-    <li>Type the product name or scan a <b>barcode</b>.</li>
-    <li>Adjust quantities in the cart — you cannot sell more than is in stock.</li>
-    <li>Optionally link a patient (the purchase appears in their chart).</li>
-    <li>Enter a discount if any; part cash + card — use <b>“Split payment”</b>.</li>
-    <li><kbd class="btn">Sell + print receipt</kbd>.</li>
+    <li>Find the patient in the “Awaiting payment” table (queue number, name, services and amount are shown).</li>
+    <li><kbd class="btn">Take payment</kbd> → choose the payment method.</li>
+    <li>If you choose <b>cash</b> and no shift is open — enter the drawer cash right in the window and press <kbd class="btn">Open shift</kbd>, then continue.</li>
+    <li><kbd class="btn">Confirm payment + receipt</kbd> — the receipt prints and the patient joins the doctor's queue.</li>
   </ol>
-  <p><b>Refunds:</b> on the <span class="path">Cashier → Sales history</span> page press <kbd class="btn">Refund</kbd> on the receipt row — enter quantities and a reason; items return to stock. Director/accountant only.</p>
+  <ul>
+    <li><b>Reprint:</b> the <kbd class="btn">Receipt</kbd> button in “Today's payments”.</li>
+    <li><b>Refunding a mistaken payment:</b> <kbd class="btn">Refund</kbd> on the row → confirm. The amount is excluded from revenue and listed under “Refunded payments”. Hand cash back to the patient.</li>
+  </ul>
 </section>
 
-<section id="en-smena">
-  <span class="eyebrow">Reception · Cashier</span>
-  <h2>Cash shift</h2>
-  <p class="who">Menu: <span class="path">Cashier → Shift</span></p>
+<section id="en-kassa-pos">
+  <span class="eyebrow">Cashier → Sell products</span>
+  <h2>Selling medicines and products</h2>
+  <ol class="steps">
+    <li>Type a name or scan a <b>barcode</b> — the scanned product drops into the cart by itself. Each product shows its stock.</li>
+    <li>Change quantities with <b>+ / −</b> or by typing. <b>Fractional quantities</b> work too: e.g. <b>0.5</b> of a pack — type it and press Enter. You cannot sell more than is in stock.</li>
+    <li><b>Customer</b> (optional): link a patient and the purchase shows in their chart.</li>
+    <li>Enter a <b>discount</b> in UZS if any.</li>
+    <li><b>Payment:</b> one method or <b>“Split payment”</b> — e.g. part cash, rest by card. Enter the second amount; the first is calculated for you.</li>
+    <li><kbd class="btn">Sell + print receipt</kbd> — a numbered receipt prints and stock drops immediately.</li>
+  </ol>
+  <div class="note"><b>Note:</b> if cash is part of the payment (including split payments), an open shift is required. Card/online only can be sold without a shift.</div>
+</section>
+
+<section id="en-kassa-tarix">
+  <span class="eyebrow">Cashier → Sales history</span>
+  <h2>Sales history and refunds</h2>
   <ul>
-    <li><b>Opening:</b> enter the opening cash (only one shift can be open).</li>
-    <li><b>During the day:</b> cash income is counted automatically; manual operations — <kbd class="btn">Cash in</kbd>/<kbd class="btn">Cash out</kbd>, a reason is required.</li>
-    <li><b>Closing:</b> enter the counted cash — the difference shows immediately and stays in the history.</li>
+    <li>Pick a date to see all receipts of that day, the sales count, product revenue and refunded total.</li>
+    <li>Click a receipt number to see items, discount and payment split. <kbd class="btn">Receipt</kbd> reprints it.</li>
+    <li><b>Refunds</b> (director and accountant only): <kbd class="btn">Refund</kbd> → enter how many of each item come back and a reason. Items return to stock and the amount is deducted from revenue (discount taken into account). Partial refunds are supported.</li>
   </ul>
-  <div class="formula">Expected cash = opening + cash sales − cash refunds + cash in − cash out</div>
-  <div class="note"><b>Note:</b> Click/Payme/Uzum/card payments never enter the cash drawer.</div>
+</section>
+
+<section id="en-kassa-smena">
+  <span class="eyebrow">Cashier → Shift</span>
+  <h2>Cash shift — cash control</h2>
+  <ol class="steps">
+    <li><b>Opening:</b> enter the opening cash. Only one shift can be open at a time.</li>
+    <li><b>During the day:</b> cash income is counted automatically. Taking money out of the drawer (supplies, cash pickup) — <kbd class="btn">Out</kbd>; adding money (change) — <kbd class="btn">In</kbd>. A reason is required.</li>
+    <li><b>Closing:</b> enter the counted cash — the difference shows immediately (green — matches, red — difference). Close with a note.</li>
+  </ol>
+  <div class="formula">Should be in drawer = opening + cash income − cash refunds + cash in − cash out</div>
+  <ul>
+    <li>A closed shift cannot be edited — the figures stay in history, visible to the director under “Shift history”.</li>
+    <li>Card and online payments never enter the cash drawer — they are shown separately.</li>
+  </ul>
 </section>
 
 <section id="en-shifokor">
@@ -616,19 +725,24 @@
 <section id="en-ombor">
   <span class="eyebrow">Storekeeper · Director</span>
   <h2>Inventory</h2>
-  <h3>Products</h3>
-  <p><kbd class="btn">New product</kbd>: name, SKU/barcode, price, unit, minimum stock, expiry date. Quantity is never typed here — only via a Purchase or a Stock operation.</p>
-  <h3>Purchases</h3>
+  <h3>Product card</h3>
+  <p>In the product list, <b>click the row itself</b> to open the product card. At the top: stock, sell price, cost and expiry; below, 3 tabs:</p>
+  <ul>
+    <li><b>Stock</b> — 4 operations: <b>In</b> (goods arrived / opening balance), <b>Write-off</b> (damaged, expired, lost), <b>Return to supplier</b>, <b>Stocktake</b>. Enter a quantity, tap a ready-made reason — the “Result” box previews the change, e.g. <b>12 → 10</b>.</li>
+    <li><b>Details</b> — name, price, minimum stock, category, unit, expiry, supplier, SKU, barcode.</li>
+    <li><b>History</b> — every movement of this product: who, when, how much and why.</li>
+  </ul>
+  <div class="note"><b>Stocktake:</b> no need to work out the difference — type the <b>quantity you counted</b> on the shelf and the system calculates the difference and corrects the stock.</div>
+  <h3>Purchases — from Excel or by hand</h3>
   <ol class="steps">
-    <li>Add the supplier (once).</li>
-    <li><kbd class="btn">New purchase</kbd>: product, quantity, unit cost.</li>
-    <li>On receipt, stock grows and average cost updates. Debt shows in the “Debt” column and is settled with <kbd class="btn">Pay</kbd>.</li>
+    <li><b>From Excel:</b> <kbd class="btn">Import from Excel</kbd> → drop the goods-receipt file from your supplier or pharmacy software. Columns are recognised automatically; products are created or restocked. The same document cannot be imported twice.</li>
+    <li><b>By hand:</b> <span class="path">Purchases</span> → <kbd class="btn">New purchase</kbd>: product, quantity, unit cost.</li>
+    <li>Each purchase updates the average cost. Goods bought on credit show in the “Debt” column and are settled with <kbd class="btn">Pay</kbd>.</li>
   </ol>
   <h3>Control</h3>
   <ul>
-    <li>Damaged/expired: <kbd class="btn">Stock</kbd> → Write-off (with a reason).</li>
-    <li>Alerts on top: low-stock and expiring products.</li>
-    <li><span class="path">Movements</span> — every change: who, when, how much, why.</li>
+    <li>The top of the page shows counts of <b>low-stock</b> and <b>expiring/expired</b> products; click to filter the list.</li>
+    <li><span class="path">Movements</span> — recent changes across the whole inventory.</li>
   </ul>
 </section>
 
@@ -671,6 +785,9 @@
   <details><summary>I rang up a payment by mistake</summary><div class="a"><p>Use <b>Refund</b> (for POS — on the Sales page; director/accountant only), then process the correct payment.</p></div></details>
   <details><summary>The shift closed with a difference</summary><div class="a"><p>Check that all manual cash operations were recorded. If the difference remains, close with a note — it stays in the history.</p></div></details>
   <details><summary>The doctor can't see a patient</summary><div class="a"><p>Payment is probably missing — check the cashier page.</p></div></details>
+  <details><summary>The cash payment button doesn't respond</summary><div class="a"><p>No cash shift is open. Enter the drawer cash in the yellow block and press <b>Open shift</b> — the button works right away. Or choose card/Click/Payme.</p></div></details>
+  <details><summary>“Should be in drawer” looks wrong</summary><div class="a"><p>Cash taken before the shift was opened is not counted. Check that money taken out of or added to the drawer was recorded via <b>Shift → In/Out</b>.</p></div></details>
+  <details><summary>Stock doesn't match the shelf</summary><div class="a"><p>Click the product row → <b>Stock → Stocktake</b> → enter the counted quantity. The difference is calculated and stays in the history.</p></div></details>
 </section>
 
 </main>

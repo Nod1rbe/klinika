@@ -18,7 +18,8 @@ import {
   type ReceiptData,
 } from "../lib/receipt";
 import { supabase } from "../lib/supabase";
-import { notifyCashChanged } from "../lib/cashSession";
+import OpenShiftInline from "../components/OpenShiftInline";
+import { notifyCashChanged, useOpenShift } from "../lib/cashSession";
 import { t } from "../lib/i18n";
 import { useStore } from "../store";
 import type { PaymentMethod, Product } from "../types";
@@ -53,6 +54,7 @@ export default function Pos({ embedded = false }: { embedded?: boolean }) {
   const [done, setDone] = useState<DoneSale | null>(null);
   // Idempotency: har savat uchun bitta kalit — tugma ikki marta bosilsa ham bitta sotuv
   const idemKey = useRef<string>(crypto.randomUUID());
+  const { shift, loaded: shiftLoaded } = useOpenShift();
 
   const found = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -88,6 +90,9 @@ export default function Pos({ embedded = false }: { embedded?: boolean }) {
   const total = Math.max(0, subtotal - disc);
   const amt2 = Math.max(0, Math.round(Number(amount2) || 0));
   const amt1 = split ? Math.max(0, total - amt2) : total;
+  // Naqd ishtirok etsa (bo'lib to'lashda ham) ochiq smena shart
+  const cashUsed = method1 === "Naqd" || (split && method2 === "Naqd");
+  const cashBlocked = cashUsed && shiftLoaded && !shift;
 
   function addToCart(p: Product) {
     setError(null);
@@ -125,7 +130,7 @@ export default function Pos({ embedded = false }: { embedded?: boolean }) {
   }
 
   async function submit() {
-    if (busy || !supabase) return;
+    if (busy || !supabase || cashBlocked) return;
     setError(null);
     if (cart.length === 0) return setError("Savat bo'sh");
     if (total <= 0) return setError("Summa noto'g'ri");
@@ -471,6 +476,7 @@ export default function Pos({ embedded = false }: { embedded?: boolean }) {
                 </div>
               )}
 
+              {cashBlocked && <OpenShiftInline />}
               {error && (
                 <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">
                   {t(error)}
@@ -478,7 +484,7 @@ export default function Pos({ embedded = false }: { embedded?: boolean }) {
               )}
               <PrimaryButton
                 onClick={submit}
-                className={`w-full justify-center py-2.5 ${busy ? "pointer-events-none opacity-60" : ""}`}
+                className={`w-full justify-center py-2.5 ${busy || cashBlocked ? "pointer-events-none opacity-60" : ""}`}
               >
                 <ShoppingCart size={16} />
                 {busy ? t("Saqlanmoqda...") : t("Sotish + chek chiqarish")}

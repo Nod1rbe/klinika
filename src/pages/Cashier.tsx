@@ -24,7 +24,8 @@ import {
   renderReceiptInto,
   type ReceiptData,
 } from "../lib/receipt";
-import { notifyCashChanged } from "../lib/cashSession";
+import OpenShiftInline from "../components/OpenShiftInline";
+import { notifyCashChanged, useOpenShift } from "../lib/cashSession";
 import { t } from "../lib/i18n";
 import { useStore } from "../store";
 import type { Appointment, PaymentMethod } from "../types";
@@ -49,6 +50,8 @@ export default function Cashier({ embedded = false }: { embedded?: boolean }) {
   const [payBusy, setPayBusy] = useState(false);
   const [payError, setPayError] = useState<string | null>(null);
   const [refunding, setRefunding] = useState<string | null>(null);
+  const { shift, loaded: shiftLoaded } = useOpenShift();
+  const cashBlocked = method === "Naqd" && shiftLoaded && !shift;
 
   const todayAppts = appointments.filter((a) => a.date === today);
   const pending = todayAppts.filter((a) => a.status === "TOLOV_KUTILMOQDA");
@@ -89,7 +92,7 @@ export default function Cashier({ embedded = false }: { embedded?: boolean }) {
 
   async function confirm() {
     const appt = appointments.find((a) => a.id === paying);
-    if (!appt || payBusy) return;
+    if (!appt || payBusy || cashBlocked) return;
     setPayError(null);
     // Chek oynasi click ichida sinxron ochiladi; to'lov bazada tasdiqlanGACH to'ldiriladi
     const w = openReceiptWindow();
@@ -315,6 +318,7 @@ export default function Cashier({ embedded = false }: { embedded?: boolean }) {
                 ))}
               </select>
             </Field>
+            {cashBlocked && <OpenShiftInline />}
             {payError && (
               <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">
                 {t(payError)}
@@ -322,7 +326,7 @@ export default function Cashier({ embedded = false }: { embedded?: boolean }) {
             )}
             <PrimaryButton
               onClick={confirm}
-              className={`w-full justify-center ${payBusy ? "pointer-events-none opacity-60" : ""}`}
+              className={`w-full justify-center ${payBusy || cashBlocked ? "pointer-events-none opacity-60" : ""}`}
             >
               <CheckCircle2 size={16} />
               {payBusy ? t("Saqlanmoqda...") : t("To'lovni tasdiqlash + chek")}

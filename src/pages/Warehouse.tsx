@@ -1,8 +1,9 @@
-﻿import { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   AlertTriangle,
   ArrowDownUp,
   Boxes,
+  ChevronRight,
   FileSpreadsheet,
   Pencil,
   Plus,
@@ -20,11 +21,12 @@ import {
   Table,
 } from "../components/ui";
 import ImportPurchase from "../components/ImportPurchase";
+import ProductCard from "../components/ProductCard";
 import { fmtSum } from "../data/mock";
 import { supabase } from "../lib/supabase";
 import { t } from "../lib/i18n";
 import { useStore } from "../store";
-import type { MovementType, Product } from "../types";
+import type { Product } from "../types";
 import { MOVEMENT_LABELS } from "../types";
 
 type Tab = "mahsulotlar" | "kirim" | "harakatlar" | "taminotchilar";
@@ -80,12 +82,7 @@ export default function Warehouse() {
   const [err, setErr] = useState<string | null>(null);
 
   const [prodModal, setProdModal] = useState<typeof emptyProd | null>(null);
-  const [adjModal, setAdjModal] = useState<null | {
-    product: Product;
-    type: MovementType;
-    qty: string;
-    reason: string;
-  }>(null);
+  const [cardId, setCardId] = useState<string | null>(null);
   const [supModal, setSupModal] = useState<null | {
     id?: string;
     name: string;
@@ -261,7 +258,17 @@ export default function Warehouse() {
               const low = p.active && p.stock <= p.minStock;
               const exp = expiryState(p, today);
               return (
-                <tr key={p.id} className={p.active ? "hover:bg-slate-50" : "text-slate-400"}>
+                <tr
+                  key={p.id}
+                  tabIndex={0}
+                  onClick={() => setCardId(p.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") setCardId(p.id);
+                  }}
+                  className={`cursor-pointer outline-none focus-visible:bg-teal-50 ${
+                    p.active ? "hover:bg-teal-50/50" : "text-slate-400 hover:bg-slate-50"
+                  }`}
+                >
                   <td className="px-5 py-3">
                     <p className="font-medium">{p.name}</p>
                     <p className="text-xs text-slate-400">
@@ -288,39 +295,8 @@ export default function Warehouse() {
                         : "—"}
                     </td>
                   )}
-                  <td className="px-5 py-3 text-right whitespace-nowrap">
-                    {canManage && (
-                      <>
-                        <button
-                          onClick={() =>
-                            setProdModal({
-                              id: p.id,
-                              name: p.name,
-                              sku: p.sku,
-                              barcode: p.barcode,
-                              category: p.category,
-                              sellPrice: String(p.sellPrice),
-                              minStock: String(p.minStock),
-                              unit: p.unit,
-                              expiryDate: p.expiryDate ?? "",
-                              supplierId: p.supplierId ?? "",
-                              active: p.active,
-                            })
-                          }
-                          className="inline-flex items-center gap-1 text-sm font-medium text-teal-600 hover:text-teal-700"
-                        >
-                          <Pencil size={13} /> {t("Tahrir")}
-                        </button>
-                        <button
-                          onClick={() =>
-                            setAdjModal({ product: p, type: "TUZATISH", qty: "", reason: "" })
-                          }
-                          className="ml-3 inline-flex items-center gap-1 text-sm font-medium text-slate-500 hover:text-slate-700"
-                        >
-                          <ArrowDownUp size={13} /> Zaxira
-                        </button>
-                      </>
-                    )}
+                  <td className="w-8 px-3 py-3 text-right text-slate-300">
+                    <ChevronRight size={16} />
                   </td>
                 </tr>
               );
@@ -635,56 +611,13 @@ export default function Warehouse() {
         </Modal>
       )}
 
-      {adjModal && (
-        <Modal title={`Zaxira amali — ${adjModal.product.name}`} onClose={() => setAdjModal(null)}>
-          <form
-            className="space-y-4"
-            onSubmit={(e) => {
-              e.preventDefault();
-              const m = adjModal;
-              run("Zaxira yangilandi", async () => {
-                let qty = Number(m.qty.replace(",", "."));
-                if (!qty) throw new Error("Miqdorni kiriting");
-                const { error } = await sb.rpc("adjust_stock", {
-                  p_product_id: m.product.id,
-                  p_qty_change: qty,
-                  p_type: m.type,
-                  p_reason: m.reason.trim(),
-                });
-                if (error) throw new Error(error.message);
-                setAdjModal(null);
-              });
-            }}
-          >
-            <p className="text-sm text-slate-500">
-              Hozirgi zaxira: <b>{adjModal.product.stock} {adjModal.product.unit}</b>
-            </p>
-            <Field label={t("Amal turi")}>
-              <select
-                className={inputCls}
-                value={adjModal.type}
-                onChange={(e) => setAdjModal({ ...adjModal, type: e.target.value as MovementType })}
-              >
-                <option value="KIRIM">{t("Kirim (boshlang'ich qoldiq / qo'shish)")}</option>
-                <option value="TUZATISH">{t("Tuzatish (+/−)")}</option>
-                <option value="CHIQIM">{t("Hisobdan chiqarish (buzilgan/muddati o'tgan)")}</option>
-                <option value="TAMINOTCHI_QAYTARISH">{t("Ta'minotchiga qaytarish")}</option>
-              </select>
-            </Field>
-            <Field label={t("Miqdor * (Tuzatishda manfiy ham bo'ladi, masalan -2)")}>
-              <input required className={inputCls} value={adjModal.qty}
-                onChange={(e) => setAdjModal({ ...adjModal, qty: e.target.value })} />
-            </Field>
-            <Field label={t("Sabab *")}>
-              <input required className={inputCls} value={adjModal.reason}
-                onChange={(e) => setAdjModal({ ...adjModal, reason: e.target.value })}
-                placeholder={t("Masalan: inventarizatsiya / sindi / muddati o'tdi")} />
-            </Field>
-            <PrimaryButton type="submit" className="w-full justify-center">
-              {busy ? t("Saqlanmoqda...") : t("Tasdiqlash")}
-            </PrimaryButton>
-          </form>
-        </Modal>
+      {cardId && (
+        <ProductCard
+          productId={cardId}
+          onClose={() => setCardId(null)}
+          canManage={!!canManage}
+          canSeeCost={!!canSeeCost}
+        />
       )}
 
       {supModal && (
